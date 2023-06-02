@@ -1,0 +1,9 @@
+{
+  "title": "$:/plugins/whitefall/obsidian-manager",
+  "name": "obsidian-manager",
+  "author": "whitefall",
+  "description": "",
+  "plugin-type": "plugin",
+  "version": "0.0.1",
+  "list": "readme"
+}
