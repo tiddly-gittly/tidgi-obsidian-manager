@@ -11,7 +11,7 @@ class ExampleWidget extends Widget {
     this.execute();
     // 在这里写UI以及http请求。
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/obstore/D:/Dropbox/21-Sandox/10-Picture/wine.png", true);
+    xhr.open("GET", "/obstore/C:/Users/Snowy/Documents/GitHub/Neural-Networks", true);
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         // 响应内容已准备好，可以使用 xhr.responseText 访问它

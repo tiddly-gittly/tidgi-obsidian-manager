@@ -1,6 +1,7 @@
 created: 20220426153828911
-modified: 20221228055915176
+modified: 20230602120723187
 title: $:/DefaultTiddlers
 type: text/vnd.tiddlywiki
 
-[list[$:/StoryList]] $:/plugins/Modern.TiddlyDev/doc
+TestWidget
+$:/plugins/whitefall/obsidian-manager
