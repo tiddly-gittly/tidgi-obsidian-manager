@@ -15,8 +15,9 @@ class ExampleWidget extends Widget {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         // 响应内容已准备好，可以使用 xhr.responseText 访问它
+        var a = JSON.parse(xhr.response);
+        console.log(a);
         console.log("http请求")
-        console.log(xhr.responseText);
       }
     };
     xhr.send();

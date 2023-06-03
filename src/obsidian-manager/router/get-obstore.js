@@ -27,53 +27,53 @@ response：返回obstore找到的所有文件数据。
             util = require("util"),
             suppliedFilename = $tw.utils.decodeURIComponentSafe(state.params[0]);
         // extension = path.extname(filename);
-
-        // 嵌套回调函数中的变量目前无法回溯到最外层函数使用。
+        // 最难的两个问题，嵌套的回调函数中的结果向最外层函数传递、递归调用返回结果。
         var catalogs = function (suppliedFilename, ignore) {
             var ignore = ignore || [".git", ".obsidian"];
-            return new Promise((resolve, reject) => {
-                fs.readdir(suppliedFilename, function (err, files) {
-                    var status, content, type = "text/plain";
-                    if (err) {
-                        reject(err);
-                    } else {
-                        status = 200;
-                        for (let index = 0; index < files.length; index++) {
-                            const item = files[index];
-                            fs.stat(suppliedFilename + '/' + item, (err, data) => {
-                                if (data.isFile()) {
-                                    // 加入到文件路径列表。
-                                    // resolve();
-                                    console.log(suppliedFilename + '/' + item)
-                                } else if (!ignore.includes(item)) {
-                                    // 排除不需要的目录。
-                                    catalogs(suppliedFilename + '/' + item);
-                                }
-                            });
-                        }
-                    }
-                });
-            });
+            var result = [];
+            const files = fs.readdirSync(suppliedFilename);
+            for (const item of files) {
+                const filePath = path.join(suppliedFilename, item);
+                var data = fs.statSync(filePath);
+                if (data.isFile()) {
+                    result.push(filePath);
+                } else if (!ignore.includes(item)) {
+                    // 排除不需要的目录。
+                    const fileResult = catalogs(filePath);
+                    result = result.concat(fileResult);
+                }
+            }
+            return result;
         }
 
-        var readFilesDateFormList = function (files) {
-            var date = [];
-            files.forEach(f => {
-                console.log(f);
-                fs.readFile(f, 'utf8', function (err, data) {
-                    date.push(data);
-                });
+        // 通过已知文件路径获取文件数据，并对文件数据结构化后返回。
+        var readFilesFormList = function (filesPathList) {
+            var fileData,
+                basename,
+                ext,
+                obStoreData = {
+                    image: {},
+                    md: {},
+                    list:[]
+                };
+            filesPathList.forEach(file => {
+                basename = path.basename(file);
+                ext = path.extname(basename);
+                fileData = fs.readFileSync(file, 'utf8');
+                if (['.jpg', '.jpeg', '.png'].indexOf(ext) !== -1) {
+                    obStoreData.image[basename] = fileData;
+                } else if (ext === '.md') {
+                    obStoreData.md[basename] = fileData;
+                }
+                obStoreData.list.push(basename);
             });
-            return date
+            return obStoreData
         }
-
-        catalogs(suppliedFilename, [".git", ".obsidian", "绘图"]);
+        
+        const result = catalogs(suppliedFilename, [".git", ".obsidian", "绘图"]);
+        const data = readFilesFormList(result);
+        const content = JSON.stringify(data);
         // Send the file
-        // 这里读取文件目录中的所有文件，并返回这些文件内容的格式化数据。
-        // state.sendResponse(status, { "Content-Type": type }, content);
-
+        state.sendResponse(200, { "Content-Type": "application/json" }, content);
     };
-
-
-
 }());
