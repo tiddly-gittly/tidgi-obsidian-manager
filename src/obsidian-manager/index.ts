@@ -9,12 +9,12 @@ class ObMainWidget extends Widget {
   render(parent: Node, _nextSibling: Node) {
     this.parentDomNode = parent;
     this.execute();
-    // 在这里写UI以及http请求。
-    const xhr = new XMLHttpRequest();
-    let obDate;
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-      }
+    function fetchData() {
+      return new Promise(async (resolve, reject) => {
+        const response = await fetch('/obstore/C:/Users/Snowy/Documents/GitHub/Neural-Networks');
+        const data = await response.json();
+        resolve(data);
+      });
     }
     const containerElement = $tw.utils.domMaker('p', {
       text: 'This is a widget!',
@@ -29,23 +29,21 @@ class ObMainWidget extends Widget {
     });
 
     addButtonElement.onclick = function () {
+      fetchData().then(date => {
+        console.log(date);
+      })
       // 加入提示，消息。
-      xhr.open("GET", "/obstore/C:/Users/Snowy/Documents/GitHub/Neural-Networks", true);
-      xhr.send();
-      obDate = JSON.parse(xhr.response);
-      for (const key in obDate.md) {
-        // 替换掉图片的符号。
-        let title = key.split(".")[0];
-        // $tw.wiki.addTiddler(new $tw.Tiddler({ title: title, type: "text/markdown", text: obDate.md[key] }));
-        console.log("创建条目：" + title);
-      }
-      // 发送请求。
+      // for (const key in obDate.md) {
+      //   // 替换掉图片的符号。
+      //   let title = key.split(".")[0];
+      //   // $tw.wiki.addTiddler(new $tw.Tiddler({ title: title, type: "text/markdown", text: obDate.md[key] }));
+      //   console.log("创建条目：" + title);
+      // }
     }
 
     purgeButtonElement.onclick = function () {
 
     }
-
     this.domNodes.push(parent.appendChild(containerElement));
     this.domNodes.push(parent.appendChild(addButtonElement));
     this.domNodes.push(parent.appendChild(purgeButtonElement));
