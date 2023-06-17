@@ -28,6 +28,7 @@ class BackgroundSyncManager {
             if (a) {
                 console.log(a.list);
             }
+            this.purgeStore();
         });
         $tw.rootWidget.addEventListener('tw-obsidian-update', async (event) => {
 
@@ -47,11 +48,11 @@ class BackgroundSyncManager {
         // console.log("创建条目：");
         // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
+        let written_list = [];
         for (const key in obDate.md) {
             // 替换掉图片语法为[img[]]。
-            var c_o_img = obDate.md[key].replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
-            var c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]")
-
+            let c_o_img = obDate.md[key].replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
+            let c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
             // 匹配这个语法,以后再说吧.
             //  ![[xx.jpg|400]] => [img[Description of image|TiddlerTitle]]
             let title = key.split(".")[0];
@@ -61,23 +62,33 @@ class BackgroundSyncManager {
                     type: "text/markdown",
                     text: c_md_img
                 }));
+            written_list.push(title);
             console.log("创建条目：" + title);
         }
-        for (const key in obDate.image) {
-            let type = "image/" + key.substring(key.lastIndexOf(".") + 1)
+        for (const fileName in obDate.image) {
+            let type = "image/" + fileName.substring(fileName.lastIndexOf(".") + 1)
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
-                    title: key,
+                    title: fileName,
                     type: type,
-                    text: obDate.image[key]
+                    text: obDate.image[fileName]
                 }));
-            console.log("创建图片条目：" + key);
+            written_list.push(fileName);
+            console.log("创建图片条目：" + fileName);
         }
-        $tw.wiki.addTiddler(new $tw.Tiddler({ title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers", text: JSON.stringify(this.GV.getData().list) }))
+        $tw.wiki.addTiddler(
+            new $tw.Tiddler({
+                title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers",
+                text: JSON.stringify(written_list)
+            }));
     }
 
     async purgeStore() {
-
+        let tiddler_list = JSON.parse($tw.wiki.getTiddlerText("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers"));
+        tiddler_list.forEach(title => {
+            console.log("删除条目：" + title);
+            $tw.wiki.deleteTiddler(title);
+        });
     }
 
     async fetchData(route: string) {
