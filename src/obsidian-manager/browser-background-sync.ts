@@ -51,16 +51,28 @@ class BackgroundSyncManager {
             // 替换掉图片语法为[img[]]。
             var c_o_img = obDate.md[key].replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
             var c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]")
+
+            // 匹配这个语法,以后再说吧.
+            //  ![[xx.jpg|400]] => [img[Description of image|TiddlerTitle]]
             let title = key.split(".")[0];
-            $tw.wiki.addTiddler(new $tw.Tiddler({ title: title, type: "text/markdown", text: c_md_img }));
+            $tw.wiki.addTiddler(
+                new $tw.Tiddler({
+                    title: title,
+                    type: "text/markdown",
+                    text: c_md_img
+                }));
             console.log("创建条目：" + title);
         }
         for (const key in obDate.image) {
-            let type = key.split(".")[1];
-            $tw.wiki.addTiddler(new $tw.Tiddler({ title: key, type: "image/" + type, text: obDate.image[key] }));
-            console.log("创建图片条目：" + title);
+            let type = "image/" + key.substring(key.lastIndexOf(".") + 1)
+            $tw.wiki.addTiddler(
+                new $tw.Tiddler({
+                    title: key,
+                    type: type,
+                    text: obDate.image[key]
+                }));
+            console.log("创建图片条目：" + key);
         }
-
         $tw.wiki.addTiddler(new $tw.Tiddler({ title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers", text: JSON.stringify(this.GV.getData().list) }))
     }
 

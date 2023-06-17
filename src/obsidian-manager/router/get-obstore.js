@@ -49,27 +49,30 @@ response：返回obstore找到的所有文件数据。
         // 通过已知文件路径获取文件数据，并对文件数据结构化后返回。
         var readFilesFormList = function (filesPathList) {
             var fileData,
+                imageData,
                 basename,
                 ext,
                 obStoreData = {
-                    image: {},
                     md: {},
-                    list:[]
+                    image: {},
+                    list: []
                 };
             filesPathList.forEach(file => {
                 basename = path.basename(file);
                 ext = path.extname(basename);
-                fileData = fs.readFileSync(file, 'utf8');
                 if (['.jpg', '.jpeg', '.png'].indexOf(ext) !== -1) {
-                    obStoreData.image[basename] = fileData;
+                    // 将二进制数据转换成base64编码
+                    imageData = fs.readFileSync(file);
+                    obStoreData.image[basename] = imageData.toString('base64');
                 } else if (ext === '.md') {
+                    fileData = fs.readFileSync(file, 'utf8');
                     obStoreData.md[basename] = fileData;
                 }
                 obStoreData.list.push(basename);
             });
             return obStoreData
         }
-        
+
         const result = catalogs(suppliedFilename, [".git", ".obsidian", "绘图"]);
         const data = readFilesFormList(result);
         const content = JSON.stringify(data);
