@@ -9,7 +9,7 @@
         "list": "readme",
         "dependents": "",
         "type": "application/json",
-        "Modern.TiddlyDev#SHA256-Hashed": "9ec7f39d8b87ddaf4c9b1638b4ad7e4016e3723b15b4a720e9904c64a6777efb",
+        "Modern.TiddlyDev#SHA256-Hashed": "2b72dec7f483eb50ec477217bd62b481393abed0ebee48ca23ba9155e1e35e75",
         "readme": "! tw5-obsidian-manager",
         "requires-reload": "yes"
     }
