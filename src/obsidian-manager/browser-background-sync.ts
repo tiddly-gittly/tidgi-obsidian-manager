@@ -12,7 +12,6 @@ class BackgroundSyncManager {
         this.GV = asyncGV.getInstance();
     }
 
-    // 如何在这里获取到所有一次请求后的数据呢？
     setupListener() {
         $tw.rootWidget.addEventListener('tw-obsidian-add', async (event) => {
             if (event.type === "tw-obsidian-add") {
@@ -20,8 +19,6 @@ class BackgroundSyncManager {
                 this.GV.resolve(await this.fetchData(event.param));
                 console.log("获取完成");
 
-                // this.GV.pushV("tiddlerList",this.GV.getData().list);
-                // console.log(this.GV.getK("tiddlerList"));
                 // 其实点几次都可以，只有一次有效。
                 this.addObsidian(this.GV.getData());
             }
@@ -47,6 +44,9 @@ class BackgroundSyncManager {
 
     async addObsidian(obDate: {}) {
         // 加入提示，消息。
+        // console.log("创建条目：");
+        // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
+        // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         for (const key in obDate.md) {
             // 替换掉图片语法为[img[]]。
             var c_o_img = obDate.md[key].replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
@@ -54,10 +54,13 @@ class BackgroundSyncManager {
             let title = key.split(".")[0];
             $tw.wiki.addTiddler(new $tw.Tiddler({ title: title, type: "text/markdown", text: c_md_img }));
             console.log("创建条目：" + title);
-            // console.log("创建条目：");
-            // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         }
-        console.log("tiddlerList",);
+        for (const key in obDate.image) {
+            let type = key.split(".")[1];
+            $tw.wiki.addTiddler(new $tw.Tiddler({ title: key, type: "image/" + type, text: obDate.image[key] }));
+            console.log("创建图片条目：" + title);
+        }
+
         $tw.wiki.addTiddler(new $tw.Tiddler({ title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers", text: JSON.stringify(this.GV.getData().list) }))
     }
 
