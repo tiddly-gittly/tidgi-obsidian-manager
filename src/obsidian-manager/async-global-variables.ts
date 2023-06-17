@@ -34,7 +34,7 @@ class asyncGV {
     }
 
     // 对获取到的storage进行传操作。
-    push(k: any, v: any) {
+    pushV(k: any, v: any) {
         this.storage[k] = v;
     }
 

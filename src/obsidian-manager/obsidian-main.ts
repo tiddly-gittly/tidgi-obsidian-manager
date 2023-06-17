@@ -6,8 +6,6 @@ class ObMainWidget extends Widget {
   refresh(_changedTiddlers: IChangedTiddlers) {
     return false;
   }
-  // 通过小部件消息激活任务。
-  // 公共的存储库应该也是一个解决方案。
 
   async render(parent: Node, _nextSibling: Node) {
     this.parentDomNode = parent;
@@ -24,6 +22,8 @@ class ObMainWidget extends Widget {
       class: "ob-main-widget-button",
       text: "purge",
     });
+
+    // 需要一个log视图。
 
     addButtonElement.onclick = function () {
       $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: "/obstore/C:/Users/Snowy/Documents/GitHub/Neural-Networks" })

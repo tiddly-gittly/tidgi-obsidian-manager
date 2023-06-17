@@ -18,6 +18,11 @@ class BackgroundSyncManager {
             if (event.type === "tw-obsidian-add") {
                 // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
                 this.GV.resolve(await this.fetchData(event.param));
+                console.log("获取完成");
+
+                // this.GV.pushV("tiddlerList",this.GV.getData().list);
+                // console.log(this.GV.getK("tiddlerList"));
+                // 其实点几次都可以，只有一次有效。
                 this.addObsidian(this.GV.getData());
             }
         });
@@ -43,11 +48,17 @@ class BackgroundSyncManager {
     async addObsidian(obDate: {}) {
         // 加入提示，消息。
         for (const key in obDate.md) {
-            // 替换掉图片的符号。
+            // 替换掉图片语法为[img[]]。
+            var c_o_img = obDate.md[key].replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
+            var c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]")
             let title = key.split(".")[0];
-            // $tw.wiki.addTiddler(new $tw.Tiddler({ title: title, type: "text/markdown", text: obDate.md[key] }));
+            $tw.wiki.addTiddler(new $tw.Tiddler({ title: title, type: "text/markdown", text: c_md_img }));
             console.log("创建条目：" + title);
+            // console.log("创建条目：");
+            // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         }
+        console.log("tiddlerList",);
+        $tw.wiki.addTiddler(new $tw.Tiddler({ title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers", text: JSON.stringify(this.GV.getData().list) }))
     }
 
     async purgeStore() {
