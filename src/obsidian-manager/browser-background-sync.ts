@@ -15,12 +15,11 @@ class BackgroundSyncManager {
     // 如何在这里获取到所有一次请求后的数据呢？
     setupListener() {
         $tw.rootWidget.addEventListener('tw-obsidian-add', async (event) => {
-            // if (event.type === "tw-obsidian-add") {
-            // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
-            // console.log(params);
-            // this.addObsidian(params);
-            this.GV.resolve(await this.fetchData(event.param));
-            // }
+            if (event.type === "tw-obsidian-add") {
+                // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
+                this.GV.resolve(await this.fetchData(event.param));
+                this.addObsidian(this.GV.getData());
+            }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-purge', async (event) => {
             var a = this.GV.getData();
@@ -41,7 +40,7 @@ class BackgroundSyncManager {
 
     }
 
-    async addObsidian() {
+    async addObsidian(obDate: {}) {
         // 加入提示，消息。
         for (const key in obDate.md) {
             // 替换掉图片的符号。
