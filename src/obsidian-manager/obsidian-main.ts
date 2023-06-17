@@ -26,7 +26,7 @@ class ObMainWidget extends Widget {
     });
 
     addButtonElement.onclick = function () {
-      $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: "nihao" })
+      $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: "/obstore/C:/Users/Snowy/Documents/GitHub/Neural-Networks" })
       // $tw.rootWidget.dispatchEvent({ type: this.message, param: this.param, tiddlerTitle: this.getVariable("currentTiddler") });
     }
 
