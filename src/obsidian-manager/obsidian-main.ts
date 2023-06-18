@@ -24,18 +24,18 @@ class ObMainWidget extends Widget {
     const addButton = $tw.utils.domMaker("button", {
       class: "ob-main-widget-button",
       text: "Add",
-      title: "点击以添加OB库"
+      title: "点击添加OB库"
     });
     const purgeButton = $tw.utils.domMaker("button", {
       class: "ob-main-widget-button",
       text: "purge",
-      title: "点击清空添加的OB库"
+      title: "点击清空已添加的OB库"
     });
 
     const label = $tw.utils.domMaker("label", {
       class: "ob-main-widget-input-label",
       for: "path",
-      text: "Ob库路径: "
+      text: "文件夹路径: "
     });
 
     const input = $tw.utils.domMaker("input", {
