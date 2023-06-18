@@ -36,6 +36,7 @@ class BackgroundSyncManager {
     }
 
     async wiki_markdown_syntax(content) {
+        // 替换掉图片语法为[img[]]。
         let c_o_img = content.replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
         let c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
         // 匹配这个语法,以后再说吧.
@@ -50,8 +51,7 @@ class BackgroundSyncManager {
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         let written_list = [];
         for (const key in obDate.md) {
-            // 替换掉图片语法为[img[]]。
-            let text  = await wiki_markdown_syntax(obDate.md[key]);
+            let text  = await this.wiki_markdown_syntax(obDate.md[key]);
             let title = key.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
@@ -60,7 +60,8 @@ class BackgroundSyncManager {
                     text: text
                 }));
             written_list.push(title);
-            console.log("创建条目：" + title);
+            // console.log("创建条目：" + title);
+            $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-log', param: "创建条目：" + title })
         }
         for (const fileName in obDate.image) {
             let type = "image/" + fileName.substring(fileName.lastIndexOf(".") + 1)
