@@ -9,8 +9,8 @@
         "list": "readme",
         "dependents": "",
         "type": "application/json",
-        "Modern.TiddlyDev#SHA256-Hashed": "01c387d16b974f5dce37edfbebd2842bd0176c3758171ac1b8be489d04c3fddb",
-        "readme": "! tw5-obsidian-manager",
+        "Modern.TiddlyDev#SHA256-Hashed": "0505450d8d5ba0ec4bfd966b1f4fddf365e8a3849c61ac191fd500d4ffeccb27",
+        "readme": "! tw5-obsidian-manager\n\n备忘录：\n\n```\n添加，更新，清空\naddTiddler，`$tw.wiki.deleteTiddler(title)`;\nhttps://github.com/Jermolene/TiddlyWiki5/blob/9b59dff275e996ea5fa602912e2ff670d50e5b89/plugins/tiddlywiki/dynaview/dynaview.js#L150\n`$tw.wiki.getTiddlerText(title)`：返回标题为title的Tiddler的文本内容。\n`$tw.wiki.getTiddlerData(title)`：返回标题为title的Tiddler的JSON格式数据。可以通过该API获取Tiddler的所有属性和字段。\n\nTypeScript 中使用 CSS Modules：https://juejin.cn/post/6844903497532473352\n```",
         "requires-reload": "yes"
     }
 ]
