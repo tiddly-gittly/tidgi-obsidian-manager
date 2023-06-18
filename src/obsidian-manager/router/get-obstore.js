@@ -54,8 +54,7 @@ response：返回obstore找到的所有文件数据。
                 ext,
                 obStoreData = {
                     md: {},
-                    image: {},
-                    list: []
+                    image: {}
                 };
             filesPathList.forEach(file => {
                 basename = path.basename(file);
@@ -68,7 +67,6 @@ response：返回obstore找到的所有文件数据。
                     fileData = fs.readFileSync(file, 'utf8');
                     obStoreData.md[basename] = fileData;
                 }
-                obStoreData.list.push(basename);
             });
             return obStoreData
         }

@@ -24,10 +24,6 @@ class BackgroundSyncManager {
             }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-purge', async (event) => {
-            var a = this.GV.getData();
-            if (a) {
-                console.log(a.list);
-            }
             this.purgeStore();
         });
         $tw.rootWidget.addEventListener('tw-obsidian-update', async (event) => {
@@ -76,6 +72,7 @@ class BackgroundSyncManager {
             written_list.push(fileName);
             console.log("创建图片条目：" + fileName);
         }
+        written_list.push("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers");
         $tw.wiki.addTiddler(
             new $tw.Tiddler({
                 title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers",
