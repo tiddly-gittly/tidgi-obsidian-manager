@@ -35,8 +35,12 @@ class BackgroundSyncManager {
 
     }
 
-    async onSyncStart(skipStatusCheck?: boolean) {
-
+    async wiki_markdown_syntax(content) {
+        let c_o_img = content.replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
+        let c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
+        // 匹配这个语法,以后再说吧.
+        //  ![[xx.jpg|400]] => [img[Description of image|TiddlerTitle]]
+        return c_md_img
     }
 
     async addObsidian(obDate: {}) {
@@ -47,16 +51,13 @@ class BackgroundSyncManager {
         let written_list = [];
         for (const key in obDate.md) {
             // 替换掉图片语法为[img[]]。
-            let c_o_img = obDate.md[key].replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
-            let c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
-            // 匹配这个语法,以后再说吧.
-            //  ![[xx.jpg|400]] => [img[Description of image|TiddlerTitle]]
+            let text  = await wiki_markdown_syntax(obDate.md[key]);
             let title = key.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
                     title: title,
                     type: "text/markdown",
-                    text: c_md_img
+                    text: text
                 }));
             written_list.push(title);
             console.log("创建条目：" + title);
