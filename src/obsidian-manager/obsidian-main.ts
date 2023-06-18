@@ -2,6 +2,7 @@ import { IChangedTiddlers } from 'tiddlywiki';
 import { widget as Widget } from '$:/core/modules/widgets/widget.js';
 import { BackgroundSyncManager } from './browser-background-sync'
 import { text } from 'stream/consumers';
+import './index.css';
 
 class ObMainWidget extends Widget {
   refresh(_changedTiddlers: IChangedTiddlers) {
@@ -18,7 +19,7 @@ class ObMainWidget extends Widget {
     });
 
     const containerElement = $tw.utils.domMaker('div', {
-      class: "ob-main-widget"
+      class: "ob-main-widget",
     });
     const addButton = $tw.utils.domMaker("button", {
       class: "ob-main-widget-button",
@@ -48,7 +49,11 @@ class ObMainWidget extends Widget {
     // 需要一个log视图。
 
     addButton.onclick = function () {
-      input.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
+      if (input.value.length == 0) {
+        console.log("输入为空！");
+        return;
+        input.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
+      }
       let route = "/obstore" + "/" + input.value;
       $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: route })
     }
