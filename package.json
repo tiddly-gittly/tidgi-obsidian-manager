@@ -38,12 +38,12 @@
     "lint-staged": "^13.2.2",
     "rimraf": "^5.0.0",
     "ts-node": "^10.9.1",
-    "tw5-typed": "^0.3.0",
+    "tw5-typed": "^0.3.4",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "npm-check-updates": "^16.10.12",
     "tiddlywiki": "^5.2.7",
-    "tiddlywiki-plugin-dev": "^0.0.37"
+    "tiddlywiki-plugin-dev": "^0.0.38"
   }
 }
