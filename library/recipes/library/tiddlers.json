@@ -8,8 +8,8 @@
         "plugin-type": "plugin",
         "title": "$:/plugins/whitefall/obsidian-manager",
         "type": "application/json",
-        "version": "0.0.1",
-        "Modern.TiddlyDev#SHA256-Hashed": "698152bd2846d1579c0907514e5202af78790b444018e01ca811f8f3a64cc6a1",
+        "version": "0.0.2",
+        "Modern.TiddlyDev#SHA256-Hashed": "1862433fa7c94bfd741ffb3c9239a9975e68deb80f6eb90f25b38641dad453b3",
         "readme": "! tw5-obsidian-manager\n\n# 在文本框中输入ob库文件夹路径，点击Add，然后即可在开发者模式-控制台中观看到正在进行的操作。等待操纵完成。\n# 你可以使用purge按钮清空添加的内容。\n\n仓库地址：https://github.com/tiddly-gittly/tidgi-obsidian-manager",
         "requires-reload": "yes"
     }
