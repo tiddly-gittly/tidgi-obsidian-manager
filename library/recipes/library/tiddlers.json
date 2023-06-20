@@ -1,15 +1,15 @@
 [
     {
-        "title": "$:/plugins/whitefall/obsidian-manager",
-        "name": "obsidian-manager",
         "author": "whitefall",
-        "description": "导入并管理你的Obsidian存储库",
-        "plugin-type": "plugin",
-        "version": "0.0.1",
-        "list": "Panel readme",
         "dependents": "",
+        "description": "导入并管理你的Obsidian存储库",
+        "list": "Panel readme",
+        "name": "obsidian-manager",
+        "plugin-type": "plugin",
+        "title": "$:/plugins/whitefall/obsidian-manager",
         "type": "application/json",
-        "Modern.TiddlyDev#SHA256-Hashed": "d128179736a6718a37b342acdf09ad6885149439ecdb767e37f40bae16c65819",
+        "version": "0.0.1",
+        "Modern.TiddlyDev#SHA256-Hashed": "d24cc4943eb8ba37f7df9faffa939dabf319553faa1d9b00b5e38517b6ec73e8",
         "readme": "! tw5-obsidian-manager\n\n备忘录：\n\n```\n添加，更新，清空\naddTiddler，`$tw.wiki.deleteTiddler(title)`;\nhttps://github.com/Jermolene/TiddlyWiki5/blob/9b59dff275e996ea5fa602912e2ff670d50e5b89/plugins/tiddlywiki/dynaview/dynaview.js#L150\n`$tw.wiki.getTiddlerText(title)`：返回标题为title的Tiddler的文本内容。\n`$tw.wiki.getTiddlerData(title)`：返回标题为title的Tiddler的JSON格式数据。可以通过该API获取Tiddler的所有属性和字段。\n\nTypeScript 中使用 CSS Modules：https://juejin.cn/post/6844903497532473352\n```",
         "requires-reload": "yes"
     }
