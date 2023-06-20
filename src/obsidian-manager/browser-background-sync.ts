@@ -1,7 +1,5 @@
 /* eslint-disable unicorn/no-array-callback-reference */
 import type { Tiddler, IServerStatus, ITiddlerFieldsParam } from 'tiddlywiki';
-import mapValues from 'lodash/mapValues';
-import cloneDeep from 'lodash/cloneDeep';
 import { asyncGV } from './async-global-variables'
 
 class BackgroundSyncManager {
