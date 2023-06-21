@@ -15,12 +15,8 @@ class BackgroundSyncManager {
             if (event.type === "tw-obsidian-add") {
                 // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
                 this.GV.resolve(await this.fetchData(event.param));
-                console.log("获取完成, 正在写入到wiki中。");
-
                 // 其实点几次都可以，只有一次有效。
-                await this.addStore(this.GV.getData());
-                console.log("addStore: 所有工作已完成。");
-                this.tm_notify("addStore", "所有工作已完成");
+                this.addStore(this.GV.getData());
             }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-purge', async (event) => {
@@ -78,6 +74,8 @@ class BackgroundSyncManager {
                 title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers",
                 text: JSON.stringify(written_list)
             }));
+        console.log("addStore: 所有添加工作已完成。");
+        this.tm_notify("addStore", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");
     }
 
     async purgeStore() {
@@ -89,19 +87,21 @@ class BackgroundSyncManager {
                 console.log("删除条目：" + title);
                 $tw.wiki.deleteTiddler(title);
             });
-            this.tm_notify("purgeStore", "已经全部清空。");
+            this.tm_notify("purgeStore", "已经完全清空，请等待【文件系统同步服务】完成任务。");
             // }
         } else {
-            this.tm_notify("purgeStore", "未曾添加OB库，obsidian写入记录为空。");
+            this.tm_notify("purgeStore", "未曾添加Obsidian仓库，写入记录为空。");
         }
     }
 
     async fetchData(path: string) {
         let route = "/obstore" + "/" + path;
         console.log("获取数据:" + route);
-        this.tm_notify("fetchData", `"${route}"`);
+        this.tm_notify("fetchData(获取数据)", `"${route}"`);
         const response = await fetch(route);
         const data = await response.json();
+        console.log("获取完成, 正在写入到wiki中。");
+        this.tm_notify("fetchData(获取数据)", "获取完成, 正在写入到wiki中");
         return data;
     }
 }

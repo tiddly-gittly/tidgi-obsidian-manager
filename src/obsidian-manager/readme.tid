@@ -3,7 +3,9 @@ type: text/vnd.tiddlywiki
 
 ! tw5-obsidian-manager
 
-# 在文本框中输入ob库文件夹路径，点击Add，然后即可在开发者模式-控制台中观看到正在进行的操作。等待操纵完成。
+# 在文本框中输入ob库文件夹路径，点击Add按钮。
 # 你可以使用purge按钮清空添加的内容。
+# 你可以在开发者模式-控制台中观看到正在进行的操作。
 
-仓库地址：https://github.com/tiddly-gittly/tidgi-obsidian-manager
+
+项目介绍及仓库地址：https://github.com/tiddly-gittly/tidgi-obsidian-manager
