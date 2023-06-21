@@ -23,7 +23,6 @@ class ObMainWidget extends Widget {
     <button class="ob-main-widget-button" id="ob-button-purge" title="点击清空已添加的OB库">purge</button>
     `;
     this.domNodes.push(parent.appendChild(containerElement));
-    // 需要一个log视图。
 
     const addButton = document.getElementById("ob-button-Add");
     const purgeButton = document.getElementById("ob-button-purge");
@@ -32,12 +31,12 @@ class ObMainWidget extends Widget {
     addButton.onclick = function () {
       if (inputBox.value.length == 0) {
         console.log("输入为空！");
-        bgsm.tm_notify("Add-Obsidian","输入为空！");
-        return;
-        inputBox.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
+        bgsm.tm_notify("addStore","输入为空！");
+        // inputBox.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
+      } else {
+        let path = inputBox.value;
+        $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: path })
       }
-      let route = "/obstore" + "/" + inputBox.value;
-      $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: route })
     }
 
     purgeButton.onclick = function () {

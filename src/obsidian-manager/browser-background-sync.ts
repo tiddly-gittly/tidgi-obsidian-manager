@@ -15,10 +15,12 @@ class BackgroundSyncManager {
             if (event.type === "tw-obsidian-add") {
                 // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
                 this.GV.resolve(await this.fetchData(event.param));
-                console.log("获取完成");
+                console.log("获取完成, 正在写入到wiki中。");
 
                 // 其实点几次都可以，只有一次有效。
-                this.addObsidian(this.GV.getData());
+                await this.addStore(this.GV.getData());
+                console.log("addStore: 所有工作已完成。");
+                this.tm_notify("addStore", "所有工作已完成");
             }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-purge', async (event) => {
@@ -43,9 +45,7 @@ class BackgroundSyncManager {
         return c_md_img
     }
 
-    async addObsidian(obDate: {}) {
-        // 加入提示，消息。
-        // console.log("创建条目：");
+    async addStore(obDate: {}) {
         // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         let written_list = [];
@@ -81,16 +81,25 @@ class BackgroundSyncManager {
     }
 
     async purgeStore() {
-        let tiddler_list = JSON.parse($tw.wiki.getTiddlerText("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers"));
-        tiddler_list.forEach(title => {
-            console.log("删除条目：" + title);
-            $tw.wiki.deleteTiddler(title);
-        });
+        let TiddlerText = $tw.wiki.getTiddlerText("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers");
+        if (typeof (TiddlerText) !== "undefined") {
+            let tiddler_list = JSON.parse(TiddlerText);
+            // if (tiddler_list.length !== 0) {
+            tiddler_list.forEach(title => {
+                console.log("删除条目：" + title);
+                $tw.wiki.deleteTiddler(title);
+            });
+            this.tm_notify("purgeStore", "已经全部清空。");
+            // }
+        } else {
+            this.tm_notify("purgeStore", "未曾添加OB库，obsidian写入记录为空。");
+        }
     }
 
-    async fetchData(route: string) {
+    async fetchData(path: string) {
+        let route = "/obstore" + "/" + path;
         console.log("获取数据:" + route);
-        this.tm_notify("fetchData", "获取数据:" + route);
+        this.tm_notify("fetchData", `"${route}"`);
         const response = await fetch(route);
         const data = await response.json();
         return data;
