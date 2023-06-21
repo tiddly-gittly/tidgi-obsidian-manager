@@ -47,11 +47,13 @@ response：返回obstore找到的所有文件数据。
         }
 
         // 通过已知文件路径获取文件数据，并对文件数据结构化后返回。
-        var readFilesFormList = function (filesPathList) {
+        // regText : def:pub
+        var readFilesFormList = function (filesPathList, regText) {
             var fileData,
                 imageData,
                 basename,
                 ext,
+                regMdFileText = regText || ".",
                 obStoreData = {
                     md: {},
                     image: {}
@@ -65,13 +67,17 @@ response：返回obstore找到的所有文件数据。
                     obStoreData.image[basename] = imageData.toString('base64');
                 } else if (ext === '.md') {
                     fileData = fs.readFileSync(file, 'utf8');
-                    obStoreData.md[basename] = fileData;
+                    var reg = RegExp(regMdFileText);
+                    if (reg.test(fileData)) {
+                        obStoreData.md[basename] = fileData;
+                    }
                 }
             });
             return obStoreData
         }
 
         const result = catalogs(suppliedFilename, [".git", ".obsidian", "绘图"]);
+        // readFilesFormList(result, "def:pub") 过滤符合特征的md文件。
         const data = readFilesFormList(result);
         const content = JSON.stringify(data);
         // Send the file
