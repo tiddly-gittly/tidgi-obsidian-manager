@@ -14,7 +14,8 @@ class BackgroundSyncManager {
         $tw.rootWidget.addEventListener('tw-obsidian-add', async (event) => {
             if (event.type === "tw-obsidian-add") {
                 // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
-                this.GV.resolve(await this.fetchData(event.param));
+                // console.log(event.param);
+                this.GV.resolve(await this.fetchData(event.param[0],event.param[1]));
                 // 其实点几次都可以，只有一次有效。
                 this.addStore(this.GV.getData());
             }
