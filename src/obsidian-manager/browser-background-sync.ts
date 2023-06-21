@@ -94,8 +94,8 @@ class BackgroundSyncManager {
         }
     }
 
-    async fetchData(path: string) {
-        let route = "/obstore" + "/" + path;
+    async fetchData(path: string, regText: string, ignore: []) {
+        let route = "/obstore" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
         console.log("获取数据:" + route);
         this.tm_notify("fetchData(获取数据)", `"${route}"`);
         const response = await fetch(route);
