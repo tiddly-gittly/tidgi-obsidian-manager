@@ -29,8 +29,9 @@ class BackgroundSyncManager {
         });
     }
 
-    async start(skipStatusCheck?: boolean) {
-
+    tm_notify(generalNotification, message: string) {
+        $tw.wiki.addTiddler({ title: `$:/state/notification/${generalNotification}`, text: `${generalNotification}: ${message}` });
+        $tw.notifier.display(`$:/state/notification/${generalNotification}`);
     }
 
     async wiki_markdown_syntax(content) {
@@ -49,7 +50,7 @@ class BackgroundSyncManager {
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         let written_list = [];
         for (const key in obDate.md) {
-            let text  = await this.wiki_markdown_syntax(obDate.md[key]);
+            let text = await this.wiki_markdown_syntax(obDate.md[key]);
             let title = key.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
@@ -58,8 +59,7 @@ class BackgroundSyncManager {
                     text: text
                 }));
             written_list.push(title);
-            // console.log("创建条目：" + title);
-            $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-log', param: "创建条目：" + title })
+            console.log("创建条目：" + title);
         }
         for (const fileName in obDate.image) {
             let type = "image/" + fileName.substring(fileName.lastIndexOf(".") + 1)
@@ -89,7 +89,8 @@ class BackgroundSyncManager {
     }
 
     async fetchData(route: string) {
-        console.log("获取数据:" + route)
+        console.log("获取数据:" + route);
+        this.tm_notify("fetchData", "获取数据:" + route);
         const response = await fetch(route);
         const data = await response.json();
         return data;

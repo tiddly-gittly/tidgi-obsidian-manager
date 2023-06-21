@@ -12,9 +12,6 @@ class ObMainWidget extends Widget {
     this.execute();
     // 如何在这里使用CSS呢？
     const bgsm = new BackgroundSyncManager();
-    $tw.rootWidget.addEventListener('tw-obsidian-log', async (event) => {
-      console.log(event.param);
-    });
 
     const containerElement = document.createElement('div');
     containerElement.innerHTML = `
@@ -35,6 +32,7 @@ class ObMainWidget extends Widget {
     addButton.onclick = function () {
       if (inputBox.value.length == 0) {
         console.log("输入为空！");
+        bgsm.tm_notify("Add-Obsidian","输入为空！");
         return;
         inputBox.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
       }
