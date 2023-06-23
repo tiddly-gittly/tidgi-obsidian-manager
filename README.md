@@ -1,6 +1,6 @@
 # tw5-obsidian-manager
 
-在TiddlyWiki导入Obsidian知识库插件。
+> 在NodeJS版TiddlyWiki中导入Obsidian知识库
 
 - [x] 提供清除写入（导入）文件的清空操作。
 - [x] 提供对md和ob一般图片语法的替换，替换为`[img[]]`
@@ -9,6 +9,7 @@
 - [ ] 提供更多的md语法适配功能。
 - [ ] 提供筛选文件功能。
 
+预览链接：https://tiddly-gittly.github.io/tidgi-obsidian-manager/
 
 ## 备忘录：
 
