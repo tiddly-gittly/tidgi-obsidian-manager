@@ -1,4 +1,6 @@
 title: $:/plugins/whitefall/obsidian-manager/Panel
 type: text/vnd.tiddlywiki
+tags: $:/tags/ControlPanel/SettingsTab
+caption: ObsidianM Panel
 
 <$obm/>
