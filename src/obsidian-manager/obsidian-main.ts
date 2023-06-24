@@ -20,6 +20,8 @@ class ObMainWidget extends Widget {
       <input type="text" id="ob-widget-path" name="path" placeholder="请输入路径。">
       <label for="reg">过滤文件: </label>
       <input type="text" id="ob-widget-regText" name="reg" placeholder="请输入表达式">
+      <label for="ignore">ignore: </label>
+      <input type="text" id="ob-widget-ignore" name="ignore" placeholder="暂时不可用">
     </div>
     <button class="ob-main-widget-button" id="ob-button-Add" title="点击添加OB库">Add</button>
     <button class="ob-main-widget-button" id="ob-button-purge" title="点击清空已添加的OB库">purge</button>
@@ -30,6 +32,8 @@ class ObMainWidget extends Widget {
     const purgeButton = document.getElementById("ob-button-purge");
     const inputBox = document.getElementById("ob-widget-path");
     const regBox = document.getElementById("ob-widget-regText");
+    const ignoreBox = document.getElementById("ob-widget-ignore");
+
 
     addButton.onclick = function () {
       if (inputBox.value.length == 0) {

@@ -1,23 +1,20 @@
 /* eslint-disable unicorn/no-array-callback-reference */
 import type { Tiddler, IServerStatus, ITiddlerFieldsParam } from 'tiddlywiki';
-import { asyncGV } from './async-global-variables'
 
 class BackgroundSyncManager {
 
     constructor() {
-        // TODO: get this from setting
         this.setupListener();
-        this.GV = asyncGV.getInstance();
     }
 
     setupListener() {
         $tw.rootWidget.addEventListener('tw-obsidian-add', async (event) => {
             if (event.type === "tw-obsidian-add") {
-                // const params = $tw.wiki.getTiddlerData(event.paramTiddler, {});
-                // console.log(event.param);
-                this.GV.resolve(await this.fetchData(event.param[0],event.param[1]));
                 // 其实点几次都可以，只有一次有效。
-                this.addStore(this.GV.getData());
+                let data = await this.fetchData(event.param[0],event.param[1]);
+                if (data != false){
+                    this.addStore(await this.fetchData(event.param[0],event.param[1]));
+                }
             }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-purge', async (event) => {
@@ -95,11 +92,18 @@ class BackgroundSyncManager {
         }
     }
 
-    async fetchData(path: string, regText: string, ignore: []) {
+    async fetchData(path: string, regText: string, ignoreText: string) {
+        let ignore = JSON.stringify([".git", ".obsidian", "绘图"]);
         let route = "/obstore" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
         console.log("获取数据:" + route);
         this.tm_notify("fetchData(获取数据)", `"${route}"`);
+
+        // 需要排除非文件夹的路径。
         const response = await fetch(route);
+        if (response.status == 400){
+            this.tm_notify("fetchData(获取数据)", "Not Folder");
+            return false;
+        }
         const data = await response.json();
         console.log("获取完成, 正在写入到wiki中。");
         this.tm_notify("fetchData(获取数据)", "获取完成, 正在写入到wiki中");
