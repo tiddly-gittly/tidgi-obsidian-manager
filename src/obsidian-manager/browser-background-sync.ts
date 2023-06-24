@@ -13,7 +13,7 @@ class BackgroundSyncManager {
                 // 其实点几次都可以，只有一次有效。
                 let data = await this.fetchData(event.param[0],event.param[1]);
                 if (data != false){
-                    this.addStore(await this.fetchData(event.param[0],event.param[1]));
+                    this.addStore(data);
                 }
             }
         });
