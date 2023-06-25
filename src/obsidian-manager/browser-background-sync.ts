@@ -94,14 +94,12 @@ class BackgroundSyncManager {
 
     async fetchData(path: string, regText: string, ignoreText: string) {
         let ignore = JSON.stringify([".git", ".obsidian", "绘图"]);
-
-        // 适配TidGi。
-        // 如果fullUrl存在就用绝对请求路径（TidGi），否则就相对请求路径 obstore/<path>（NodeJS）。
-        let fullUrl = $tw.wiki.getTiddlerText("$:/info/url/full"); // 'http://10.252.52.111:5212/'
+        // 内置插件 $:/temp/info-plugin。
+        // 相对请求路径 obstore/<path> 也可以使用。
+        let fullUrl = $tw.wiki.getTiddlerText("$:/info/url/full");
         var route = fullUrl + "obstore" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
         console.log("获取数据:" + route);
         this.tm_notify("获取数据 (fetchData)  ", `"${route}"`);
-
         // 需要排除非文件夹的路径。
         const response = await fetch(route);
         if (response.status == 400) {
