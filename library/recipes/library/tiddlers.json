@@ -9,8 +9,8 @@
         "title": "$:/plugins/whitefall/obsidian-manager",
         "type": "application/json",
         "version": "0.0.5",
-        "Modern.TiddlyDev#SHA256-Hashed": "9488364b8796319706d35b24eab703de0760e9f90cda5e86826592371de92f0e",
-        "readme": "! tw5-obsidian-manager\n\n# 在文本框中输入ob库文件夹路径，点击Add按钮。\n# 你可以使用purge按钮清空添加的内容。\n# 你可以在开发者模式-控制台中观看到正在进行的操作。\n\n\n项目介绍及仓库地址：https://github.com/tiddly-gittly/tidgi-obsidian-manager",
+        "Modern.TiddlyDev#SHA256-Hashed": "a690a6107066e4f8416f7ec41f0752c1673086fea3769e2cfcdfd13189e6a51f",
+        "readme": "! tw5-obsidian-manager\n\nTidGi v0.8.0 需要在工作区设置 博客和服务器设置中 启用 HTTP API 并 关闭 凭证鉴权选项。\n\n# 在文本框中输入ob库文件夹路径，点击Add按钮。\n# 你可以使用purge按钮清空添加的内容。\n# 你可以在开发者模式-控制台中观看到正在进行的操作。\n\n\n项目介绍及仓库地址：https://github.com/tiddly-gittly/tidgi-obsidian-manager",
         "requires-reload": "yes"
     }
 ]
