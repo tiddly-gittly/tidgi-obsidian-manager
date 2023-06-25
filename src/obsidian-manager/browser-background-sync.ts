@@ -11,8 +11,8 @@ class BackgroundSyncManager {
         $tw.rootWidget.addEventListener('tw-obsidian-add', async (event) => {
             if (event.type === "tw-obsidian-add") {
                 // 其实点几次都可以，只有一次有效。
-                let data = await this.fetchData(event.param[0],event.param[1]);
-                if (data != false){
+                let data = await this.fetchData(event.param[0], event.param[1]);
+                if (data != false) {
                     this.addStore(data);
                 }
             }
@@ -94,19 +94,23 @@ class BackgroundSyncManager {
 
     async fetchData(path: string, regText: string, ignoreText: string) {
         let ignore = JSON.stringify([".git", ".obsidian", "绘图"]);
-        let route = "/obstore" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
+
+        // 适配TidGi。
+        // 如果fullUrl存在就用绝对请求路径（TidGi），否则就相对请求路径 obstore/<path>（NodeJS）。
+        let fullUrl = $tw.wiki.getTiddlerText("$:/info/url/full"); // 'http://10.252.52.111:5212/'
+        var route = fullUrl + "obstore" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
         console.log("获取数据:" + route);
-        this.tm_notify("fetchData(获取数据)", `"${route}"`);
+        this.tm_notify("获取数据 (fetchData)  ", `"${route}"`);
 
         // 需要排除非文件夹的路径。
         const response = await fetch(route);
-        if (response.status == 400){
-            this.tm_notify("fetchData(获取数据)", "Not Folder");
+        if (response.status == 400) {
+            this.tm_notify("获取数据 (fetchData)  ", "Not Folder");
             return false;
         }
         const data = await response.json();
         console.log("获取完成, 正在写入到wiki中。");
-        this.tm_notify("fetchData(获取数据)", "获取完成, 正在写入到wiki中");
+        this.tm_notify("获取数据 (fetchData)  ", "获取完成, 正在写入到wiki中");
         return data;
     }
 }

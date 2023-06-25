@@ -3,11 +3,13 @@ title: $:/plugins/whitefall/obsidian-manager/router/get-obstore.js
 type: application/javascript
 module-type: route
 
-GET /obstore/:filepath
+GET obstore/:filepath
 
 suppliedFilename = :filepath
 
-request：/obstore/D:/Dropbox/21-Sandox/10-Picture/wine.png?key1=value1&key2=value2
+// extension = path.extname(filename);
+
+request：obstore/D:/Dropbox/21-Sandox/10-Picture/wine.png?key1=value1&key2=value2
 response：返回obstore找到的所有文件数据。
 
 state.queryParameters: { key1: 'value1', key2: 'value2' }
@@ -31,7 +33,7 @@ Query String Parameters当发起一次GET请求时，参数会以url string的�
             fs = require("fs"),
             options = state.queryParameters,
             suppliedPath = $tw.utils.decodeURIComponentSafe(state.params[0]);
-        // extension = path.extname(filename);
+
         /**
         * @function 获取路径下的所有文件路径，返回一个列表。
         * @description any

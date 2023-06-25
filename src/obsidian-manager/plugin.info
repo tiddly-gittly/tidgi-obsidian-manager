@@ -1,9 +1,9 @@
 {
   "title": "$:/plugins/whitefall/obsidian-manager",
-  "name": "obsidian-manager",
+  "name": "Obsidian Manager",
   "author": "whitefall",
   "description": "导入并管理你的Obsidian存储库",
   "plugin-type": "plugin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "list": "Panel readme"
 }
