@@ -1,6 +1,8 @@
 # tw5-obsidian-manager
 
 > 在NodeJS版TiddlyWiki中导入Obsidian知识库
+> 
+> TidGi v0.8.0 需要在工作区设置 博客和服务器设置中 启用 HTTP API 并 关闭 凭证鉴权选项。
 
 - [x] 提供清除写入（导入）文件的清空操作。
 - [x] 提供对md和ob一般图片语法的替换，替换为`[img[]]`

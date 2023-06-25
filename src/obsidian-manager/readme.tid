@@ -3,6 +3,8 @@ type: text/vnd.tiddlywiki
 
 ! tw5-obsidian-manager
 
+TidGi v0.8.0 需要在工作区设置 博客和服务器设置中 启用 HTTP API 并 关闭 凭证鉴权选项。
+
 # 在文本框中输入ob库文件夹路径，点击Add按钮。
 # 你可以使用purge按钮清空添加的内容。
 # 你可以在开发者模式-控制台中观看到正在进行的操作。
