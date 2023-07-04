@@ -31,27 +31,20 @@ class BackgroundSyncManager {
     }
 
     async wiki_markdown_syntax(page_content: string) {
-        // 替换掉md&ob图片语法为[img[]]。
-        var ob_img = page_content.match(/\!\[\[(.*?)\]\]/g) || "",
-            md_img = page_content.match(/\!\[(.*?)\]\((.*?)\)/g) || "",
-            on_md_img,
-            no_ob_img;
-        // TODO：一个文件中有多个链接，需要考虑并修改。
-        if (ob_img.includes("|")) {
-            // ![[内部链接|图片替代文字|100]] -> [img width=100 [内部链接]]
-            no_ob_img = page_content.replace(/\!\[\[(.*?)\|(.*?)(?:[^|]*\|)*(.*?)\]\]/g, "[img width=$3 [$1]]");
-        } else {
-            // ![[内部链接]] -> [img[内部链接]]
-            no_ob_img = page_content.replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
-        }
-        if (md_img[2] === "") {
-            // ![](图片地址) -> [img[图片地址]]
-            on_md_img = no_ob_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
-        } else {
-            // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
-            on_md_img = no_ob_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$1|$2]]");
-        }
-        return on_md_img
+        // 替换掉md&ob图片语法为[img width=num [ 图片替代文字 | 内部链接 ]]。正则代表一类情况。
+        // ![[内部链接]] -> [img[内部链接]]
+        var no_ob_img = page_content.replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
+        // ![[内部链接|图片替代文字|100]] -> [img width=100 [内部链接]]
+        var no_ob_d_img = no_ob_img.replace(/\!\[\[(.*?)\|(.*?)(?:[^|]*\|)*(.*?)\]\]/g, "[img width=$3 [$1]]");
+        console.log(no_ob_d_img);
+        // ![](图片地址) -> [img[图片地址]]
+        var on_md_img = no_ob_d_img.replace(/\!\[\]\((.*?)\)/g, "[img[$1]]");
+        // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
+        var on_md_d_img = on_md_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$1|$2]]");
+        // [[filename|代替文本]] -> [[代替文本|filename]]
+        var wikilink = on_md_d_img.replace(/\[\[(.*?)\|(.*?)\]\]/, "[[$2|$1]]");
+        // TODO: ob特殊语法， ![图片替代文字|100](图片地址) -> [img width=100 [图片替代文字|图片地址]]
+        return wikilink
     }
 
     async addStore(obDate: { md: { [x: string]: string; }; image: { [x: string]: any; }; }) {
