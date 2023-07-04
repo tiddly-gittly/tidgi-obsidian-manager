@@ -1,6 +1,6 @@
 import { IChangedTiddlers } from 'tiddlywiki';
 import { widget as Widget } from '$:/core/modules/widgets/widget.js';
-import { BackgroundSyncManager } from './browser-background-sync'
+import { BackgroundSyncManager } from './browser-service'
 
 class ObMainWidget extends Widget {
   refresh(_changedTiddlers: IChangedTiddlers) {

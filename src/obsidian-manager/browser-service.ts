@@ -25,21 +25,36 @@ class BackgroundSyncManager {
         });
     }
 
-    tm_notify(generalNotification, message: string) {
+    tm_notify(generalNotification: string, message: string) {
         $tw.wiki.addTiddler({ title: `$:/state/notification/${generalNotification}`, text: `${generalNotification}: ${message}` });
         $tw.notifier.display(`$:/state/notification/${generalNotification}`);
     }
 
-    async wiki_markdown_syntax(content) {
-        // 替换掉图片语法为[img[]]。
-        let c_o_img = content.replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
-        let c_md_img = c_o_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
-        // 匹配这个语法,以后再说吧.
-        //  ![[xx.jpg|400]] => [img[Description of image|TiddlerTitle]]
-        return c_md_img
+    async wiki_markdown_syntax(page_content: string) {
+        // 替换掉md&ob图片语法为[img[]]。
+        var ob_img = page_content.match(/\!\[\[(.*?)\]\]/g) || "",
+            md_img = page_content.match(/\!\[(.*?)\]\((.*?)\)/g) || "",
+            on_md_img,
+            no_ob_img;
+        // TODO：一个文件中有多个链接，需要考虑并修改。
+        if (ob_img.includes("|")) {
+            // ![[内部链接|图片替代文字|100]] -> [img width=100 [内部链接]]
+            no_ob_img = page_content.replace(/\!\[\[(.*?)\|(.*?)(?:[^|]*\|)*(.*?)\]\]/g, "[img width=$3 [$1]]");
+        } else {
+            // ![[内部链接]] -> [img[内部链接]]
+            no_ob_img = page_content.replace(/\!\[\[(.*?)\]\]/g, "[img[$1]]");
+        }
+        if (md_img[2] === "") {
+            // ![](图片地址) -> [img[图片地址]]
+            on_md_img = no_ob_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$2]]");
+        } else {
+            // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
+            on_md_img = no_ob_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$1|$2]]");
+        }
+        return on_md_img
     }
 
-    async addStore(obDate: {}) {
+    async addStore(obDate: { md: { [x: string]: string; }; image: { [x: string]: any; }; }) {
         // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         let written_list = [];
@@ -81,7 +96,7 @@ class BackgroundSyncManager {
         if (typeof (TiddlerText) !== "undefined") {
             let tiddler_list = JSON.parse(TiddlerText);
             // if (tiddler_list.length !== 0) {
-            tiddler_list.forEach(title => {
+            tiddler_list.forEach((title: string) => {
                 console.log("删除条目：" + title);
                 $tw.wiki.deleteTiddler(title);
             });
