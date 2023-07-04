@@ -4,6 +4,6 @@
   "author": "whitefall",
   "description": "导入并管理你的Obsidian存储库",
   "plugin-type": "plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "list": "Panel readme"
 }
