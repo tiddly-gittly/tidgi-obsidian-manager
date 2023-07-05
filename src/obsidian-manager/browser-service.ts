@@ -41,7 +41,8 @@ class BackgroundSyncManager {
         // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
         var on_md_d_img = on_md_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$1|$2]]");
         // [[filename|代替文本]] -> [[代替文本|filename]]
-        var wikilink = on_md_d_img.replace(/\[\[(.*?)\|(.*?)\]\]/, "[[$2|$1]]");
+        // 使用负向预查来排除以"!"开头的匹配项.
+        var wikilink = on_md_d_img.replace(/\[\[(?!.*!).*?\|.*?\]\]/, "[[$2|$1]]");
         // TODO: ob特殊语法， ![图片替代文字|100](图片地址) -> [img width=100 [图片替代文字|图片地址]]
         return wikilink
     }
