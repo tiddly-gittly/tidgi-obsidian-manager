@@ -34,8 +34,8 @@ class BackgroundSyncManager {
         // 替换掉md&ob图片语法为[img width=num [ 图片替代文字 | 内部链接 ]]。正则代表一类情况。
         // ![[内部链接]] -> [img[内部链接]]
         var no_ob_img = page_content.replace(/\!\[\[([^|]*?)\]\]/g, "[img[$1]]");
-        // ![[内部链接|图片替代文字|100]] -> [img width=100 [内部链接]]
-        var no_ob_d_img = no_ob_img.replace(/!\[\[(.*?)\|(.*?)(?:[^|]*\|)*(\d+)\]\]/g, "[img width=$3 [$1]]");
+        // ![[内部链接|100]] -> [img width=100 [内部链接]]
+        var no_ob_d_img = no_ob_img.replace(/\!\[\[(.*?)\|(.*?)\|*(\d+)\]\]/g, "[img width=$3 [$1]]");
         // ![](图片地址) -> [img[图片地址]]
         var on_md_img = no_ob_d_img.replace(/\!\[\]\((.*?)\)/g, "[img[$1]]");
         // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
