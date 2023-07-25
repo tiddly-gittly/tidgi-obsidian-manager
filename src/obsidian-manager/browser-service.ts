@@ -101,7 +101,7 @@ class BackgroundSyncManager {
     }
 
     async fetchData(path: string, regText: string, ignoreText: string) {
-        let ignore = JSON.stringify([".git", ".obsidian", "绘图"]);
+        let ignore = JSON.stringify([".git", ".obsidian", "绘图", ".stfolder", ".stversions"]);
         // 内置插件 $:/temp/info-plugin。
         // 相对请求路径 obstore/<path> 也可以使用。
         let fullUrl = $tw.wiki.getTiddlerText("$:/info/url/full");
