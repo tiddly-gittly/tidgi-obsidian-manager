@@ -21,7 +21,7 @@ class ObMainWidget extends Widget {
       <label for="reg">过滤文件: </label>
       <input type="text" id="ob-widget-regText" name="reg" placeholder="请输入表达式">
       <label for="ignore">ignore: </label>
-      <input type="text" id="ob-widget-ignore" name="ignore" placeholder="暂时不可用">
+      <input type="text" id="ob-widget-ignore" name="ignore" placeholder="请输入表达式">
     </div>
     <button class="ob-main-widget-button" id="ob-button-Add" title="点击添加OB库">Add</button>
     <button class="ob-main-widget-button" id="ob-button-purge" title="点击清空已添加的OB库">purge</button>
@@ -41,7 +41,7 @@ class ObMainWidget extends Widget {
         bgsm.tm_notify("addStore", "输入为空！");
         // inputBox.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
       } else {
-        $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: [inputBox.value, regBox.value] })
+        $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: [inputBox.value, regBox.value, ignoreBox.value] })
       }
     }
 
