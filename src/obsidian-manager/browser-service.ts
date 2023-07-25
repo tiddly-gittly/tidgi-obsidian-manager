@@ -109,7 +109,7 @@ class BackgroundSyncManager {
             var ignoreArray = ignoreText.substring(1).replace(/[ ]/g, "").split(",");
             var ignore = JSON.stringify(Ignored_by_default.concat(ignoreArray));
         }
-        if (ignoreText !== "" || ignoreText.at(0) !== "+") {
+        if (ignoreText !== "" && ignoreText.at(0) !== "+") {
             var ignoreArray = ignoreText.replace(/[ ]/g, "").split(",");
             var ignore = JSON.stringify(ignoreArray);
         }
