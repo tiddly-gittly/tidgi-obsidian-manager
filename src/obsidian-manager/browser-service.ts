@@ -51,9 +51,9 @@ class BackgroundSyncManager {
         // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         let written_list = [];
-        for (const key in obDate.md) {
-            let text = await this.wiki_markdown_syntax(obDate.md[key]);
-            let title = key.split(".")[0];
+        for (const mdName in obDate.md) {
+            let text = await this.wiki_markdown_syntax(obDate.md[mdName]);
+            let title = mdName.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
                     title: title,
@@ -63,16 +63,16 @@ class BackgroundSyncManager {
             written_list.push(title);
             console.log("创建条目：" + title);
         }
-        for (const fileName in obDate.image) {
-            let type = "image/" + fileName.substring(fileName.lastIndexOf(".") + 1)
+        for (const imgName in obDate.image) {
+            let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
-                    title: fileName,
+                    title: imgName,
                     type: type,
-                    text: obDate.image[fileName]
+                    text: obDate.image[imgName]
                 }));
-            written_list.push(fileName);
-            console.log("创建图片条目：" + fileName);
+            written_list.push(imgName);
+            console.log("创建图片条目：" + imgName);
         }
         written_list.push("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers");
         $tw.wiki.addTiddler(
