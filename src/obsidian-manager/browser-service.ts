@@ -47,12 +47,12 @@ class BackgroundSyncManager {
         return wikilink
     }
 
-    async addStore(obDate: { md: { [x: string]: string; }; image: { [x: string]: any; }; }) {
+    async addStore(obvaultdata: { mdFiles: { [x: string]: string; }; imgFiles: { [x: string]: any; }; }) {
         // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
         // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
         let written_list = [];
-        for (const mdName in obDate.md) {
-            let text = await this.wiki_markdown_syntax(obDate.md[mdName]);
+        for (const mdName in obvaultdata.mdFiles) {
+            let text = await this.wiki_markdown_syntax(obvaultdata.mdFiles[mdName]);
             let title = mdName.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
@@ -63,13 +63,13 @@ class BackgroundSyncManager {
             written_list.push(title);
             console.log("创建条目：" + title);
         }
-        for (const imgName in obDate.image) {
+        for (const imgName in obvaultdata.imgFiles) {
             let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
                     title: imgName,
                     type: type,
-                    text: obDate.image[imgName]
+                    text: obvaultdata.imgFiles[imgName]
                 }));
             written_list.push(imgName);
             console.log("创建图片条目：" + imgName);
@@ -102,7 +102,7 @@ class BackgroundSyncManager {
 
     async fetchData(path: string, regText: string, ignoreText: string) {
         let Ignored_by_default = [".git", ".obsidian", ".stfolder", ".stversions"];
-        if (ignoreText === ""){
+        if (ignoreText === "") {
             var ignore = JSON.stringify(Ignored_by_default);
         }
         if (ignoreText !== "" || ignoreText.at(0) === "+") {
@@ -114,9 +114,9 @@ class BackgroundSyncManager {
             var ignore = JSON.stringify(ignoreArray);
         }
         // 内置插件 $:/temp/info-plugin。
-        // 相对请求路径 obstore/<path> 也可以使用。
+        // 相对请求路径 obvault/<path> 也可以使用。
         let fullUrl = $tw.wiki.getTiddlerText("$:/info/url/full");
-        var route = fullUrl + "obstore" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
+        var route = fullUrl + "obvault" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
         console.log("获取数据:" + route);
         this.tm_notify("获取数据 (fetchData)  ", `"${route}"`);
         // 需要排除非文件夹的路径。
