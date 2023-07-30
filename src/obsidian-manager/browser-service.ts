@@ -47,8 +47,9 @@ class BackgroundSyncManager {
         return wikilink
     }
 
-    async addVault(obvaultdata) {
+    async addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles }) {
         // 使用obvault字段记录写入历史和仓库名。
+        console.log("vaultName: " + obvaultdata.obVaultName);
         for (const mdName in obvaultdata.mdFiles) {
             let text = await this.wiki_markdown_syntax(obvaultdata.mdFiles[mdName]);
             let title = mdName.split(".")[0];
@@ -57,7 +58,7 @@ class BackgroundSyncManager {
                     title: title,
                     type: "text/markdown",
                     text: text,
-                    obvault: obvaultdata.vaultName
+                    obvault: obvaultdata.obVaultName
                 }));
             console.log("创建条目：" + title);
         }
@@ -68,7 +69,7 @@ class BackgroundSyncManager {
                     title: imgName,
                     type: type,
                     text: obvaultdata.imgFiles[imgName],
-                    obvault: obvaultdata.vaultName
+                    obvault: obvaultdata.obVaultName
                 }));
             console.log("创建图片条目：" + imgName);
         }
