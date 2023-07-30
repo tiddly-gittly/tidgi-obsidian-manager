@@ -71,7 +71,7 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
         */
         var readFilesFormList = function (ListfilesPath, regText) {
             var textData,
-                obvaultdata = { mdFiles: {}, imgFiles: {} },
+                obvaultdata = { vaultName: "", mdFiles: {}, imgFiles: {} },
                 basename,
                 extension,
                 regMdFileText = regText || '';
@@ -97,6 +97,7 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
         const result = catalogs(suppliedPath, options.ignore);
         if (result != false) {
             const data = readFilesFormList(result, options.regText);
+            data.vaultName = suppliedPath.split('/').pop(); // C:/Users/Documents/vault
             const content = JSON.stringify(data);
             // Send the file
             state.sendResponse(200, { "Content-Type": "application/json" }, content);

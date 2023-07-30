@@ -13,12 +13,12 @@ class BackgroundSyncManager {
                 // 其实点几次都可以，只有一次有效。
                 let data = await this.fetchData(event.param[0], event.param[1], event.param[2]);
                 if (data != false) {
-                    this.addStore(data);
+                    this.addVault(data);
                 }
             }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-purge', async (event) => {
-            this.purgeStore();
+            this.purgeVault();
         });
         $tw.rootWidget.addEventListener('tw-obsidian-update', async (event) => {
 
@@ -47,10 +47,8 @@ class BackgroundSyncManager {
         return wikilink
     }
 
-    async addStore(obvaultdata: { mdFiles: { [x: string]: string; }; imgFiles: { [x: string]: any; }; }) {
-        // 应该是每创建一个条目，写入一条记录。到时候删除也是从记录里面删除。
-        // 或者，就是route里面的list，我将创建他们。所以我将删除他们。
-        let written_list = [];
+    async addVault(obvaultdata) {
+        // 使用obvault字段记录写入历史和仓库名。
         for (const mdName in obvaultdata.mdFiles) {
             let text = await this.wiki_markdown_syntax(obvaultdata.mdFiles[mdName]);
             let title = mdName.split(".")[0];
@@ -58,9 +56,9 @@ class BackgroundSyncManager {
                 new $tw.Tiddler({
                     title: title,
                     type: "text/markdown",
-                    text: text
+                    text: text,
+                    obvault: obvaultdata.vaultName
                 }));
-            written_list.push(title);
             console.log("创建条目：" + title);
         }
         for (const imgName in obvaultdata.imgFiles) {
@@ -69,32 +67,27 @@ class BackgroundSyncManager {
                 new $tw.Tiddler({
                     title: imgName,
                     type: type,
-                    text: obvaultdata.imgFiles[imgName]
+                    text: obvaultdata.imgFiles[imgName],
+                    obvault: obvaultdata.vaultName
                 }));
-            written_list.push(imgName);
             console.log("创建图片条目：" + imgName);
         }
-        written_list.push("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers");
-        $tw.wiki.addTiddler(
-            new $tw.Tiddler({
-                title: "$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers",
-                text: JSON.stringify(written_list)
-            }));
         console.log("addStore: 所有添加工作已完成。");
         this.tm_notify("addStore", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");
     }
 
-    async purgeStore() {
-        let TiddlerText = $tw.wiki.getTiddlerText("$:/plugins/whitefall/obsidian-manager/records-written-to-tiddlers");
-        if (typeof (TiddlerText) !== "undefined") {
-            let tiddler_list = JSON.parse(TiddlerText);
-            // if (tiddler_list.length !== 0) {
+    /**
+     * 根据仓库名删除导入的仓库。
+     * @param vaultName 需要删除的仓库名。
+     */
+    async purgeVault(vaultName) {
+        let tiddler_list = $tw.wiki.filterTiddlers("[has:field[obvault]]");
+        if (tiddler_list.length !== 0) {
             tiddler_list.forEach((title: string) => {
                 console.log("删除条目：" + title);
                 $tw.wiki.deleteTiddler(title);
             });
             this.tm_notify("purgeStore", "已经完全清空，请等待【文件系统同步服务】完成任务。");
-            // }
         } else {
             this.tm_notify("purgeStore", "未曾添加Obsidian仓库，写入记录为空。");
         }

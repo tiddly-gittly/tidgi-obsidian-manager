@@ -4,7 +4,7 @@
   "author": "whitefall",
   "description": "导入并管理你的Obsidian存储库",
   "plugin-type": "plugin",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "dependents": ["$:/plugins/tiddlywiki/markdown"],
   "list": "Panel readme"
 }
