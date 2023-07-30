@@ -72,8 +72,8 @@ class BackgroundSyncManager {
                 }));
             console.log("创建图片条目：" + imgName);
         }
-        console.log("addStore: 所有添加工作已完成。");
-        this.tm_notify("addStore", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");
+        console.log("addVault: 所有添加工作已完成。");
+        this.tm_notify("addVault", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");
     }
 
     /**
@@ -87,9 +87,9 @@ class BackgroundSyncManager {
                 console.log("删除条目：" + title);
                 $tw.wiki.deleteTiddler(title);
             });
-            this.tm_notify("purgeStore", "已经完全清空，请等待【文件系统同步服务】完成任务。");
+            this.tm_notify("purgeVault", "已经完全清空，请等待【文件系统同步服务】完成任务。");
         } else {
-            this.tm_notify("purgeStore", "未曾添加Obsidian仓库，写入记录为空。");
+            this.tm_notify("purgeVault", "未曾添加Obsidian仓库，写入记录为空。");
         }
     }
 

@@ -38,7 +38,7 @@ class ObMainWidget extends Widget {
     addButton.onclick = function () {
       if (inputBox.value.length == 0) {
         console.log("输入为空！");
-        bgsm.tm_notify("addStore", "输入为空！");
+        bgsm.tm_notify("addVault", "输入为空！");
         // inputBox.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
       } else {
         $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: [inputBox.value, regBox.value, ignoreBox.value] })
