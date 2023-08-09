@@ -6,5 +6,5 @@
   "plugin-type": "plugin",
   "version": "0.0.9",
   "dependents": ["$:/plugins/tiddlywiki/markdown"],
-  "list": "Panel readme"
+  "list": "ui/Panel readme"
 }

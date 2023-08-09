@@ -1,6 +1,6 @@
-title: $:/plugins/whitefall/obsidian-manager/vaultstree
+title: $:/plugins/whitefall/obsidian-manager/ui/vaulttrees
 tags:$:/tags/SideBar
-caption: VaultsTree
+caption: VaultTrees
 
 
 \define leaf-link(full-title,chunk,separator: "/")
