@@ -54,7 +54,7 @@ caption: VaultsTree
 \define tree(prefix: "$:/",separator: "/")
 \whitespace trim
 <div class="tc-tree">
-<span><p>文件列表</p></span>
+<span><center><p>Obsidian Vault 文件列表</p></center></span>
 <$list filter="[get[obvault]unique[]]">
 <span><strong><$text text=<<currentTiddler>>/></strong></span>
 <div>
