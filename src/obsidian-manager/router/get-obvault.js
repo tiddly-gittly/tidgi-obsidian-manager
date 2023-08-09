@@ -81,16 +81,22 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                 extension = path.extname(basename);
                 if (['.jpg', '.jpeg', '.png'].indexOf(extension) !== -1) {
                     // 将二进制数据转换成base64编码
-                    obvaultdata.imgFiles[basename] = fs.readFileSync(file).toString('base64');
+                    obvaultdata.imgFiles[getRelativePath(suppliedPath, file)] = { data: fs.readFileSync(file).toString('base64'), name: basename };
                 } else if (extension === '.md') {
                     textData = fs.readFileSync(file, 'utf8');
                     var reg = RegExp(regMdFileText);
                     if (reg.test(textData)) {
-                        obvaultdata.mdFiles[basename] = textData;
+                        obvaultdata.mdFiles[getRelativePath(suppliedPath, file)] = { data: textData, name: basename };
                     }
                 }
             });
             return obvaultdata
+        }
+
+        var getRelativePath = function (sourcePath, targetPath) {
+            sourcePath = sourcePath.replace(/\\/g, '/'); //C:/Users/Snowy/Desktop/vault
+            targetPath = targetPath.replace(/\\/g, '/'); //C:\Users\Snowy\Desktop\vault\⭐健康.md
+            return "$:/" + targetPath.slice(sourcePath.length + 1);
         }
 
         // Main

@@ -50,25 +50,27 @@ class BackgroundSyncManager {
     async addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles }) {
         // 使用obvault字段记录写入历史和仓库名。
         console.log("vaultName: " + obvaultdata.obVaultName);
-        for (const mdName in obvaultdata.mdFiles) {
-            let text = await this.wiki_markdown_syntax(obvaultdata.mdFiles[mdName]);
-            let title = mdName.split(".")[0];
+        for (const mdfile in obvaultdata.mdFiles) {
+            let text = await this.wiki_markdown_syntax(obvaultdata.mdFiles[mdfile].data);
+            let title = obvaultdata.mdFiles[mdfile].name.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
                     title: title,
                     type: "text/markdown",
                     text: text,
-                    obvault: obvaultdata.obVaultName
+                    obvault: obvaultdata.obVaultName,
+                    vaulttree: mdfile.split(".")[0]
                 }));
             console.log("创建条目：" + title);
         }
-        for (const imgName in obvaultdata.imgFiles) {
+        for (const imgfile in obvaultdata.imgFiles) {
+            let imgName = obvaultdata.imgFiles[imgfile].name;
             let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
                     title: imgName,
                     type: type,
-                    text: obvaultdata.imgFiles[imgName],
+                    text: obvaultdata.imgFiles[imgfile].data,
                     obvault: obvaultdata.obVaultName
                 }));
             console.log("创建图片条目：" + imgName);
