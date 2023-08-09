@@ -12,7 +12,7 @@
 - [x] 提供写入文件的记录功能。
 - [x] 提供筛选文件和忽略文件夹功能。
 - [ ] 提供从obsidian更新文件功能，提供保留已修改的文件选项。默认则与ob知识库文件同步。
-- [ ] 提供转写obsidian文件系统目录树的功能。
+- [x] 提供转写obsidian文件系统目录树的功能。
 - [ ] 提供导入多个Obsidian知识库的功能。
 
 预览链接：https://tiddly-gittly.github.io/tidgi-obsidian-manager/
