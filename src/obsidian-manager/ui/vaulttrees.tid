@@ -3,62 +3,62 @@ tags:$:/tags/SideBar
 caption: VaultTrees
 
 
-\define leaf-link(full-title,chunk,separator: "/")
-<$link to=<<__full-title__>>><$text text=<<__chunk__>>/></$link>
+\procedure leaf-link(full-title,chunk,separator: "/")
+<$link to=<<full-title>>><$text text=<<chunk>>/></$link>
 \end
 
-\define leaf-node(prefix,chunk)
+\procedure leaf-node(prefix,chunk)
 \whitespace trim
 <li>
-<$list filter="[<__chunk__>is[shadow]] [<__chunk__>is[tiddler]]" variable="full-title">
+<$list filter="[<chunk>is[shadow]] [<chunk>is[tiddler]]" variable="full-title">
 <span>{{$:/core/images/file}}</span>&#32;<$macrocall $name="leaf-link" full-title=<<full-title>> chunk=<<chunk>>/>
 </$list>
 </li>
 \end
 
-\define branch-node(prefix,chunk,separator: "/",vaultname)
+\procedure branch-node(prefix,chunk,separator: "/",vaultname)
 \whitespace trim
 <li>
-<$set name="reveal-state" value={{{ [[$:/state/tree/]addsuffix<__prefix__>addsuffix<__chunk__>] }}}>
+<$set name="reveal-state" value={{{ [[$:/state/tree/]addsuffix<prefix>addsuffix<chunk>] }}}>
 <$reveal type="nomatch" stateTitle=<<reveal-state>> text="show">
 <$button setTitle=<<reveal-state>> setTo="show" class="tc-btn-invisible">
-{{$:/core/images/folder}}&#32;<$text text=<<__chunk__>>/>
+{{$:/core/images/folder}}&#32;<$text text=<<chunk>>/>
 </$button>
 </$reveal>
 <$reveal type="match" stateTitle=<<reveal-state>> text="show">
 <$button setTitle=<<reveal-state>> setTo="hide" class="tc-btn-invisible">
-{{$:/core/images/folder}}&#32;<$text text=<<__chunk__>>/>
+{{$:/core/images/folder}}&#32;<$text text=<<chunk>>/>
 </$button>
 </$reveal>
 &#32;
-<span>(<$count filter="[field:obvault<__vaultname__>get[vaulttree]removeprefix<__prefix__>removeprefix<__chunk__>] -[<__prefix__>addsuffix<__chunk__>]"/>)</span>
+<span>(<$count filter="[field:obvault<vaultname>get[vaulttree]removeprefix<prefix>removeprefix<chunk>] -[<prefix>addsuffix<chunk>]"/>)</span>
 <$reveal type="match" stateTitle=<<reveal-state>> text="show">
-<$macrocall $name="tree-node" prefix={{{ [<__prefix__>addsuffix<__chunk__>] }}} separator=<<__separator__>> vaultname=<<__vaultname__>>/>
+<$macrocall $name="tree-node" prefix={{{ [<prefix>addsuffix<chunk>] }}} separator=<<separator>> vaultname=<<vaultname>>/>
 </$reveal>
 </$set>
 </li>
 \end
 
-\define tree-node(prefix,separator: "/",vaultname)
+\procedure tree-node(prefix,separator: "/",vaultname)
 \whitespace trim
 <ol>
-<$list filter="[field:obvault<__vaultname__>get[vaulttree]removeprefix<__prefix__>splitbefore<__separator__>sort[]!suffix<__separator__>]" variable="chunk">
-<$macrocall $name="leaf-node" prefix=<<__prefix__>> chunk=<<chunk>> separator=<<__separator__>>/>
+<$list filter="[field:obvault<vaultname>get[vaulttree]removeprefix<prefix>splitbefore<separator>sort[]!suffix<separator>]" variable="chunk">
+<$macrocall $name="leaf-node" prefix=<<prefix>> chunk=<<chunk>> separator=<<separator>>/>
 </$list>
-<$list filter="[field:obvault<__vaultname__>get[vaulttree]removeprefix<__prefix__>splitbefore<__separator__>sort[]suffix<__separator__>]" variable="chunk">
-<$macrocall $name="branch-node" prefix=<<__prefix__>> chunk=<<chunk>> separator=<<__separator__>> vaultname=<<__vaultname__>>/>
+<$list filter="[field:obvault<vaultname>get[vaulttree]removeprefix<prefix>splitbefore<separator>sort[]suffix<separator>]" variable="chunk">
+<$macrocall $name="branch-node" prefix=<<prefix>> chunk=<<chunk>> separator=<<separator>> vaultname=<<vaultname>>/>
 </$list>
 </ol>
 \end
 
-\define tree(prefix: "$:/",separator: "/")
+\procedure tree(prefix: "$:/",separator: "/")
 \whitespace trim
 <div class="tc-tree">
 <span><center><p>Obsidian Vault 文件列表</p></center></span>
 <$list filter="[get[obvault]unique[]]">
 <span><strong><$text text=<<currentTiddler>>/></strong></span>
 <div>
-<$macrocall $name="tree-node" vaultname=<<currentTiddler>> prefix=<<__prefix__>> separator=<<__separator__>>/>
+<$macrocall $name="tree-node" vaultname=<<currentTiddler>> prefix=<<prefix>> separator=<<separator>>/>
 </div>
 </$list>
 </div>
@@ -67,13 +67,7 @@ caption: VaultTrees
 <<tree>>
 
 <!-- 
-
-[get[obvault]unique[]] 获取库名
-
-根据库名列出包含这个库名的条目，然后获取路径列表。[field:obvault[Neural-Networks]get[vaulttree]] $:/../../
-
-根据列出的条目开始生成目录树
-
-1. 条目名必须和字段路径中的名字一致。
-2. 显示方式改为多个库列表 
+[get[obvault]unique[]]
+[field:obvault[Neural-Networks]get[vaulttree]]
+条目名必须和字段路径中的名字一致。
 -->
