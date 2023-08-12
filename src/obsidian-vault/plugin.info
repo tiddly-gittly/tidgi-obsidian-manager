@@ -2,7 +2,7 @@
   "title": "$:/plugins/whitefall/obsidian-vault",
   "name": "Obsidian Vault",
   "author": "whitefall",
-  "description": "导入并管理你的Obsidian存储库",
+  "description": "Obsidian Vault发布工具 by NodeJS TiddlyWiki",
   "plugin-type": "plugin",
   "version": "0.0.9",
   "dependents": ["$:/plugins/tiddlywiki/markdown"],
