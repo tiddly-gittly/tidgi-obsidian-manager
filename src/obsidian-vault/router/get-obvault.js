@@ -1,5 +1,5 @@
 /*\
-title: $:/plugins/whitefall/obsidian-manager/router/get-obvault.js
+title: $:/plugins/whitefall/obsidian-vault/router/get-obvault.js
 type: application/javascript
 module-type: route
 

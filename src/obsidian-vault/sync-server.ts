@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-array-callback-reference */
 import type { Tiddler, IServerStatus, ITiddlerFieldsParam } from 'tiddlywiki';
 
-class BackgroundSyncManager {
+class SyncServer {
 
     constructor() {
         this.setupListener();
@@ -129,4 +129,4 @@ class BackgroundSyncManager {
 }
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-export { BackgroundSyncManager }
+export { SyncServer }

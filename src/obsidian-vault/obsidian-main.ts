@@ -1,6 +1,6 @@
 import { IChangedTiddlers } from 'tiddlywiki';
 import { widget as Widget } from '$:/core/modules/widgets/widget.js';
-import { BackgroundSyncManager } from './browser-service'
+import { SyncServer } from './sync-server'
 
 class ObMainWidget extends Widget {
   refresh(_changedTiddlers: IChangedTiddlers) {
@@ -11,7 +11,7 @@ class ObMainWidget extends Widget {
     this.parentDomNode = parent;
     this.execute();
     // 如何在这里使用CSS呢？
-    const bgsm = new BackgroundSyncManager();
+    const bgsm = new SyncServer();
 
     const containerElement = document.createElement('div');
     containerElement.innerHTML = `

@@ -1,6 +1,6 @@
 {
-  "title": "$:/plugins/whitefall/obsidian-manager",
-  "name": "Obsidian Manager",
+  "title": "$:/plugins/whitefall/obsidian-vault",
+  "name": "Obsidian Vault",
   "author": "whitefall",
   "description": "导入并管理你的Obsidian存储库",
   "plugin-type": "plugin",

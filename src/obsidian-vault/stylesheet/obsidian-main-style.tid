@@ -1,10 +1,6 @@
-title: $:/plugins/whitefall/obsidian-manager/obsidian-main-style
+title: $:/plugins/whitefall/obsidian-vault/stylesheet/obsidian-main-style
 tags: $:/tags/Stylesheet
 type: text/css
-
-body {
-    background: cyan;
-}
 
 #ob-widget-path {
     width: 100%;

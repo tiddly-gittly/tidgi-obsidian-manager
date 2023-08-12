@@ -1,6 +1,0 @@
-title: $:/plugins/whitefall/obsidian-manager/ui/displayCaption
-
-\whitespace trim
-<h2 class="tc-title">
-{{!!caption}}
-</h2>

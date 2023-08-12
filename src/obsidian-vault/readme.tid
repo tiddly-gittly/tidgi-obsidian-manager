@@ -1,7 +1,7 @@
-title: $:/plugins/whitefall/obsidian-manager/readme
+title: $:/plugins/whitefall/obsidian-vault/readme
 type: text/vnd.tiddlywiki
 
-! tw5-obsidian-manager
+! tw5-obsidian-vault
 
 TidGi ≥ v0.8.0 需要在工作区设置 博客和服务器设置中 启用 HTTP API 并 关闭 凭证鉴权选项。
 

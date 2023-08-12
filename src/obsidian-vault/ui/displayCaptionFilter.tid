@@ -1,0 +1,5 @@
+title: $:/plugins/whitefall/obsidian-vault/ui/displayCaptionFilter
+tags: $:/tags/ViewTemplateTitleFilter
+list-before: $:/config/ViewTemplateTitleFilters/default
+
+[<currentTiddler>has[obvault]has[caption]then[$:/plugins/whitefall/obsidian-vault/ui/displayCaption]]

@@ -1,19 +1,18 @@
-# tw5-obsidian-manager
+# tw5-obsidian-vault
 
-> 在NodeJS版TiddlyWiki中导入Obsidian知识库
+> Obsidian Vault发布工具 by NodeJS TiddlyWiki
 > 
 > TidGi v0.8.0 需要在工作区设置 博客和服务器设置中 启用 HTTP API 并 关闭 凭证鉴权选项。
 >
-> 更新需要先点清除在点导入，否则写入记录会乱掉继而产生BUG。
+> 更新需要先点清除在点导入；因为条目名的唯一性，建议一个wiki仅导入一个obsidian vault。
 
 - [x] 提供清除写入（导入）文件的清空操作。
 - [x] 提供对md和ob一般图片语法的替换，替换为`[img[]]`
 - [x] 提供根据目录导入ob存储库的md、jpg、png、jpeg文件。
 - [x] 提供写入文件的记录功能。
 - [x] 提供筛选文件和忽略文件夹功能。
-- [ ] 提供从obsidian更新文件功能，提供保留已修改的文件选项。默认则与ob知识库文件同步。
 - [x] 提供转写obsidian文件系统目录树的功能。
-- [ ] 提供导入多个Obsidian知识库的功能。
+- [ ] 提供从obsidian更新文件功能，提供保留已修改的文件选项。默认则与ob知识库文件同步。
 
 预览链接：https://tiddly-gittly.github.io/tidgi-obsidian-manager/
 
