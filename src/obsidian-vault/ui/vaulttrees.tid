@@ -3,15 +3,13 @@ tags:$:/tags/SideBar
 caption: VaultTrees
 
 
-\procedure leaf-link(full-title,chunk,separator: "/")
-<$link to=<<full-title>>><$text text=<<chunk>>/></$link>
-\end
 
 \procedure leaf-node(prefix,chunk)
 \whitespace trim
 <li>
 <$list filter="[<chunk>is[shadow]] [<chunk>is[tiddler]]" variable="full-title">
-<span>{{$:/core/images/file}}</span>&#32;<$macrocall $name="leaf-link" full-title=<<full-title>> chunk=<<chunk>>/>
+<!-- $:/bb/概念网络、$:/概念网络 都会链接到概念网络，而不是：bb/概念网络、概念网络 -->
+<span>{{$:/core/images/file}}</span>&#32;<$link to=<<full-title>>><$text text=<<chunk>>/></$link>
 </$list>
 </li>
 \end
