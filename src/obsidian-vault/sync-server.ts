@@ -12,6 +12,8 @@ class SyncServer {
             if (event.type === "tw-obsidian-add") {
                 // 其实点几次都可以，只有一次有效。
                 let data = await this.fetchData(event.param[0], event.param[1], event.param[2]);
+                console.log(data);
+                
                 if (data != false) {
                     this.addVault(data);
                 }
@@ -49,40 +51,73 @@ class SyncServer {
 
     async addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles }) {
         // 使用obvault字段记录写入历史和仓库名。
+        // Set(basename:[{path,data}])
         console.log("vaultName: " + obvaultdata.obVaultName);
-        for (const mdfile in obvaultdata.mdFiles) {
-            let text = await this.wiki_markdown_syntax(obvaultdata.mdFiles[mdfile].data);
-            let title = obvaultdata.mdFiles[mdfile].name.split(".")[0];
-            $tw.wiki.addTiddler(
-                new $tw.Tiddler({
-                    title: title,
-                    type: "text/markdown",
-                    text: text,
-                    obvault: obvaultdata.obVaultName,
-                    vaulttree: mdfile.split(".")[0]
-                }));
-            console.log("创建条目：" + title);
+        for (const mdfile_K in obvaultdata.mdFiles) {
+            let md_file_arry = obvaultdata.mdFiles[mdfile_K];
+            if (md_file_arry.length != 0 && md_file_arry.length == 1) {
+                let text = await this.wiki_markdown_syntax(md_file_arry[0].data);
+                let title = mdfile_K.split(".")[0];
+                $tw.wiki.addTiddler(
+                    new $tw.Tiddler({
+                        title: title,
+                        type: "text/markdown",
+                        text: text,
+                        obvault: obvaultdata.obVaultName,
+                        vaulttree: "$:/" + md_file_arry[0].path.split(".")[0]
+                    }));
+                console.log("创建条目：" + title);
+            } else if (md_file_arry.length > 1) {
+                // 同文件名不同路径，title需要相对路径
+                for (const pf in md_file_arry) {
+                    let md_file = md_file_arry[pf];
+                    let text = await this.wiki_markdown_syntax(md_file.data);
+                    let title = md_file.path.split(".")[0];
+                    $tw.wiki.addTiddler(
+                        new $tw.Tiddler({
+                            title: title,
+                            type: "text/markdown",
+                            text: text,
+                            obvault: obvaultdata.obVaultName,
+                            vaulttree: "$:/" + md_file.path.split(".")[0]
+                        }));
+                    console.log("创建同名异径条目：" + title);
+                }
+            }
         }
-        for (const imgfile in obvaultdata.imgFiles) {
-            let imgName = obvaultdata.imgFiles[imgfile].name;
-            let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
-            $tw.wiki.addTiddler(
-                new $tw.Tiddler({
-                    title: imgName,
-                    type: type,
-                    text: obvaultdata.imgFiles[imgfile].data,
-                    obvault: obvaultdata.obVaultName
-                }));
-            console.log("创建图片条目：" + imgName);
+        for (const imgfile_K in obvaultdata.imgFiles) {
+            let img_file_arry = obvaultdata.imgFiles[imgfile_K];
+            if (img_file_arry.length != 0 && img_file_arry.length == 1) {
+                let imgName = imgfile_K;
+                let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
+                $tw.wiki.addTiddler(
+                    new $tw.Tiddler({
+                        title: imgName,
+                        type: type,
+                        text: img_file_arry[0].data,
+                        obvault: obvaultdata.obVaultName
+                    }));
+                console.log("创建图片条目：" + imgName);
+            } else if (img_file_arry.length > 1) {
+                for (const pf in img_file_arry) {
+                    let img_file = img_file_arry[pf];
+                    let imgName = img_file.path;
+                    let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
+                    $tw.wiki.addTiddler(
+                        new $tw.Tiddler({
+                            title: imgName,
+                            type: type,
+                            text: img_file.data,
+                            obvault: obvaultdata.obVaultName
+                        }));
+                    console.log("创建图片条目：" + imgName);
+                }
+            }
         }
         console.log("addVault: 所有添加工作已完成。");
         this.tm_notify("addVault", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");
     }
 
-    /**
-     * 根据仓库名删除导入的仓库。
-     * @param vaultName 需要删除的仓库名。
-     */
     async purgeVault(vaultName) {
         let tiddler_list = $tw.wiki.filterTiddlers("[has:field[obvault]]");
         if (tiddler_list.length !== 0) {

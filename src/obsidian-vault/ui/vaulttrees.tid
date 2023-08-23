@@ -54,7 +54,7 @@ caption: VaultTrees
 \procedure tree(prefix: "$:/",separator: "/")
 \whitespace trim
 <div class="tc-tree">
-<span><center><p>Obsidian Vault 文件列表</p></center></span>
+<span><center><p>Obsidian Vault<sup><$link to="$:/plugins/whitefall/obsidian-vault/ui/Panel">p</$link></sup>&nbsp;文件列表</p></center></span>
 <$list filter="[get[obvault]unique[]]">
 <span><strong><$text text=<<currentTiddler>>/></strong></span>
 <div>

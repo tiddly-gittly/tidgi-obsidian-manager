@@ -79,14 +79,23 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
             ListfilesPath.forEach(file => {
                 basename = path.basename(file);
                 extension = path.extname(basename);
+                // Set(basename:[{path,data}])
                 if (['.jpg', '.jpeg', '.png'].indexOf(extension) !== -1) {
-                    // 将二进制数据转换成base64编码
-                    obvaultdata.imgFiles[getRelativePath(suppliedPath, file)] = { data: fs.readFileSync(file).toString('base64'), name: basename };
+                    if (obvaultdata.imgFiles[basename]) {
+                        obvaultdata.imgFiles[basename].push({ path: getRelativePath(suppliedPath, file), data: fs.readFileSync(file).toString('base64') })
+                    } else {
+                        // 将二进制数据转换成base64编码
+                        obvaultdata.imgFiles[basename] = [{ path: getRelativePath(suppliedPath, file), data: fs.readFileSync(file).toString('base64') }];
+                    }
                 } else if (extension === '.md') {
                     textData = fs.readFileSync(file, 'utf8');
                     var reg = RegExp(regMdFileText);
                     if (reg.test(textData)) {
-                        obvaultdata.mdFiles[getRelativePath(suppliedPath, file)] = { data: textData, name: basename };
+                        if (obvaultdata.mdFiles[basename]) {
+                            obvaultdata.mdFiles[basename].push({ path: getRelativePath(suppliedPath, file), data: textData });
+                        } else {
+                            obvaultdata.mdFiles[basename] = [{ path: getRelativePath(suppliedPath, file), data: textData }];
+                        }
                     }
                 }
             });
@@ -96,7 +105,7 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
         var getRelativePath = function (sourcePath, targetPath) {
             sourcePath = sourcePath.replace(/\\/g, '/'); //C:/Users/Snowy/Desktop/vault
             targetPath = targetPath.replace(/\\/g, '/'); //C:\Users\Snowy\Desktop\vault\⭐健康.md
-            return "$:/" + targetPath.slice(sourcePath.length + 1);
+            return targetPath.slice(sourcePath.length + 1);
         }
 
         // Main
