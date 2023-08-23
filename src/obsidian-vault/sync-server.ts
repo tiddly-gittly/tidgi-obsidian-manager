@@ -31,21 +31,36 @@ class SyncServer {
         $tw.notifier.display(`$:/state/notification/${generalNotification}`);
     }
 
-    async wiki_markdown_syntax(page_content: string) {
-        // 替换掉md&ob图片语法为[img width=num [ 图片替代文字 | 内部链接 ]]。正则代表一类情况。
-        // ![[内部链接]] -> [img[内部链接]]
-        var no_ob_img = page_content.replace(/\!\[\[([^|]*?)\]\]/g, "[img[$1]]");
-        // ![[内部链接|100]] -> [img width=100 [内部链接]]
-        var no_ob_d_img = no_ob_img.replace(/\!\[\[(.*?)\|(.*?)\|*(\d+)\]\]/g, "[img width=$3 [$1]]");
-        // ![](图片地址) -> [img[图片地址]]
-        var on_md_img = no_ob_d_img.replace(/\!\[\]\((.*?)\)/g, "[img[$1]]");
-        // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
-        var on_md_d_img = on_md_img.replace(/\!\[(.*?)\]\((.*?)\)/g, "[img[$1|$2]]");
-        // [[filename|代替文本]] -> [[代替文本|filename]]
-        // 使用负向预查来排除以"!"开头的匹配项.
-        var wikilink = on_md_d_img.replace(/\[\[(?!.*!).*?\|.*?\]\]/, "[[$2|$1]]");
+    async obmd_to_wiki(page_content: string) {
+        // 替换掉md&图片语法为[img width=num [ 图片替代文字 | 内部链接 ]]。正则代表一类情况。
+        let wiki_img_syntax = [
+            // ![[内部链接]] -> [img[内部链接]]
+            { pattern: /\!\[\[([^|]*?)\]\]/g, target: "[img[$1]]" },
+            // ![[内部链接|100]] -> [img width=100 [内部链接]]
+            { pattern: /\!\[\[(.*?)\|(.*?)\|*(\d+)\]\]/g, target: "[img width=$3 [$1]]" },
+            // ![](图片地址) -> [img[图片地址]]
+            { pattern: /\!\[\]\((.*?)\)/g, target: "[img[$1]]" },
+            // ![图片替代文字](图片地址) -> [img[图片替代文字|图片地址]]
+            { pattern: /\!\[(.*?)\]\((.*?)\)/g, target: "[img[$1|$2]]" }
+        ];
         // TODO: ob特殊语法， ![图片替代文字|100](图片地址) -> [img width=100 [图片替代文字|图片地址]]
-        return wikilink
+        for (const index in wiki_img_syntax) {
+            const element = wiki_img_syntax[index];
+            var page_content = page_content.replace(element.pattern, element.target);
+        }
+        let wiki_link_syntax = [
+            // [[filename|代替文本]] -> [[代替文本|filename]]，使用负向预查来排除以"!"开头的匹配项.
+            { pattern: /\[\[(?!.*!).*?\|.*?\]\]/g, target: "[[$2|$1]]" },
+            { pattern: /\[\[(?!.*!).*?\]\]/g, target: "[[$1]]" }
+        ]
+        for (const index in wiki_link_syntax) {
+            const element = wiki_link_syntax[index];
+            var page_content = page_content.replace(element.pattern, element.target);
+        }
+        return page_content
+    }
+
+    async reLink(target: string) {
     }
 
     async addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles }) {
@@ -56,7 +71,7 @@ class SyncServer {
         for (const mdfile_K in obvaultdata.mdFiles) {
             let md_file_arry = obvaultdata.mdFiles[mdfile_K];
             if (md_file_arry.length != 0 && md_file_arry.length == 1) {
-                let text = await this.wiki_markdown_syntax(md_file_arry[0].data);
+                let text = await this.obmd_to_wiki(md_file_arry[0].data);
                 let title = mdfile_K.split(".")[0];
                 $tw.wiki.addTiddler(
                     new $tw.Tiddler({
@@ -74,7 +89,7 @@ class SyncServer {
                 // 同文件名不同路径，title需要相对路径
                 for (const pf in md_file_arry) {
                     let md_file = md_file_arry[pf];
-                    let text = await this.wiki_markdown_syntax(md_file.data);
+                    let text = await this.obmd_to_wiki(md_file.data);
                     let title = md_file.path.split(".")[0];
                     $tw.wiki.addTiddler(
                         new $tw.Tiddler({
