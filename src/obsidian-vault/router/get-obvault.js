@@ -92,9 +92,9 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                     var reg = RegExp(regMdFileText);
                     if (reg.test(textData)) {
                         if (obvaultdata.mdFiles[basename]) {
-                            obvaultdata.mdFiles[basename].push({ path: getRelativePath(suppliedPath, file), data: textData });
+                            obvaultdata.mdFiles[basename].push({ path: getRelativePath(suppliedPath, file), data: textData, date: fs.statSync(file).birthtime });
                         } else {
-                            obvaultdata.mdFiles[basename] = [{ path: getRelativePath(suppliedPath, file), data: textData }];
+                            obvaultdata.mdFiles[basename] = [{ path: getRelativePath(suppliedPath, file), data: textData, date: fs.statSync(file).birthtime }];
                         }
                     }
                 }

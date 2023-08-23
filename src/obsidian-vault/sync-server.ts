@@ -53,6 +53,7 @@ class SyncServer {
         // 使用obvault字段记录写入历史和仓库名。
         // Set(basename:[{path,data}])
         console.log("vaultName: " + obvaultdata.obVaultName);
+        let user_name = $tw.wiki.getTiddlerText("$:/status/UserName");
         for (const mdfile_K in obvaultdata.mdFiles) {
             let md_file_arry = obvaultdata.mdFiles[mdfile_K];
             if (md_file_arry.length != 0 && md_file_arry.length == 1) {
@@ -62,6 +63,8 @@ class SyncServer {
                     new $tw.Tiddler({
                         title: title,
                         type: "text/markdown",
+                        modified: md_file_arry[0].date,
+                        modifier: user_name,
                         text: text,
                         obvault: obvaultdata.obVaultName,
                         vaulttree: "$:/" + md_file_arry[0].path.split(".")[0]
@@ -77,6 +80,8 @@ class SyncServer {
                         new $tw.Tiddler({
                             title: title,
                             type: "text/markdown",
+                            modified: md_file.date,
+                            modifier: user_name,
                             text: text,
                             obvault: obvaultdata.obVaultName,
                             vaulttree: "$:/" + md_file.path.split(".")[0]
