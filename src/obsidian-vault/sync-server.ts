@@ -12,8 +12,7 @@ class SyncServer {
             if (event.type === "tw-obsidian-add") {
                 // 其实点几次都可以，只有一次有效。
                 let data = await this.fetchData(event.param[0], event.param[1], event.param[2]);
-                console.log(data);
-                
+                // console.log(data);
                 if (data != false) {
                     this.addVault(data);
                 }
@@ -63,7 +62,8 @@ class SyncServer {
                     new $tw.Tiddler({
                         title: title,
                         type: "text/markdown",
-                        modified: md_file_arry[0].date,
+                        created: md_file_arry[0].created,
+                        modified: md_file_arry[0].modified,
                         modifier: user_name,
                         text: text,
                         obvault: obvaultdata.obVaultName,
@@ -80,7 +80,8 @@ class SyncServer {
                         new $tw.Tiddler({
                             title: title,
                             type: "text/markdown",
-                            modified: md_file.date,
+                            created: md_file.created,
+                            modified: md_file.modified,
                             modifier: user_name,
                             text: text,
                             obvault: obvaultdata.obVaultName,
