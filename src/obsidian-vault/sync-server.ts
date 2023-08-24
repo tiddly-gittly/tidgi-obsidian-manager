@@ -31,7 +31,7 @@ class SyncServer {
         $tw.notifier.display(`$:/state/notification/${generalNotification}`);
     }
 
-    async obmd_to_wiki(page_content: string) {
+    async obmd_to_wiki(page_content: string, bp_peer: {}) {
         // 替换掉md&图片语法为[img width=num [ 图片替代文字 | 内部链接 ]]。正则代表一类情况。
         let wiki_img_syntax = [
             // ![[内部链接]] -> [img[内部链接]]
@@ -50,20 +50,22 @@ class SyncServer {
         }
         let wiki_link_syntax = [
             // [[filename|代替文本]] -> [[代替文本|filename]]，使用负向预查来排除以"!"开头的匹配项.
-            { pattern: /\[\[(?!.*!).*?\|.*?\]\]/g, target: "[[$2|$1]]" },
+            { pattern: /\[\[(?!.*!).*?\|(.*?)\]\]/g, target: "[[$2|$1]]" },
             { pattern: /\[\[(?!.*!).*?\]\]/g, target: "[[$1]]" }
         ]
         for (const index in wiki_link_syntax) {
             const element = wiki_link_syntax[index];
+            const array = [...page_content.matchAll(element.pattern)];
+            // let filename = element.pattern.exec()[0];
+            console.log(array);
+            
             var page_content = page_content.replace(element.pattern, element.target);
         }
         return page_content
     }
 
-    async reLink(target: string) {
-    }
 
-    async addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles }) {
+    async addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles, bp_peer }) {
         // 使用obvault字段记录写入历史和仓库名。
         // Set(basename:[{path,data}])
         console.log("vaultName: " + obvaultdata.obVaultName);
@@ -71,7 +73,7 @@ class SyncServer {
         for (const mdfile_K in obvaultdata.mdFiles) {
             let md_file_arry = obvaultdata.mdFiles[mdfile_K];
             if (md_file_arry.length != 0 && md_file_arry.length == 1) {
-                let text = await this.obmd_to_wiki(md_file_arry[0].data);
+                let text = await this.obmd_to_wiki(md_file_arry[0].data, obvaultdata.bp_peer);
                 let title = mdfile_K.split(".")[0];
                 $tw.wiki.addTiddler(
                     new $tw.Tiddler({
@@ -89,7 +91,7 @@ class SyncServer {
                 // 同文件名不同路径，title需要相对路径
                 for (const pf in md_file_arry) {
                     let md_file = md_file_arry[pf];
-                    let text = await this.obmd_to_wiki(md_file.data);
+                    let text = await this.obmd_to_wiki(md_file.data, obvaultdata.bp_peer);
                     let title = md_file.path.split(".")[0];
                     $tw.wiki.addTiddler(
                         new $tw.Tiddler({

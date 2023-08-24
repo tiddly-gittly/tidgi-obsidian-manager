@@ -72,13 +72,18 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
         var readFilesFormList = function (ListfilesPath, regText) {
             var textData,
                 folderName = suppliedPath.split('/').pop() || "-", // C:/Users/Documents/vault
-                obvaultdata = { obVaultName: folderName, mdFiles: {}, imgFiles: {} },
+                obvaultdata = { obVaultName: folderName, mdFiles: {}, imgFiles: {}, bp_peer: {} },
                 basename,
                 extension,
                 regMdFileText = regText || '';
             ListfilesPath.forEach(file => {
                 basename = path.basename(file);
                 extension = path.extname(basename);
+                if (obvaultdata.bp_peer[basename]) {
+                    obvaultdata.bp_peer[basename].push(getRelativePath(suppliedPath, file));
+                } else {
+                    obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, file)];
+                }
                 // Set(basename:[{path,data}])
                 if (['.jpg', '.jpeg', '.png'].indexOf(extension) !== -1) {
                     if (obvaultdata.imgFiles[basename]) {
