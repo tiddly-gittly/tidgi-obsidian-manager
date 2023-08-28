@@ -2,45 +2,70 @@ const fs = require('fs');
 
 const tData = fs.readFileSync('./pyTestWIki/雏菊.md', 'utf8');
 const bp_peer = {
-    "文件名.md": ["path"],
-    "选择透过性.md": ["000000"],
-    "细胞膜.md": ["1111111"]
+    // 最简链接，链接一般为最简形式，仅含有文件名，需要替换为对应的相对路径。[[filename]] [[filename|代替文本]]
+    "filename.md": ["path"],
+    "选择透过性.md": ["%:/vault/元素/选择透过性"],
+    "细胞膜.md": ["%:/vault/元素/细胞膜"],
+    // 相对链接，链接一般为特称，带有路径分隔符，但排除url。直接使用不用替换。[[元素/追问深度]] [[元素/追问深度|代替文本]]
+    "追问深度.md": ["%:/vault/元素/追问深度", "%:/vault/特殊/追问深度"]
+    // url链接，仅url链接。[[filename]] [[filename|代替文本]]
 }
-
-// 1. 从一个文件中取出[[]]链接，变成链接列表。
-// 2. 从列表中取出一个链接语法在从中取出文件名 处理成 key。
-// 3. bp_peerp[key] 的唯一元素作为替换路径字符串。
-// 4. 匹配 key , 并替换为路径字符串。
 
 /**
- * 
+ * 输入任意obmd[[]]链接：[[元素/追问深度]] [[元素/追问深度|代替文本]]  [[filename]] [[filename|代替文本]] 
  * @param {string} text 源文本
- * @param {function} callback 给定(link_str, content_arr, text)自定义单个匹配结果link_str的处理方式
- * @returns 处理结果
+ * @returns [[代替文本|%:vault/path/name]]
  */
-function link_syntax(text, callback) {
-    // [[filename|代替文本]] -> [[代替文本|filename]]
+function link_syntax(text) {
     const link = { pattern: /(?<!!)\[\[(.*?)\]\]/g, target: "[[$1]]" };
     const link_array = [...text.matchAll(link.pattern)];
+    console.log(link_array);
     for (const item in link_array) {
         const content = link_array[item][1]; // $1
-        const link_str = link_array[item][0];
-        const content_arr = content.split('|'); // filename|filename|filename分割数组
-        var text = callback(link_str, content_arr, text);
+        const link_str = link_array[item][0]; // [[$1]]
+        const content_arr = content.split('|'); // a|b -> [a, b]; a -> [a]
+        const file_link = content_arr[0];
+        if (content_arr.length > 1) {
+            // [[url|代替文本]] -> [[代替文本|url]]
+            if (isUrl(file_link)) {
+                var text = text.replace(link_str, "[[" + content_arr[1] + '|' + content_arr[0] + "]]");
+            }
+            // [[相对链接|代替文本（文件名）]] -> [[代替文本（文件名）| 相对链接]]
+            if (!(isUrl(file_link)) && file_link.includes('/')) {
+                var text = text.replace(link_str, "[[" + content_arr[1] + '|' + content_arr[0] + "]]");
+            }
+            // [[最简链接|代替文本（文件名）]] -> [[代替文本（文件名）| 对应相对路径]]
+            let fname = file_link + ".md";
+            if (fname in bp_peer) {
+                let pathf = bp_peer[fname][0];
+                if (pathf) {
+                    var text = text.replace(link_str, "[[" + content_arr[1] + '|' + pathf + "]]");
+                }
+            }
+        }
+        if (content_arr.length = 1) {
+            // [[filename]] filename 为 最简链接、url、相对链接
+            if (!(isUrl(file_link)) && file_link.includes('/')) {
+                var text = text.replace(link_str, "[[" + content_arr[0].split('/').slice(-1) + '|' + content_arr[0] + "]]");
+            }
+            let fname = file_link + ".md";
+            if (fname in bp_peer) {
+                let pathf = bp_peer[fname][0];
+                if (pathf) {
+                    var text = text.replace(link_str, "[[" + content_arr[0] + '|' + pathf + "]]");
+                }
+            }
+        }
+
     }
     return text
 }
 
-var result = link_syntax(tData, (link_str, content_arr, text) => {
-    // [[filename|代替文本]] (content_arr: [filename, 代替文本]) -> [[代替文本|filename]]，并使用path替换掉filenam。
-    let fname = content_arr[0] + ".md";
-    if (typeof (bp_peer[fname]) !== 'undefined') {
-        console.log(bp_peer[fname]);
-        var pfname = bp_peer[fname][0];
-        if (pfname) {
-            text =  text.replace(link_str, pfname);
-        }
-    }
-    return text
-})
+function isUrl(str) {
+    var v = new RegExp('^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
+    return v.test(str);
+}
+
+
+var result = link_syntax(tData);
 console.log(result);

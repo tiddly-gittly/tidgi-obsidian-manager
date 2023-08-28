@@ -1,4 +1,4 @@
-import { obmd_to_wiki } from "./wiki_syntax_adapter";
+import { convert } from "../syntax/index";
 import { tm_notify } from "./notify";
 
 async function addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles, bp_peer }) {
@@ -9,7 +9,7 @@ async function addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles, b
     for (const mdfile_K in obvaultdata.mdFiles) {
         let md_file_arry = obvaultdata.mdFiles[mdfile_K];
         if (md_file_arry.length != 0 && md_file_arry.length == 1) {
-            let text = await obmd_to_wiki(md_file_arry[0].data, obvaultdata.bp_peer);
+            let text = await convert(md_file_arry[0].data, obvaultdata.bp_peer);
             let title = mdfile_K.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
@@ -27,7 +27,7 @@ async function addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles, b
             // 同文件名不同路径，title需要相对路径
             for (const pf in md_file_arry) {
                 let md_file = md_file_arry[pf];
-                let text = await obmd_to_wiki(md_file.data, obvaultdata.bp_peer);
+                let text = await convert(md_file.data, obvaultdata.bp_peer);
                 let title = md_file.path.split(".")[0];
                 $tw.wiki.addTiddler(
                     new $tw.Tiddler({
