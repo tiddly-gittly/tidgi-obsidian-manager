@@ -1,8 +1,9 @@
 import { IChangedTiddlers } from 'tiddlywiki';
 import { widget as Widget } from '$:/core/modules/widgets/widget.js';
-import { SyncServer } from './sync-server'
+import { ObvaultServer } from './obvault-server';
+import { tm_notify } from "./utils/notify";
 
-class ObMainWidget extends Widget {
+class ObVaultWidget extends Widget {
   refresh(_changedTiddlers: IChangedTiddlers) {
     return false;
   }
@@ -11,7 +12,7 @@ class ObMainWidget extends Widget {
     this.parentDomNode = parent;
     this.execute();
     // 如何在这里使用CSS呢？
-    const bgsm = new SyncServer();
+    const obvserver = new ObvaultServer();
 
     const containerElement = document.createElement('div');
     containerElement.innerHTML = `
@@ -36,12 +37,14 @@ class ObMainWidget extends Widget {
 
 
     addButton.onclick = function () {
-      if (inputBox.value.length == 0) {
-        console.log("输入为空！");
-        bgsm.tm_notify("addVault", "输入为空！");
-        // inputBox.value = "C:/Users/Snowy/Documents/GitHub/Neural-Networks";
+      if (inputBox.value.length !== 0) {
+        $tw.rootWidget.dispatchEvent({
+          type: 'tw-obsidian-add',
+          param: [inputBox.value, regBox.value, ignoreBox.value]
+        });
       } else {
-        $tw.rootWidget.dispatchEvent({ type: 'tw-obsidian-add', param: [inputBox.value, regBox.value, ignoreBox.value] })
+        console.log("输入为空！");
+        tm_notify("addVault", "输入为空！");
       }
     }
 
@@ -51,4 +54,4 @@ class ObMainWidget extends Widget {
   }
 }
 
-exports.obm = ObMainWidget;
+exports.obm = ObVaultWidget;
