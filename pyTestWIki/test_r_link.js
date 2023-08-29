@@ -1,8 +1,19 @@
-function isUrl(str) {
-    var v = new RegExp('^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
-    return v.test(str);
+const fs = require('fs');
+
+const tData = fs.readFileSync('./pyTestWIki/雏菊.md', 'utf8');
+const bp_peer = {
+    // 最简链接，链接一般为最简形式，仅含有文件名，需要替换为对应的相对路径。[[filename]] [[filename|代替文本]]
+    "filename.md": ["path/filename"],
+    "选择透过性.md": ["元素/选择透过性"],
+    "细胞膜.md": ["元素/细胞膜"],
+    // 相对链接，链接一般为特称，带有路径分隔符，但排除url。直接使用不用替换。[[元素/追问深度]] [[元素/追问深度|代替文本]]
+    "追问深度.md": ["元素/追问深度", "特殊/追问深度"],
+    "稀缺性原理.md": ["元素/稀缺性原理.md"],
+    "空白.md": ["元素/空白.md"],
+    // url链接，仅url链接。[[filename]] [[filename|代替文本]]
 }
 
+// [超链接显示名](超链接地址 "超链接title")，这种可以不用转换，因为都支持。可能因为文件名更改需要转换地址。
 
 /**
  * 输入任意obmd[[]]链接：[[元素/追问深度]] [[元素/追问深度|代替文本]]  [[filename]] [[filename|代替文本]] 
@@ -13,6 +24,7 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
     const ob_link = { pattern: /(?<!!)\[\[(.*?)\]\]/g, target: "[[$1]]" };
     const md_link = { pattern: /(?<!!)\[(.*?)\]\((.*?)\)/g, target: "[[$1]]" };
     const link_array = [...page_content.matchAll(ob_link.pattern)];
+    console.log(link_array);
     for (const item in link_array) {
         const content = link_array[item][1]; // $1
         const link_str = link_array[item][0]; // [[$1]]
@@ -60,66 +72,11 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
     return page_content
 }
 
-
-function img_wiki_syntax(page_content: string) {
-    page_content = page_content.replace(/\!\[\[(.*?)\]\]/g, (match, p1) => {
-        const content_arr = p1.split('|');
-        const ext = content_arr[0].split('.').slice(-1);
-        const defext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
-        if (defext.indexOf(ext)) {
-            // 是图片类型，有位于尾部的大小参数。
-            // [img width=100 [内部链接]]
-            if (content_arr.length === 1) {
-                return '[img ' + '[' + content_arr[0] + ']]';
-            }
-            if (content_arr.length > 1) {
-                let size = content_arr.slice(-1)[0] * 1;
-                if (typeof size === 'number') {
-                    return '[img width=' + size + ' [' + content_arr[0] + ']]';
-                }
-            }
-        } else {
-            // 非图片附件类型。
-            return '{{' + p1 + '}}'
-        }
-    });
-
-
-    // ![AltText|100x100](https://url/to/image.png) url、内部链接
-    page_content = page_content.replace(/\!\[(.*?)\]\((.*?)\)/g, (match, p1, p2) => {
-        const content_arr = p1.split('|');
-        const link = p2;
-        const ext = link.split('.').slice(-1);
-        const defext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'ico'];
-        if (defext.indexOf(ext)) {
-            // [img [Motovun Jack.jpg]]
-            if (content_arr.length === 0 || content_arr[0] === '') {
-                return '[img ' + '[' + link + ']]';
-            }
-            if (content_arr.length === 1) {
-                return '[img ' + '[' + content_arr[0] + '|' + link + ']]';
-            }
-            // ![AltText|100x100](https://url/to/image.png)
-            // [img width=32 [Motovun Jack|Motovun Jack.jpg]]
-            if (content_arr.length > 1) {
-                let size = content_arr.slice(-1)[0].split('x')[0] * 1;
-                if (typeof size === 'number') {
-                    return '[img width=' + size + ' [' + content_arr[0] + '|' + link + ']]';
-                }
-            }
-        } else {
-            return match
-        }
-    });
-
-    return page_content
+function isUrl(str) {
+    var v = new RegExp('^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
+    return v.test(str);
 }
 
 
-async function convert(page_content, bp_peer: {}, vaultname) {
-    page_content = img_wiki_syntax(page_content);
-    page_content = links_wiki_syntax(page_content, bp_peer, vaultname);
-    return page_content;
-}
-
-export { convert };
+var result = links_wiki_syntax(tData, bp_peer, "N");
+console.log(result);

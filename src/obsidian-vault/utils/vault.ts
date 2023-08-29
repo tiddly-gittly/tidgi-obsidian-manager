@@ -4,41 +4,42 @@ import { tm_notify } from "./notify";
 async function addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles, bp_peer }) {
     // 使用obvault字段记录写入历史和仓库名。
     // Set(basename:[{path,data}])
+    // λ:/vault/path/name
     console.log("vaultName: " + obvaultdata.obVaultName);
     let user_name = $tw.wiki.getTiddlerText("$:/status/UserName");
     for (const mdfile_K in obvaultdata.mdFiles) {
         let md_file_arry = obvaultdata.mdFiles[mdfile_K];
         if (md_file_arry.length != 0 && md_file_arry.length == 1) {
-            let text = await convert(md_file_arry[0].data, obvaultdata.bp_peer);
-            let title = mdfile_K.split(".")[0];
+            let text = await convert(md_file_arry[0].data, obvaultdata.bp_peer, obvaultdata.obVaultName);
+            let title = 'λ:/' + obvaultdata.obVaultName + '/' + md_file_arry[0].path.split(".")[0];
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
                     title: title,
                     type: "text/markdown",
+                    caption: mdfile_K.split(".")[0],
                     created: md_file_arry[0].created,
                     modified: md_file_arry[0].modified,
                     modifier: user_name,
                     text: text,
-                    obvault: obvaultdata.obVaultName,
-                    vaulttree: "$:/" + md_file_arry[0].path.split(".")[0]
+                    obvault: obvaultdata.obVaultName
                 }));
             console.log("创建条目：" + title);
         } else if (md_file_arry.length > 1) {
             // 同文件名不同路径，title需要相对路径
             for (const pf in md_file_arry) {
                 let md_file = md_file_arry[pf];
-                let text = await convert(md_file.data, obvaultdata.bp_peer);
-                let title = md_file.path.split(".")[0];
+                let text = await convert(md_file.data, obvaultdata.bp_peer, obvaultdata.obVaultName);
+                let title = 'λ:/' + obvaultdata.obVaultName + '/' + md_file.path.split(".")[0];
                 $tw.wiki.addTiddler(
                     new $tw.Tiddler({
                         title: title,
                         type: "text/markdown",
+                        caption: md_file.path.split(".")[0].split('/').slice(-1),
                         created: md_file.created,
                         modified: md_file.modified,
                         modifier: user_name,
                         text: text,
-                        obvault: obvaultdata.obVaultName,
-                        vaulttree: "$:/" + md_file.path.split(".")[0]
+                        obvault: obvaultdata.obVaultName
                     }));
                 console.log("创建同名异径条目：" + title);
             }

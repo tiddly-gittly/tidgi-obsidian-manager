@@ -85,7 +85,8 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                     obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, file)];
                 }
                 // Set(basename:[{path,data}])
-                if (['.jpg', '.jpeg', '.png'].indexOf(extension) !== -1) {
+                const defext = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
+                if (defext.indexOf(extension) !== -1) {
                     if (obvaultdata.imgFiles[basename]) {
                         obvaultdata.imgFiles[basename].push({ path: getRelativePath(suppliedPath, file), data: fs.readFileSync(file).toString('base64') })
                     } else {

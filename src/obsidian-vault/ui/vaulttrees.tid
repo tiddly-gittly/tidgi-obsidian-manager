@@ -3,66 +3,10 @@ tags:$:/tags/SideBar
 caption: VaultTrees
 
 
-
-\procedure leaf-node(prefix,chunk)
-\whitespace trim
-<li>
-<$list filter="[<chunk>is[shadow]] [<chunk>is[tiddler]]" variable="full-title">
-<!-- $:/bb/概念网络、$:/概念网络 都会链接到概念网络，而不是：bb/概念网络、概念网络 -->
-<span>{{$:/core/images/file}}</span>&#32;<$link to=<<full-title>>><$text text=<<chunk>>/></$link>
-</$list>
-</li>
-\end
-
-\procedure branch-node(prefix,chunk,separator: "/",vaultname)
-\whitespace trim
-<li>
-<$set name="reveal-state" value={{{ [[$:/state/tree/]addsuffix<prefix>addsuffix<chunk>] }}}>
-<$reveal type="nomatch" stateTitle=<<reveal-state>> text="show">
-<$button setTitle=<<reveal-state>> setTo="show" class="tc-btn-invisible">
-{{$:/core/images/folder}}&#32;<$text text=<<chunk>>/>
-</$button>
-</$reveal>
-<$reveal type="match" stateTitle=<<reveal-state>> text="show">
-<$button setTitle=<<reveal-state>> setTo="hide" class="tc-btn-invisible">
-{{$:/core/images/folder}}&#32;<$text text=<<chunk>>/>
-</$button>
-</$reveal>
-&#32;
-<span>(<$count filter="[field:obvault<vaultname>get[vaulttree]removeprefix<prefix>removeprefix<chunk>] -[<prefix>addsuffix<chunk>]"/>)</span>
-<$reveal type="match" stateTitle=<<reveal-state>> text="show">
-<$macrocall $name="tree-node" prefix={{{ [<prefix>addsuffix<chunk>] }}} separator=<<separator>> vaultname=<<vaultname>>/>
-</$reveal>
-</$set>
-</li>
-\end
-
-\procedure tree-node(prefix,separator: "/",vaultname)
-\whitespace trim
-<ol>
-<$list filter="[field:obvault<vaultname>get[vaulttree]removeprefix<prefix>splitbefore<separator>sort[]!suffix<separator>]" variable="chunk">
-<$macrocall $name="leaf-node" prefix=<<prefix>> chunk=<<chunk>> separator=<<separator>>/>
-</$list>
-<$list filter="[field:obvault<vaultname>get[vaulttree]removeprefix<prefix>splitbefore<separator>sort[]suffix<separator>]" variable="chunk">
-<$macrocall $name="branch-node" prefix=<<prefix>> chunk=<<chunk>> separator=<<separator>> vaultname=<<vaultname>>/>
-</$list>
-</ol>
-\end
-
-\procedure tree(prefix: "$:/",separator: "/")
-\whitespace trim
-<div class="tc-tree">
+<div class="tc-tree-obv">
 <span><center><p>Obsidian Vault<sup><$link to="$:/plugins/whitefall/obsidian-vault/ui/Panel">p</$link></sup>&nbsp;文件列表</p></center></span>
-<$list filter="[get[obvault]unique[]]">
-<span><strong><$text text=<<currentTiddler>>/></strong></span>
-<div>
-<$macrocall $name="tree-node" vaultname=<<currentTiddler>> prefix=<<prefix>> separator=<<separator>>/>
+<<tree prefix:"λ:/">>
 </div>
-</$list>
-</div>
-\end
-
-<<tree>>
 
 <!-- 
 [get[obvault]unique[]]
