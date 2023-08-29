@@ -3,18 +3,18 @@ const fs = require('fs');
 const tData = fs.readFileSync('./pyTestWIki/雏菊.md', 'utf8');
 const bp_peer = {
     // 最简链接，链接一般为最简形式，仅含有文件名，需要替换为对应的相对路径。[[filename]] [[filename|代替文本]]
-    "filename.md": ["path"],
-    "选择透过性.md": ["%:/vault/元素/选择透过性"],
-    "细胞膜.md": ["%:/vault/元素/细胞膜"],
+    "filename.md": ["λ:/path/filename"],
+    "选择透过性.md": ["λ:/vault/元素/选择透过性"],
+    "细胞膜.md": ["λ:/vault/元素/细胞膜"],
     // 相对链接，链接一般为特称，带有路径分隔符，但排除url。直接使用不用替换。[[元素/追问深度]] [[元素/追问深度|代替文本]]
-    "追问深度.md": ["%:/vault/元素/追问深度", "%:/vault/特殊/追问深度"]
+    "追问深度.md": ["λ:/vault/元素/追问深度", "β:/vault/特殊/追问深度"]
     // url链接，仅url链接。[[filename]] [[filename|代替文本]]
 }
 
 /**
  * 输入任意obmd[[]]链接：[[元素/追问深度]] [[元素/追问深度|代替文本]]  [[filename]] [[filename|代替文本]] 
  * @param {string} text 源文本
- * @returns [[代替文本|%:vault/path/name]]
+ * @returns [[代替文本|λ:/vault/path/name]]
  */
 function link_syntax(text) {
     const link = { pattern: /(?<!!)\[\[(.*?)\]\]/g, target: "[[$1]]" };
