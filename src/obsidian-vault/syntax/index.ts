@@ -37,20 +37,18 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
                 // 没有重复，一对一。
                 if (pathf_arr.length === 1) {
                     let pathf = pathf_arr[0].replace(/.md$/, "");
-                    console.log(pathf);
-                    
                     if (pathf) {
                         var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
                     }
                 }
                 // 多个文件，最简链接对应文件位于根下。
                 if (pathf_arr.length > 1) {
-                    pathf_arr.forEach(pathf => {
-                        pathf = pathf.replace(/.md$/, "");
+                    for (const index in pathf_arr) {
+                        let pathf = pathf_arr[index].replace(/.md$/, "");
                         if (!pathf.includes('/')) {
                             var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
                         }
-                    });
+                    }
                 }
             }
         }
@@ -76,12 +74,12 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
                 }
                 // 多个文件，最简链接对应文件位于根下。
                 if (pathf_arr.length > 1) {
-                    pathf_arr.forEach(pathf => {
-                        pathf = pathf.replace(/.md$/, "");
+                    for (const index in pathf_arr) {
+                        let pathf = pathf[index].replace(/.md$/, "");
                         if (!pathf.includes('/')) {
                             var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
                         }
-                    });
+                    }
                 }
             }
         }
@@ -145,7 +143,10 @@ function img_wiki_syntax(page_content: string) {
 }
 
 
-async function convert(page_content, bp_peer: {}, vaultname) {
+async function convert(page_content: string, bp_peer: {}, vaultname: string) {
+    if (typeof page_content === 'undefined' || page_content.length === 0) {
+        return page_content;
+    }
     page_content = img_wiki_syntax(page_content);
     page_content = links_wiki_syntax(page_content, bp_peer, vaultname);
     return page_content;
