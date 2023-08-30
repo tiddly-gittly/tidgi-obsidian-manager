@@ -4,7 +4,7 @@
   "author": "whitefall",
   "description": "Obsidian Vault发布工具 by NodeJS TiddlyWiki",
   "plugin-type": "plugin",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "dependents": ["$:/plugins/tiddlywiki/markdown"],
   "core-version": ">=5.3.0",
   "list": "ui/Panel readme"
