@@ -10,7 +10,7 @@
         "title": "$:/plugins/whitefall/obsidian-vault",
         "type": "application/json",
         "version": "0.0.11",
-        "Modern.TiddlyDev#SHA256-Hashed": "ca77978d5af32a033791f866dea658a797e8934e62a7e13d2a40bc9214117d7b",
+        "Modern.TiddlyDev#SHA256-Hashed": "5b97a7d1cb2940d26fb4154d134f1753ece9ad0597bc45dda0b1484d214f5bec",
         "readme": "! tw5-obsidian-vault\n\nTidGi ≥ v0.8.0 需要在工作区设置 博客和服务器设置中 启用 HTTP API 并 关闭 凭证鉴权选项。\n\n# 在文本框中输入ob库文件夹路径，点击Add按钮。\n# 你可以使用purge按钮清空添加的内容。\n# 你可以在开发者模式-控制台中观看到正在进行的操作。\n\n!! ignore表达式\n\n默认表达式：留空即默认忽略 \".git\", \".obsidian\", \".stfolder\", \".stversions\" 四个文件夹。\n\n附加表达式：可以在ignore输入框输入`+文件夹名称, 文件夹名称, ...`，注意首字母必须为`+`，忽略更多文件夹。注意是英文逗号。\n\n自定义表达式：若首字母非`+`字符，则为自定义忽略文件夹。\n\n!! 过滤文件表达式\n\n使用正则表达式匹配文件中是否含有匹配内容，如“def:pub”，若文件夹中有此表达式则检出写入wiki中。\n\n\n\n项目介绍及仓库地址：https://github.com/tiddly-gittly/tidgi-obsidian-manager",
         "requires-reload": "yes"
     }
