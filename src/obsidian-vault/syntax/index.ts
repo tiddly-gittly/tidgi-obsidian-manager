@@ -7,6 +7,8 @@ function isUrl(str) {
 /**
  * 输入任意obmd[[]]链接：[[元素/追问深度]] [[元素/追问深度|代替文本]]  [[filename]] [[filename|代替文本]] 
  * @param {string} page_content 源文本
+ * @param {{}} bp_peer 链接-路径文件名 peer，按文件名对位于不同路径的同名文件进行分类，通过链接给定线索检索路径文件名。
+ * @param {string} vaultname 仓库名
  * @returns [[代替文本|λ:/vault/path/name]]
  */
 function links_wiki_syntax(page_content, bp_peer, vaultname) {
@@ -30,10 +32,24 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
             // [[最简链接(追问深度)]] -> [[追问深度|λ:/vault/元素/追问深度]]
             let fname = file_link + ".md";
             if (fname in bp_peer) {
-                let pathf = bp_peer[fname][0];
-                pathf = pathf.replace(/.md$/, "");
-                if (pathf) {
-                    var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
+                let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
+                // 没有重复，一对一。
+                if (pathf_arr.length === 1) {
+                    pathf = pathf_arr[0].replace(/.md$/, "");
+                    console.log(pathf);
+                    
+                    if (pathf) {
+                        var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
+                    }
+                }
+                // 多个文件，最简链接对应文件位于根下。
+                if (pathf_arr.length > 1) {
+                    pathf_arr.forEach(pathf => {
+                        pathf = pathf.replace(/.md$/, "");
+                        if (!pathf.includes('/')) {
+                            var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
+                        }
+                    });
                 }
             }
         }
@@ -49,10 +65,22 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
             // [[最简链接|代替文本（文件名）]] -> [[代替文本（文件名）| 对应相对路径]]
             let fname = file_link + ".md";
             if (fname in bp_peer) {
-                let pathf = bp_peer[fname][0];
-                if (pathf) {
-                    pathf = pathf.replace(/.md$/, "");
-                    var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
+                let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
+                // 没有重复，一对一。
+                if (pathf_arr.length === 1) {
+                    pathf = pathf_arr[0].replace(/.md$/, "");
+                    if (pathf) {
+                        var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
+                    }
+                }
+                // 多个文件，最简链接对应文件位于根下。
+                if (pathf_arr.length > 1) {
+                    pathf_arr.forEach(pathf => {
+                        pathf = pathf.replace(/.md$/, "");
+                        if (!pathf.includes('/')) {
+                            var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
+                        }
+                    });
                 }
             }
         }
