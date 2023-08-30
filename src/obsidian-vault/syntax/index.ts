@@ -20,6 +20,7 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
         const link_str = link_array[item][0]; // [[$1]]
         const content_arr = content.split('|'); // a|b -> [a, b]; a -> [a]
         const file_link = content_arr[0];
+        // 链接中是可以存在.md后缀的。目前暂时不支持了吧，我用不到。
         if (content_arr.length === 1) {
             // [[filename]] filename 为 最简链接、url、相对链接
             if (isUrl(file_link)) {
@@ -35,7 +36,7 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
                 let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
                 // 没有重复，一对一。
                 if (pathf_arr.length === 1) {
-                    pathf = pathf_arr[0].replace(/.md$/, "");
+                    let pathf = pathf_arr[0].replace(/.md$/, "");
                     console.log(pathf);
                     
                     if (pathf) {
@@ -68,7 +69,7 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
                 let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
                 // 没有重复，一对一。
                 if (pathf_arr.length === 1) {
-                    pathf = pathf_arr[0].replace(/.md$/, "");
+                    let pathf = pathf_arr[0].replace(/.md$/, "");
                     if (pathf) {
                         var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
                     }
