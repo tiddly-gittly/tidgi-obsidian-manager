@@ -35,7 +35,7 @@
     "@modern-js/tsconfig": "^2.32.1",
     "@types/node": "^20.5.7",
     "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
+    "lint-staged": "^14.0.0",
     "postcss": "^8.4.29",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
