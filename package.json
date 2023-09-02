@@ -31,9 +31,9 @@
     ]
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "^2.32.1",
-    "@modern-js/tsconfig": "^2.32.1",
-    "@types/node": "^20.5.7",
+    "@modern-js/eslint-config": "^2.33.1",
+    "@modern-js/tsconfig": "^2.33.1",
+    "@types/node": "^20.5.8",
     "husky": "^8.0.3",
     "lint-staged": "^13.3.0",
     "postcss": "^8.4.29",
