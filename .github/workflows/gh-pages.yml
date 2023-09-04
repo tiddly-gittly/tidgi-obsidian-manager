@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - main
+    paths:
+      - "src/**"
+      - "wiki/**"
+      - "package.json"
 
 jobs:
   deploy:
