@@ -1,17 +1,21 @@
-import { tm_notify } from "./utils/notify";
-import { addVault, purgeVault } from "./utils/vault";
 import { fetchData } from "./utils/request";
+import { addVault, purgeVault } from "./utils/vault";
+import { tm_notify } from "./utils/notify";
 
 class ObvaultServer {
 
     constructor() {
         $tw.rootWidget.addEventListener('tw-obsidian-add', async (event) => {
-            if (event.type === "tw-obsidian-add") {
+            if (event.type === "tw-obsidian-add") {    
+                console.log(event.paramObject.path);
                 // 其实点几次都可以，只有一次有效。
-                let data = await fetchData(event.param[0], event.param[1], event.param[2]);
-                // console.log(data);
-                if (data != false) {
-                    addVault(data);
+                if (event.paramObject.path !== '') {
+                    let data = await fetchData(event.paramObject.path, event.paramObject.reg, event.paramObject.ignore);
+                    // console.log(data);
+                    if (data != false) { addVault(data); }
+                } else {
+                    console.log("输入为空！");
+                    tm_notify("addVault", "输入为空！");
                 }
             }
         });

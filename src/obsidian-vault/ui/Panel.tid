@@ -1,6 +1,37 @@
 title: $:/plugins/whitefall/obsidian-vault/ui/Panel
 type: text/vnd.tiddlywiki
 tags: $:/tags/ControlPanel/SettingsTab
-caption: OBM-Panel
+caption: obvault-Panel
 
-<$obm/>
+
+<$obvault/>
+
+<table style="width: 100%;border-collapse: collapse;">
+    <tr>
+        <th>文件夹路径</th>
+    </tr>
+    <tr>
+        <td><$edit-text tiddler="$:/temp/obsidian-vault/input-box-path" size="48" type="text" tag="input" default="" placeholder="请输入路径" focus={{$:/plugins/whitefall/obsidian-vault/config/AutoFocus}} /></td>
+    </tr>
+</table>
+
+<table style="width: 100%;border-collapse: collapse;">
+  <tr>
+    <th>过滤文件</th>
+    <th>忽略文件夹</th>
+  </tr>
+  <tr>
+    <td><$edit-text tiddler="$:/temp/obsidian-vault/input-box-reg" type="text" tag="input" default="" placeholder="请输入表达式" focus={{$:/plugins/whitefall/obsidian-vault/config/AutoFocus}} /></td>
+    <td><$edit-text tiddler="$:/temp/obsidian-vault/input-box-ignore" type="text" tag="input" default="" placeholder="请输入表达式" focus={{$:/plugins/whitefall/obsidian-vault/config/AutoFocus}} /></td>
+  </tr>
+</table>
+
+
+<$set name='path' tiddler='$:/temp/obsidian-vault/input-box-path'>
+<$set name='reg' tiddler='$:/temp/obsidian-vault/input-box-reg'>
+<$set name='ignore' tiddler='$:/temp/obsidian-vault/input-box-ignore'>
+  <$button><$action-sendmessage $message="tw-obsidian-add" path=<<path>> reg=<<reg>> ignore=<<ignore>> />add</$button>
+  <$button><$action-sendmessage $message="tw-obsidian-purge" />purge</$button>
+</$set>
+</$set>
+</$set>
