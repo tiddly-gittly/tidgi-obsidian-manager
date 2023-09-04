@@ -1,6 +1,7 @@
 created: 20220426153828911
-modified: 20230618025740470
+modified: 20230904133122752
 title: $:/DefaultTiddlers
 type: text/vnd.tiddlywiki
 
+[[Import Obsidian Vault in TiddlyWiki5]]
 $:/plugins/whitefall/obsidian-vault
