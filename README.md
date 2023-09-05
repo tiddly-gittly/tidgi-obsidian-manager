@@ -19,7 +19,8 @@
 
 ## 插件要求
 
-- TiddlyWiki：core-version >= 5.3.0
+- TiddlyWiki：core-version >= 5.2.0
+- 需要太记TidGi或NodeJS版本的TiddlyWiki。
 - 若 TidGi ≥ v0.8.0 版本，需要在**工作区设置** - **博客和服务器设置**中 - 启用 **HTTP API** 并 关闭 **凭证鉴权选项**。
 - 更新笔记库，需要先点清除在点导入。（**慎重**，目前未提供单独删除某个笔记库的选项。点击purge后会全部清空。）
 
