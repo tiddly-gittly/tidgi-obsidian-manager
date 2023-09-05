@@ -1,17 +1,17 @@
 [
     {
         "author": "whitefall",
-        "core-version": ">=5.3.0",
+        "core-version": ">=5.2.0",
         "dependents": "$:/plugins/tiddlywiki/markdown",
         "description": "Obsidian Vault发布工具 by NodeJS TiddlyWiki",
-        "list": "ui/Panel readme",
+        "list": "readme ui/Panel",
         "name": "Obsidian Vault",
         "plugin-type": "plugin",
         "title": "$:/plugins/whitefall/obsidian-vault",
         "type": "application/json",
-        "version": "0.0.11",
-        "Modern.TiddlyDev#SHA256-Hashed": "9a59c2b89dd10c94dfb02ff908a88985c3da12c37a00327b09defb8c607dfc0e",
-        "readme": "! tw5-obsidian-vault\n\n使用方式请查看：[[参考手册|https://tiddly-gittly.github.io/tidgi-obsidian-manager/]]",
+        "version": "0.0.12",
+        "Modern.TiddlyDev#SHA256-Hashed": "0ef3624cd807e2ead6d221ce065917ae04192f6fd843c6257f4373ebe59142fc",
+        "readme": "! tw5-obsidian-vault\n\n使用方式请查看：[[参考手册|https://tiddly-gittly.github.io/tidgi-obsidian-manager/]]\n\nGithub Repo: https://github.com/tiddly-gittly/tidgi-obsidian-manager",
         "requires-reload": "yes"
     }
 ]
