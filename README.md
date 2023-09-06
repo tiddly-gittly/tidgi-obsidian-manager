@@ -36,3 +36,18 @@
 ~~这是加删除线的文字~~
 <u>这是加下划线的文字</u>
 ```
+
+#### 硬换行
+
+> https://talk.tiddlywiki.org/t/hard-linebreaks-while-entering-lists-in-wikitext/2494/2
+> https://spec.commonmark.org/0.30/#hard-line-breaks
+
+```
+两种硬换行符：<space><space><newLine>或者<backslash>
+例如：
+
+这是空格换行符  (注意这里有两个空格和一个\n)
+这是<backslash>换行符\  (注意这里有一个<backslash>和一个\n)
+
+都可以达到同样的硬换行效果。
+```
