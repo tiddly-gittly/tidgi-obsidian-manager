@@ -5,26 +5,27 @@ caption: obvault-Panel
 
 
 <$obvault/>
-
-<table style="width: 100%;border-collapse: collapse;">
+<div class="obvault-control-panel">
+<table>
     <tr>
-        <th>文件夹路径</th>
+        <th>Vault 文件夹路径</th>
     </tr>
     <tr>
         <td><$edit-text tiddler="$:/temp/obsidian-vault/input-box-path" size="48" type="text" tag="input" default="" placeholder="请输入路径" focus={{$:/plugins/whitefall/obsidian-vault/config/AutoFocus}} /></td>
     </tr>
 </table>
 
-<table style="width: 100%;border-collapse: collapse;">
+<table>
   <tr>
-    <th>过滤文件</th>
-    <th>忽略文件夹</th>
+    <th>选中文件</th>
+    <th>排除文件夹</th>
   </tr>
   <tr>
     <td><$edit-text tiddler="$:/temp/obsidian-vault/input-box-reg" type="text" tag="input" default="" placeholder="请输入表达式" focus={{$:/plugins/whitefall/obsidian-vault/config/AutoFocus}} /></td>
     <td><$edit-text tiddler="$:/temp/obsidian-vault/input-box-ignore" type="text" tag="input" default="" placeholder="请输入表达式" focus={{$:/plugins/whitefall/obsidian-vault/config/AutoFocus}} /></td>
   </tr>
 </table>
+</div>
 
 
 <$set name='path' tiddler='$:/temp/obsidian-vault/input-box-path'>

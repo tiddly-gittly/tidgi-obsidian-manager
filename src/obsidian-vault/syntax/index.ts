@@ -3,6 +3,31 @@ function isUrl(str) {
     return v.test(str);
 }
 
+// 唯一或根 链接
+function unique_or_root_link(file_link, bp_peer) {
+    let fname = file_link + ".md";
+    if (fname in bp_peer) {
+        let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
+        // 没有重复，一对一。
+        if (pathf_arr.length === 1) {
+            let pathf = pathf_arr[0].replace(/.md$/, "");
+            if (pathf) {
+                return pathf;
+            }
+        }
+        // 多个文件，最简链接对应文件位于根下，没有路径分隔符。
+        if (pathf_arr.length > 1) {
+            for (const index in pathf_arr) {
+                let pathf = pathf_arr[index].replace(/.md$/, "");
+                if (!pathf.includes('/')) {
+                    return pathf;
+                }
+            }
+        }
+    }
+    return ''
+}
+
 
 /**
  * 输入任意obmd[[]]链接：[[元素/追问深度]] [[元素/追问深度|代替文本]]  [[filename]] [[filename|代替文本]] 
@@ -31,25 +56,9 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
                 var page_content = page_content.replace(link_str, "[[" + content_arr[0].split('/').slice(-1) + '|' + 'λ:/' + vaultname + '/' + content_arr[0] + "]]");
             }
             // [[最简链接(追问深度)]] -> [[追问深度|λ:/vault/元素/追问深度]]
-            let fname = file_link + ".md";
-            if (fname in bp_peer) {
-                let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
-                // 没有重复，一对一。
-                if (pathf_arr.length === 1) {
-                    let pathf = pathf_arr[0].replace(/.md$/, "");
-                    if (pathf) {
-                        var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
-                    }
-                }
-                // 多个文件，最简链接对应文件位于根下。
-                if (pathf_arr.length > 1) {
-                    for (const index in pathf_arr) {
-                        let pathf = pathf_arr[index].replace(/.md$/, "");
-                        if (!pathf.includes('/')) {
-                            var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
-                        }
-                    }
-                }
+            let pathf = unique_or_root_link(file_link, bp_peer);
+            if (pathf !== '') {
+                var page_content = page_content.replace(link_str, "[[" + content_arr[0] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
             }
         }
         if (content_arr.length > 1) {
@@ -62,38 +71,22 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
                 var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + content_arr[0] + "]]");
             }
             // [[最简链接|代替文本（文件名）]] -> [[代替文本（文件名）| 对应相对路径]]
-            let fname = file_link + ".md";
-            if (fname in bp_peer) {
-                let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
-                // 没有重复，一对一。
-                if (pathf_arr.length === 1) {
-                    let pathf = pathf_arr[0].replace(/.md$/, "");
-                    if (pathf) {
-                        var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
-                    }
-                }
-                // 多个文件，最简链接对应文件位于根下。
-                if (pathf_arr.length > 1) {
-                    for (const index in pathf_arr) {
-                        let pathf = pathf[index].replace(/.md$/, "");
-                        if (!pathf.includes('/')) {
-                            var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
-                        }
-                    }
-                }
+            let pathf = unique_or_root_link(file_link, bp_peer);
+            if (pathf !== '') {
+                var page_content = page_content.replace(link_str, "[[" + content_arr[1] + '|' + 'λ:/' + vaultname + '/' + pathf + "]]");
             }
         }
     }
     return page_content
 }
 
-
-function img_wiki_syntax(page_content: string) {
+// Embeds ![[]]
+function embeds_wiki_syntax(page_content, bp_peer, vaultname) {
     page_content = page_content.replace(/\!\[\[(.*?)\]\]/g, (match, p1) => {
         const content_arr = p1.split('|');
         const ext = content_arr[0].split('.').slice(-1);
         const defext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
-        if (defext.indexOf(ext)) {
+        if (defext.indexOf(ext) !== -1) {
             // 是图片类型，有位于尾部的大小参数。
             // [img width=100 [内部链接]]
             if (content_arr.length === 1) {
@@ -106,7 +99,15 @@ function img_wiki_syntax(page_content: string) {
                 }
             }
         } else {
-            // 非图片附件类型。
+            // 非图片嵌入类型。
+            // 判断是否是内部MD文件。仅限非特定路径。
+            if (content_arr.length === 1) {
+                const pathf = unique_or_root_link(content_arr[0], bp_peer);
+                if (pathf !== '') {
+                    return '{{' + 'λ:/' + vaultname + '/' + pathf + '}}'
+                }
+            }
+            // 非图片类型，默认返回嵌入
             return '{{' + p1 + '}}'
         }
     });
@@ -118,7 +119,7 @@ function img_wiki_syntax(page_content: string) {
         const link = p2;
         const ext = link.split('.').slice(-1);
         const defext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'ico'];
-        if (defext.indexOf(ext)) {
+        if (defext.indexOf(ext) !== -1) {
             // [img [Motovun Jack.jpg]]
             if (content_arr.length === 0 || content_arr[0] === '') {
                 return '[img ' + '[' + link + ']]';
@@ -147,7 +148,7 @@ async function convert(page_content: string, bp_peer: {}, vaultname: string) {
     if (typeof page_content === 'undefined' || page_content.length === 0) {
         return page_content;
     }
-    page_content = img_wiki_syntax(page_content);
+    page_content = embeds_wiki_syntax(page_content, bp_peer, vaultname);
     page_content = links_wiki_syntax(page_content, bp_peer, vaultname);
     return page_content;
 }
