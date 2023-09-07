@@ -9,8 +9,8 @@
         "plugin-type": "plugin",
         "title": "$:/plugins/whitefall/obsidian-vault",
         "type": "application/json",
-        "version": "0.0.12",
-        "Modern.TiddlyDev#SHA256-Hashed": "ce511736567b807673b80114adad45d2ba5bfbb0d4f7856ba2594be6c8b0374c",
+        "version": "0.0.13",
+        "Modern.TiddlyDev#SHA256-Hashed": "71c559be158e8bab0a972e74b9a0e5d6fd6dcf778e6c9980a88a6d7ca35107f6",
         "readme": "! tw5-obsidian-vault\n\n使用方式请查看：[[参考手册|https://tiddly-gittly.github.io/tidgi-obsidian-manager/]]\n\nGithub Repo: https://github.com/tiddly-gittly/tidgi-obsidian-manager",
         "requires-reload": "yes"
     }
