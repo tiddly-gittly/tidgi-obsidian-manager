@@ -2,43 +2,43 @@ Obsidian is a Markdown-based note-taking and knowledge base app.
 
 We currently support the formats below:
 
-[img [Internal link]]
+{{λ:/Obsidian Sandbox/Formatting/Internal link}}
 
-[img [Embeds]]
+{{λ:/Obsidian Sandbox/Formatting/Embeds}}
 
-[img [Heading]]
+{{λ:/Obsidian Sandbox/Formatting/Heading}}
 
-[img [Emphasis]]
+{{λ:/Obsidian Sandbox/Formatting/Emphasis}}
 
-[img [Lists]]
+{{λ:/Obsidian Sandbox/Formatting/Lists}}
 
-[img [Images]]
+{{λ:/Obsidian Sandbox/Formatting/Images}}
 
-[img [Links]]
+{{λ:/Obsidian Sandbox/Formatting/Links}}
 
-[img [Blockquote]]
+{{λ:/Obsidian Sandbox/Formatting/Blockquote}}
 
-[img [Inline code]]
+{{λ:/Obsidian Sandbox/Formatting/Inline code}}
 
-[img [Code block]]
+{{λ:/Obsidian Sandbox/Formatting/Code block}}
 
-[img [Task]]
+{{λ:/Obsidian Sandbox/Formatting/Task}}
 
-[img [Table]]
+{{λ:/Obsidian Sandbox/Formatting/Table}}
 
-[img [Strikethrough]]
+{{λ:/Obsidian Sandbox/Formatting/Strikethrough}}
 
-[img [Highlighting]]
+{{λ:/Obsidian Sandbox/Formatting/Highlighting}}
 
-[img [Horizontal divider]]
+{{λ:/Obsidian Sandbox/Formatting/Horizontal divider}}
 
-[img [Footnote]]
+{{λ:/Obsidian Sandbox/Formatting/Footnote}}
 
-[img [Math]]
+{{λ:/Obsidian Sandbox/Formatting/Math}}
 
-[img [Comment]]
+{{λ:/Obsidian Sandbox/Formatting/Comment}}
 
-[img [Callout]]
+{{λ:/Obsidian Sandbox/Formatting/Callout}}
 
-[img [Diagram]]
+{{λ:/Obsidian Sandbox/Formatting/Diagram}}
 
