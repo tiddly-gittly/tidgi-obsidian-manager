@@ -12,6 +12,7 @@
 - [x] 支持多个仓库导入，提供转写obsidian文件系统目录树展示的功能。
 - [ ] 支持删除单个仓库。
 - [ ] 提供多库列表同步和保留修改功能，默认则与ob知识库文件同步。
+- [x] 支持obsidian风格硬换行，由tiddlywiki/markdown提供。
 
 使用说明、参考手册和预览链接：https://tiddly-gittly.github.io/tidgi-obsidian-manager/
 
@@ -36,6 +37,8 @@
 ~~这是加删除线的文字~~
 <u>这是加下划线的文字</u>
 ```
+
+支持obsidian风格硬换行格式，在插件ui/settings面板设置是否启用（默认启用）。修改设置需要刷新页面之后起效。
 
 #### 硬换行
 
