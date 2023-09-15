@@ -4,13 +4,13 @@
         "core-version": ">=5.2.0",
         "dependents": "$:/plugins/tiddlywiki/markdown",
         "description": "从 Obsidian 笔记库导入 Markdown 文件到 TiddlyWiki",
-        "list": "readme ui/Panel",
+        "list": "readme ui/Panel ui/settings",
         "name": "Obsidian Vault",
         "plugin-type": "plugin",
         "title": "$:/plugins/whitefall/obsidian-vault",
         "type": "application/json",
-        "version": "0.0.14",
-        "Modern.TiddlyDev#SHA256-Hashed": "7ee67cc59fb124405c1d2b8e2d7994620c1aaa6ffde461705278ec7c1f286dd7",
+        "version": "0.1.0",
+        "Modern.TiddlyDev#SHA256-Hashed": "e26cf0c9564b314fffc034560942252b875352d6c828007dfa2e287fa6442db9",
         "readme": "! tw5-obsidian-vault\n\n使用方式请查看：[[参考手册|https://tiddly-gittly.github.io/tidgi-obsidian-manager/]]\n\nGithub Repo: https://github.com/tiddly-gittly/tidgi-obsidian-manager",
         "requires-reload": "yes"
     }
