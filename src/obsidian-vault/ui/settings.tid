@@ -1,0 +1,5 @@
+title: $:/plugins/whitefall/obsidian-vault/ui/settings
+tags: $:/tags/ControlPanel/SettingsTab
+caption: obvault settings
+
+<$checkbox tiddler="$:/config/markdown/breaks" field="text" checked="true" unchecked="false" default="true"> [[Breaks|$:/config/markdown/breaks]], 适配obsidian风格硬换行格式, 需要刷新页面后起效。</$checkbox> 

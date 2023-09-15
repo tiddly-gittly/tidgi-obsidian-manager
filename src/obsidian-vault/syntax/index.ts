@@ -143,6 +143,11 @@ function embeds_wiki_syntax(page_content, bp_peer, vaultname) {
     return page_content
 }
 
+function bold_wiki_syntax(page_content: string) {
+    page_content = page_content.replace(/\x20*\*\*(.*?)\*\*\x20*/g, " **$1** ");
+    return page_content
+}
+
 
 async function convert(page_content: string, bp_peer: {}, vaultname: string) {
     if (typeof page_content === 'undefined' || page_content.length === 0) {
@@ -150,6 +155,7 @@ async function convert(page_content: string, bp_peer: {}, vaultname: string) {
     }
     page_content = embeds_wiki_syntax(page_content, bp_peer, vaultname);
     page_content = links_wiki_syntax(page_content, bp_peer, vaultname);
+    page_content = bold_wiki_syntax(page_content);
     return page_content;
 }
 
