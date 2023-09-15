@@ -7,11 +7,11 @@ _This will also be italic_
 _This will also be italic_
 
 ```md
-**This text will be bold**
+ **This text will be bold** 
 __This will also be bold__
 ```
 
-**This text will be bold**
+ **This text will be bold** 
 __This will also be bold__
 
 ```md

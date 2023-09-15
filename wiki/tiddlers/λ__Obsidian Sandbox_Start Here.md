@@ -6,11 +6,11 @@ Hi, welcome to Obsidian!
 
 First of all, tell me a little bit about what's your experience with note-taking apps like?
 
--> [[I have no prior experience|λ:/Obsidian Sandbox/Adventurer/No prior experience]]
+- [[I have no prior experience|λ:/Obsidian Sandbox/Adventurer/No prior experience]]
 
--> [[I’ve used note-taking apps like Evernote and OneNote|λ:/Obsidian Sandbox/Adventurer/From standard note-taking]]
+- [[I’ve used note-taking apps like Evernote and OneNote|λ:/Obsidian Sandbox/Adventurer/From standard note-taking]]
 
--> [[I have used plain-text based apps|λ:/Obsidian Sandbox/Adventurer/From plain-text note-taking]]
+- [[I have used plain-text based apps|λ:/Obsidian Sandbox/Adventurer/From plain-text note-taking]]
 
 ---
 

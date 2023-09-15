@@ -36,12 +36,12 @@ Another way to navigate the between notes is through _backlinks_. A backlink let
 
 1. Open the "Isaac Newton" note.
 1. In the right side bar, click the **Backlinks** tab.
-1. Under **Linked mentions**, click the mention in "Three laws of motion" to go to that note.
+1. Under **Linked mentions** , click the mention in "Three laws of motion" to go to that note.
 
 Another way to navigate between your notes is by using a visual representation of how your notes are connected.
 
 1. In the top-right corner of the note, click **More options** (three dots).
-1. Select **Open local graph**.
+1. Select **Open local graph** .
 1. Click any of the nodes in the graph to navigate to that note.
 
 ## Learn more

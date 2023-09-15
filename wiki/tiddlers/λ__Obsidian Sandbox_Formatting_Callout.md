@@ -42,7 +42,7 @@ To use these default styles, replace `INFO` in the examples with any of these ty
 You can define the title of the callout block, and you can also have a callout without body content.
 
 ```markdown
-> [!TIP] Callouts can have custom titles, which also supports **markdown**!
+> [!TIP] Callouts can have custom titles, which also supports **markdown** !
 ```
 
 ### Folding
