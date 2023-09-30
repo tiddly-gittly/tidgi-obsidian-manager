@@ -1,6 +1,6 @@
 import { IChangedTiddlers } from 'tiddlywiki';
 import { widget as Widget } from '$:/core/modules/widgets/widget.js';
-import { ObvaultServer } from './obvault-server';
+import { ObVaultServer } from './obvault-server';
 
 class ObVaultWidget extends Widget {
   /**
@@ -15,7 +15,7 @@ class ObVaultWidget extends Widget {
     this.parentDomNode = parent;
     this.execute();
     // 如何在这里使用CSS呢？
-    const obvserver = new ObvaultServer();
+    const obvserver = new ObVaultServer();
 
   }
 }

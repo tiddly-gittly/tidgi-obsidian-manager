@@ -36,3 +36,17 @@ caption: obvault-Panel
 </$set>
 </$set>
 </$set>
+
+<details>
+  <summary>Vault List</summary>
+  <div class="list-obvault-scroll-container">
+    <$list filter="[get[obvault]unique[]]" variable="list-obvault">
+      <div class="list-obvault-container">
+        <input type="text" value=<<list-obvault>> disabled="disabled">
+        <$button><$action-sendmessage $message="tw-obsidian-sync" obvault=<<list-obvault>> />Sync</$button>
+        <$button><$action-sendmessage $message="tw-obsidian-delete" obvault=<<list-obvault>> />Delete</$button>
+      </div>
+    </$list>
+  </div>
+  <$link to="$:/config/obsidian-vault/vault-rw-config">vault-rw-config</$link>
+</details>

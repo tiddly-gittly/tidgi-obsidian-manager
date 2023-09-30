@@ -9,3 +9,11 @@ type: text/css
 .obvault-control-panel table, .obvault-control-panel table input, .obvault-control-panel table textarea {
 	width: 100%;
 }
+
+.list-obvault-scroll-container {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    height: 100px;
+    max-height: 200px;
+    overflow-y: scroll;
+}

@@ -78,8 +78,21 @@ async function addVault(obvaultdata: { obVaultName: string, mdFiles, imgFiles, b
     tm_notify("addVault", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");
 }
 
-async function purgeVault(vaultName) {
-    let tiddler_list = $tw.wiki.filterTiddlers("[has:field[obvault]]");
+async function purgeVault(vaultName: string) {
+    console.log("purgeVault: " + vaultName);
+    if (vaultName !== '') {
+        let delete_vault = $tw.wiki.filterTiddlers(`[field:obvault[${vaultName}]]`);
+        tm_notify("purgeVault", `正在清空${vaultName}Vault`);
+        await deleteTiddler(delete_vault);
+    }
+    //默认、不指定就删除所有的。
+    if (vaultName === undefined || vaultName === '') {
+        let tiddler_list = $tw.wiki.filterTiddlers("[has:field[obvault]]");
+        await deleteTiddler(tiddler_list);
+    }
+}
+
+async function deleteTiddler(tiddler_list: []) {
     if (tiddler_list.length !== 0) {
         tiddler_list.forEach((title: string) => {
             console.log("删除条目：" + title);
