@@ -25,8 +25,8 @@ class ObVaultServer {
                 purgeVault(obVaultName);
                 await this.getAndWrite(Config[obVaultName].path, Config[obVaultName].reg, Config[obVaultName].ignore);
             } else {
-                console.log("更新失败, CONFIG_FILE为空。重新使用Add添加Vault, 将自动生成记录");
-                tm_notify("Vault-Sync", "更新失败, CONFIG_FILE为空。重新使用Add添加Vault, 将自动生成记录");
+                console.log("更新失败, CONFIG_FILE为空。重新添加Vault后, 将自动生成记录");
+                tm_notify("Vault-Sync", "更新失败, CONFIG_FILE为空。重新添加Vault后, 将自动生成记录");
             }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-delete', async (event) => {
