@@ -98,9 +98,9 @@ async function deleteTiddler(tiddler_list: []) {
             console.log("删除条目：" + title);
             $tw.wiki.deleteTiddler(title);
         });
-        tm_notify("purgeVault", "已经完全清空，请等待【文件系统同步服务】完成任务。");
+        tm_notify("purgeVault", "所有删除工作已完成, 请等待【文件系统同步服务】完成任务。");
     } else {
-        tm_notify("purgeVault", "未曾添加Obsidian仓库，写入记录为空。");
+        tm_notify("purgeVault", "未曾添加Obsidian仓库, 写入记录为空。");
     }
 }
 

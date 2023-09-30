@@ -14,15 +14,27 @@ class ObVaultServer {
             purgeVault();
             deleteConfig();
         });
+
         $tw.rootWidget.addEventListener('tw-obsidian-sync', async (event) => {
             let obVaultName = event.paramObject.obvault;
             let Config = getConfigJSON();
-            purgeVault(obVaultName);
-            await this.getAndWrite(Config[obVaultName].path, Config[obVaultName].reg, Config[obVaultName].ignore);
+            if (JSON.stringify(Config) !== '{}') {
+                console.log("开始更新Vault。");
+                tm_notify("Vault-Sync", "开始更新Vault。");
+
+                purgeVault(obVaultName);
+                await this.getAndWrite(Config[obVaultName].path, Config[obVaultName].reg, Config[obVaultName].ignore);
+            } else {
+                console.log("更新失败, CONFIG_FILE为空。重新使用Add添加Vault, 将自动生成记录");
+                tm_notify("Vault-Sync", "更新失败, CONFIG_FILE为空。重新使用Add添加Vault, 将自动生成记录");
+            }
         });
         $tw.rootWidget.addEventListener('tw-obsidian-delete', async (event) => {
-            purgeVault(event.paramObject.obvault);
-            deleteConfig(event.paramObject.obvault);
+            let obVaultName = event.paramObject.obvault;
+            console.log(`删除Vault: ${obVaultName}`);
+            tm_notify("Vault-Delete", `删除Vault: ${obVaultName}`);
+            purgeVault(obVaultName);
+            deleteConfig(obVaultName);
         });
     }
 
@@ -30,9 +42,9 @@ class ObVaultServer {
         if (this.isValidPath(path)) {
             let data = await fetchData(path, reg, ignore);
             // console.log(data);
-            let Config = {}
+            let Config = {};
             let vaultName = this.getFolderName(path);
-            if (data != false) {
+            if (data !== undefined) {
                 Config[vaultName] = { path: path, reg: reg, ignore: ignore };
                 addVault(data);
                 addConfig(Config);

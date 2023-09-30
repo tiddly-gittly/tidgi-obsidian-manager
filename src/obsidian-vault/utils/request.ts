@@ -1,5 +1,12 @@
 import { tm_notify } from "./notify";
 
+/**
+ * 发送请求路由，获取数据。
+ * @param path 
+ * @param regText 
+ * @param ignoreText 
+ * @returns object or undefined
+ */
 async function fetchData(path: string, regText: string, ignoreText: string) {
     let Ignored_by_default = [".git", ".obsidian", ".stfolder", ".stversions"];
     if (ignoreText === "") {
@@ -17,17 +24,17 @@ async function fetchData(path: string, regText: string, ignoreText: string) {
     // 相对请求路径 obvault/<path> 也可以使用。
     let fullUrl = $tw.wiki.getTiddlerText("$:/info/url/full");
     var route = fullUrl + "obvault" + "/" + path + `?regText=${regText}&ignore=${ignore}`;
-    console.log("获取数据:" + route);
-    tm_notify("获取数据 (fetchData)  ", `"${route}"`);
+    console.log("获取数据: " + route);
+    tm_notify("获取数据: ", `"${route.toString()}"`);
     // 需要排除非文件夹的路径。
     const response = await fetch(route);
     if (response.status == 400) {
-        tm_notify("获取数据 (fetchData)  ", "Not Folder");
-        return false;
+        tm_notify("获取数据: ", "Not Folder");
+        return undefined;
     }
     const data = await response.json();
     console.log("获取完成, 正在写入到wiki中。");
-    tm_notify("获取数据 (fetchData)  ", "获取完成, 正在写入到wiki中");
+    tm_notify("获取数据: ", "获取完成, 正在写入到wiki中");
     return data;
 }
 
