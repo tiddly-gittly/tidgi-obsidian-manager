@@ -44,8 +44,8 @@ devDependencies:
     specifier: ^10.9.1
     version: 10.9.1(@types/node@20.8.0)(typescript@5.2.2)
   tw5-typed:
-    specifier: ^0.3.10
-    version: 0.3.10
+    specifier: ^0.4.0
+    version: 0.4.0
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
@@ -6572,7 +6572,7 @@ packages:
       simple-git: 3.20.0
       stylus: 0.59.0
       tailwindcss: 3.3.3(ts-node@10.9.1)
-      tiddlywiki: 5.3.1
+      tiddlywiki: 5.3.2
       uglify-js: 3.17.4
       ws: 8.14.2
     transitivePeerDependencies:
@@ -6585,6 +6585,13 @@ packages:
 
   /tiddlywiki@5.3.1:
     resolution: {integrity: sha512-17uoTt8w3wvqaF1fqulHeeR86984N0eC8fgd0Ql1LIKgrHRu1+M3fBW8V/ikofU2s74xr6S1efREHaA2zyhe1w==}
+    engines: {node: '>=0.8.2'}
+    hasBin: true
+    dev: false
+    bundledDependencies: []
+
+  /tiddlywiki@5.3.2:
+    resolution: {integrity: sha512-tgtJbT+aGAQ7QcP/91izygFE8TEbUz/PlRxWmfv5TBLmJ32hw+aSwxNwbRHehpJHITHZuoXChj0H1LS8rkToag==}
     engines: {node: '>=0.8.2'}
     hasBin: true
     dev: false
@@ -6683,8 +6690,8 @@ packages:
       - supports-color
     dev: false
 
-  /tw5-typed@0.3.10:
-    resolution: {integrity: sha512-c/NEOxuiGS75spVzT88BgAQORDg9l9z2g4HWCOmAoVQN27t0B910K4Db7IN5W7PF3BF88Zn4n+tjxqIwuDg2uQ==}
+  /tw5-typed@0.4.0:
+    resolution: {integrity: sha512-43k63O+S/VFIxCes8+0Y9/sQHVMdrxj6ODLXUgasl76DL0HkA+LaSZ4ewqzqsfPxN7BxWp8QukgqpOvrKZuKQQ==}
     dependencies:
       '@types/codemirror': 5.60.10
       '@types/echarts': 4.9.19
