@@ -16,7 +16,6 @@ class ObVaultWidget extends Widget {
     this.execute();
     // 如何在这里使用CSS呢？
     const obvserver = new ObVaultServer();
-
   }
 }
 
