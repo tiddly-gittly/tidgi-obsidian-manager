@@ -38,7 +38,7 @@
     "@types/react-dom": "^18.2.18",
     "@types/react-sortable-tree": "^0.3.23",
     "@types/react-sortable-tree-theme-file-explorer": "^0.0.3",
-    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-n": "^16.6.2",
     "husky": "^9.0.6",
     "lint-staged": "^15.2.0",
     "postcss": "^8.4.33",
@@ -50,9 +50,9 @@
   },
   "dependencies": {
     "md-to-tid": "^0.0.4",
+    "npm-check-updates": "^16.14.14",
     "react-sortable-tree": "^2.8.0",
     "react-sortable-tree-theme-file-explorer": "^2.0.0",
-    "npm-check-updates": "^16.14.14",
     "tiddlywiki": "^5.3.3",
     "tiddlywiki-plugin-dev": "^0.0.39"
   },
