@@ -1,16 +1,15 @@
-function isUrl(str) {
+function isUrl(str: string) {
     var v = new RegExp('^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i');
     return v.test(str);
 }
 
 // 唯一或根 链接
-function unique_or_root_link(file_link, bp_peer) {
-    let fname = file_link + ".md";
-    if (fname in bp_peer) {
-        let pathf_arr = bp_peer[fname]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
+function unique_or_root_link(file_link: string, bp_peer: { [x: string]: any; }) {
+    if (file_link in bp_peer) {
+        let pathf_arr = bp_peer[file_link]; //有多个文件路径，该选那个呢？最简链接位于根下、没有重复文件即一对一。
         // 没有重复，一对一。
         if (pathf_arr.length === 1) {
-            let pathf = pathf_arr[0].replace(/.md$/, "");
+            let pathf = pathf_arr[0];
             if (pathf) {
                 return pathf;
             }
@@ -18,14 +17,15 @@ function unique_or_root_link(file_link, bp_peer) {
         // 多个文件，最简链接对应文件位于根下，没有路径分隔符。
         if (pathf_arr.length > 1) {
             for (const index in pathf_arr) {
-                let pathf = pathf_arr[index].replace(/.md$/, "");
+                let pathf = pathf_arr[index];
                 if (!pathf.includes('/')) {
                     return pathf;
                 }
             }
         }
+    } else {
+        return ''
     }
-    return ''
 }
 
 
@@ -36,7 +36,7 @@ function unique_or_root_link(file_link, bp_peer) {
  * @param {string} vaultname 仓库名
  * @returns [[代替文本|λ:/vault/path/name]]
  */
-function links_wiki_syntax(page_content, bp_peer, vaultname) {
+function links_wiki_syntax(page_content: string, bp_peer: { [x: string]: any; }, vaultname: string) {
     const ob_link = { pattern: /(?<!!)\[\[(.*?)\]\]/g, target: "[[$1]]" };
     const md_link = { pattern: /(?<!!)\[(.*?)\]\((.*?)\)/g, target: "[[$1]]" };
     const link_array = [...page_content.matchAll(ob_link.pattern)];
@@ -44,7 +44,7 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
         const content = link_array[item][1]; // $1
         const link_str = link_array[item][0]; // [[$1]]
         const content_arr = content.split('|'); // a|b -> [a, b]; a -> [a]
-        const file_link = content_arr[0];
+                const file_link = content_arr[0];
         // 链接中是可以存在.md后缀的。目前暂时不支持了吧，我用不到。
         if (content_arr.length === 1) {
             // [[filename]] filename 为 最简链接、url、相对链接
@@ -81,7 +81,7 @@ function links_wiki_syntax(page_content, bp_peer, vaultname) {
 }
 
 // Embeds ![[]]
-function embeds_wiki_syntax(page_content, bp_peer, vaultname) {
+function embeds_wiki_syntax(page_content: string, bp_peer: { [x: string]: any; }, vaultname: string) {
     page_content = page_content.replace(/\!\[\[(.*?)\]\]/g, (match, p1) => {
         const content_arr = p1.split('|');
         const ext = content_arr[0].split('.').slice(-1)[0].trim();

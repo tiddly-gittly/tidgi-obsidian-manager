@@ -58,29 +58,40 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                             let separate = item_path.lastIndexOf('.')
                             basename = item_path.substring(0, separate);
                             extension = item_path.substring(separate + 1);
-                            // console.log(`file:: ${basename}, ${extension}`);
-                            if (obvaultdata.bp_peer[basename]) {
-                                obvaultdata.bp_peer[basename].push(getRelativePath(suppliedPath, absPath));
-                            } else {
-                                obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, absPath)];
-                            }
                             // Set(basename:[{path,data}])
-                            const defext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
-                            if (defext.indexOf(extension) !== -1) {
+                            const ext_def = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+                            if (ext_def.indexOf(extension) !== -1) {
                                 if (obvaultdata.imgFiles[basename]) {
-                                    obvaultdata.imgFiles[basename].push({ path: getRelativePath(suppliedPath, absPath), data: fs.readFileSync(absPath).toString('base64') })
+                                    obvaultdata.imgFiles[basename].push({
+                                        path: getRelativePath(suppliedPath, absPath),
+                                        data: fs.readFileSync(absPath).toString('base64'),
+                                        basename: basename,
+                                        extension: extension
+                                    })
                                 } else {
                                     // 将二进制数据转换成base64编码
-                                    obvaultdata.imgFiles[basename] = [{ path: getRelativePath(suppliedPath, absPath), data: fs.readFileSync(absPath).toString('base64') }];
+                                    obvaultdata.imgFiles[basename] = [
+                                        {
+                                            path: getRelativePath(suppliedPath, absPath),
+                                            data: fs.readFileSync(absPath).toString('base64'),
+                                            basename: basename,
+                                            extension: extension
+                                        }
+                                    ];
                                 }
                             } else if (extension === 'md') {
-
+                                // console.log(`file:: ${basename}, ${extension}`);
+                                let separate = absPath.lastIndexOf('.')
+                                let fullpath_basename = absPath.substring(0, separate);
                                 let textData = fs.readFileSync(absPath, 'utf8');
                                 let fstat = fs.statSync(absPath);
                                 let reg = RegExp(regMdFileText);
+                                if (obvaultdata.bp_peer[basename]) {
+                                    obvaultdata.bp_peer[basename].push(getRelativePath(suppliedPath, fullpath_basename));
+                                } else {
+                                    obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, fullpath_basename)];
+                                }
                                 if (reg.test(textData)) {
-                                    let separate = absPath.lastIndexOf('.')
-                                    let fullpath_basename = absPath.substring(0, separate);
                                     if (obvaultdata.mdFiles[basename]) {
                                         obvaultdata.mdFiles[basename].push({
                                             path: getRelativePath(suppliedPath, fullpath_basename),

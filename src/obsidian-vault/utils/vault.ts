@@ -7,7 +7,7 @@ async function addVault(obvaultdata: { obVaultName: string, mdFiles: { [x: strin
     // λ:/vault/path/name
     console.log("vaultName: " + obvaultdata.obVaultName);
     let user_name = $tw.wiki.getTiddlerText("$:/status/UserName");
-    console.log(obvaultdata.mdFiles);
+    console.log(obvaultdata);
     for (const mdfile_K in obvaultdata.mdFiles) {
         let md_file_arry = obvaultdata.mdFiles[mdfile_K];
         if (md_file_arry.length != 0 && md_file_arry.length == 1) {
@@ -50,29 +50,30 @@ async function addVault(obvaultdata: { obVaultName: string, mdFiles: { [x: strin
     for (const imgfile_K in obvaultdata.imgFiles) {
         let img_file_arry = obvaultdata.imgFiles[imgfile_K];
         if (img_file_arry.length != 0 && img_file_arry.length == 1) {
-            let imgName = imgfile_K;
-            let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
+            let imgfile = img_file_arry[0];
+            let title = `${imgfile.basename}.${imgfile.extension}`;
+            let type = `image/${imgfile.extension}`;
             $tw.wiki.addTiddler(
                 new $tw.Tiddler({
-                    title: imgName,
+                    title: title,
                     type: type,
                     text: img_file_arry[0].data,
                     obvault: obvaultdata.obVaultName
                 }));
-            console.log("创建图片条目：" + imgName);
+            // console.log("创建图片条目：" + title);
         } else if (img_file_arry.length > 1) {
             for (const pf in img_file_arry) {
-                let img_file = img_file_arry[pf];
-                let imgName = img_file.path;
-                let type = "image/" + imgName.substring(imgName.lastIndexOf(".") + 1)
+                let imgfile = img_file_arry[pf];
+                let title = imgfile.path;
+                let type = `image/${imgfile.extension}`;
                 $tw.wiki.addTiddler(
                     new $tw.Tiddler({
-                        title: imgName,
+                        title: title,
                         type: type,
-                        text: img_file.data,
+                        text: imgfile.data,
                         obvault: obvaultdata.obVaultName
                     }));
-                console.log("创建图片条目：" + imgName);
+                // console.log("创建图片条目：" + title);
             }
         }
     }
