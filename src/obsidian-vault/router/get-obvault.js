@@ -1,5 +1,5 @@
 /*\
-title: $:/plugins/whitefall/obsidian-vault/router/get-obvault.js
+title: $:/plugins/mingyue/markdown-vault/router/get-obvault.js
 type: application/javascript
 module-type: route
 
@@ -31,93 +31,91 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
             options = state.queryParameters;
 
         /**
-        * 获取路径下的所有文件路径，返回一个列表。
+        * 获取路径下的所有文件数据，返回obvaultdata。
         * @param suppliedPath 路径文件夹
+        * @param regText 正则表达式
         * @param ignore 忽略的文件夹
-        * @return [] or false
-        * @author WhiteFall 2023-7-26
+        * @return obvaultdata or false
+        * @author 明玥 2024-1-30
         */
-        var catalogs = function (suppliedPath, ignore) {
-            var ignore = ignore || [".git", ".obsidian"];
-            var result = [];
-            var stat = fs.lstatSync(suppliedPath);
-            if (stat.isDirectory()) {
-                const files = fs.readdirSync(suppliedPath);
-                for (const item of files) {
-                    const filePath = path.join(suppliedPath, item);
-                    var data = fs.statSync(filePath);
-                    if (data.isFile()) {
-                        result.push(filePath);
-                    } else if (!ignore.includes(item)) {
-                        // 排除不需要的目录。
-                        // 可能需要更高级的形式。
-                        const fileResult = catalogs(filePath);
-                        result = result.concat(fileResult);
+        var catalogs = function (suppliedPath, regText, ignore) {
+            var ignore = ignore || [".git", ".obsidian"],
+                basename,
+                extension,
+                folderName = suppliedPath.split('/').pop() || "-", // C:/Users/Documents/vault
+                obvaultdata = { obVaultName: folderName, mdFiles: {}, imgFiles: {}, bp_peer: {} },
+                regMdFileText = regText || '';
+            if (fs.statSync(suppliedPath).isDirectory()) {
+                // 必须是一个文件夹库
+                let stack = [suppliedPath]
+                while (stack.length !== 0) {
+                    let curr_path = stack.pop()
+                    for (const item_path of fs.readdirSync(curr_path)) {
+                        const absPath = path.join(curr_path, item_path)
+                        if (fs.statSync(absPath).isFile()) {
+                            // 是文件
+                            // result.push(filePath);
+                            let separate = item_path.lastIndexOf('.')
+                            basename = item_path.substring(0, separate);
+                            extension = item_path.substring(separate + 1);
+                            // console.log(`file:: ${basename}, ${extension}`);
+                            if (obvaultdata.bp_peer[basename]) {
+                                obvaultdata.bp_peer[basename].push(getRelativePath(suppliedPath, absPath));
+                            } else {
+                                obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, absPath)];
+                            }
+                            // Set(basename:[{path,data}])
+                            const defext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+                            if (defext.indexOf(extension) !== -1) {
+                                if (obvaultdata.imgFiles[basename]) {
+                                    obvaultdata.imgFiles[basename].push({ path: getRelativePath(suppliedPath, absPath), data: fs.readFileSync(absPath).toString('base64') })
+                                } else {
+                                    // 将二进制数据转换成base64编码
+                                    obvaultdata.imgFiles[basename] = [{ path: getRelativePath(suppliedPath, absPath), data: fs.readFileSync(absPath).toString('base64') }];
+                                }
+                            } else if (extension === 'md') {
+
+                                let textData = fs.readFileSync(absPath, 'utf8');
+                                let fstat = fs.statSync(absPath);
+                                let reg = RegExp(regMdFileText);
+                                if (reg.test(textData)) {
+                                    let separate = absPath.lastIndexOf('.')
+                                    let fullpath_basename = absPath.substring(0, separate);
+                                    if (obvaultdata.mdFiles[basename]) {
+                                        obvaultdata.mdFiles[basename].push({
+                                            path: getRelativePath(suppliedPath, fullpath_basename),
+                                            data: textData,
+                                            created: $tw.utils.stringifyDate(fstat.birthtime),
+                                            modified: $tw.utils.stringifyDate(fstat.mtime),
+                                            basename: basename,
+                                            extension: extension
+                                        });
+                                    } else {
+                                        obvaultdata.mdFiles[basename] = [{
+                                            path: getRelativePath(suppliedPath, fullpath_basename),
+                                            data: textData,
+                                            created: $tw.utils.stringifyDate(fstat.birthtime),
+                                            modified: $tw.utils.stringifyDate(fstat.mtime),
+                                            basename: basename,
+                                            extension: extension
+                                        }];
+                                    }
+                                }
+                            }
+                        } else if (!ignore.includes(item_path)) {
+                            // 是目录
+                            // 排除不需要的目录。可能需要更高级的形式。
+                            stack.push(absPath);
+                        }
                     }
                 }
             } else {
                 state.sendResponse(400, { "Content-Type": "text/plain" }, "Not folder: " + suppliedPath);
                 return false;
             }
-            return result;
+            return obvaultdata;
         }
 
-        /**
-        * @function 从给定文件路径数组中读取文件数据，返回字典数据。
-        * @param ListfilesPath 文件路径数组
-        * @param regText 筛选文件正则表达式。
-        * @return 数据字典 { mdFiles: {}, imgFiles: {} }
-        * @author WhiteFall 2023-7-26
-        */
-        var readFilesFormList = function (ListfilesPath, regText) {
-            var textData,
-                folderName = suppliedPath.split('/').pop() || "-", // C:/Users/Documents/vault
-                obvaultdata = { obVaultName: folderName, mdFiles: {}, imgFiles: {}, bp_peer: {} },
-                basename,
-                extension,
-                regMdFileText = regText || '';
-            ListfilesPath.forEach(file => {
-                basename = path.basename(file);
-                extension = path.extname(basename);
-                if (obvaultdata.bp_peer[basename]) {
-                    obvaultdata.bp_peer[basename].push(getRelativePath(suppliedPath, file));
-                } else {
-                    obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, file)];
-                }
-                // Set(basename:[{path,data}])
-                const defext = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
-                if (defext.indexOf(extension) !== -1) {
-                    if (obvaultdata.imgFiles[basename]) {
-                        obvaultdata.imgFiles[basename].push({ path: getRelativePath(suppliedPath, file), data: fs.readFileSync(file).toString('base64') })
-                    } else {
-                        // 将二进制数据转换成base64编码
-                        obvaultdata.imgFiles[basename] = [{ path: getRelativePath(suppliedPath, file), data: fs.readFileSync(file).toString('base64') }];
-                    }
-                } else if (extension === '.md') {
-                    textData = fs.readFileSync(file, 'utf8');
-                    var fstat = fs.statSync(file);
-                    var reg = RegExp(regMdFileText);
-                    if (reg.test(textData)) {
-                        if (obvaultdata.mdFiles[basename]) {
-                            obvaultdata.mdFiles[basename].push({
-                                path: getRelativePath(suppliedPath, file),
-                                data: textData,
-                                created: $tw.utils.stringifyDate(fstat.birthtime),
-                                modified: $tw.utils.stringifyDate(fstat.mtime)
-                            });
-                        } else {
-                            obvaultdata.mdFiles[basename] = [{
-                                path: getRelativePath(suppliedPath, file),
-                                data: textData,
-                                created: $tw.utils.stringifyDate(fstat.birthtime),
-                                modified: $tw.utils.stringifyDate(fstat.mtime)
-                            }];
-                        }
-                    }
-                }
-            });
-            return obvaultdata
-        }
 
         var getRelativePath = function (sourcePath, targetPath) {
             sourcePath = sourcePath.replace(/\\/g, '/'); //C:/Users/Snowy/Desktop/vault
@@ -127,9 +125,8 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
 
         // Main
         // 即使options.ignore的值是字符串，但使用options.ignore调用后就会变成[]类型。
-        const result = catalogs(suppliedPath, options.ignore);
-        if (result != false) {
-            const data = readFilesFormList(result, options.regText);
+        const data = catalogs(suppliedPath, options.ignore, options.regText);
+        if (data != false) {
             const content = JSON.stringify(data);
             // Send the file
             state.sendResponse(200, { "Content-Type": "application/json" }, content);
