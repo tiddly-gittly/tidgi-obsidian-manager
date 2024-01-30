@@ -4,7 +4,7 @@ const CONFIG_FILE = "$:/status/obsidian-vault/vault-rw-config";
  * 获得CONFIG_FILE，并对意外情况下的修改进行处理;
  * @returns {}
  */
-function _getConfig() {
+function getConfig() {
     let Config = $tw.wiki.getTiddlerText(CONFIG_FILE);
     // 说明还没有写入记录
     if (Config === undefined) {
@@ -23,12 +23,12 @@ function _getConfig() {
     }
 }
 
-function addConfig(mConfig) {
+function addConfig(mConfig: {} | undefined) {
     // $tw.wiki.addTiddler若存在条目内容则会使用新的覆盖旧的。
     // 同名属性会被后面对象的属性值覆盖。
     // let Config = $tw.wiki.getTiddlerText(CONFIG_FILE) || "{}";
     // Config = JSON.parse(Config);
-    let Config = _getConfig();
+    let Config = getConfig();
     Config = { ...Config, ...mConfig };
     $tw.wiki.addTiddler(
         new $tw.Tiddler({
@@ -41,7 +41,7 @@ function addConfig(mConfig) {
 function getConfigJSON() {
     // let tiddler = $tw.wiki.getTiddlerText(CONFIG_FILE);
     // return JSON.parse(tiddler);
-    return _getConfig();
+    return getConfig();
 }
 
 function deleteConfig(vaultName: string) {

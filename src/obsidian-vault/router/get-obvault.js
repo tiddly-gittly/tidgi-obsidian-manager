@@ -136,7 +136,7 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
 
         // Main
         // 即使options.ignore的值是字符串，但使用options.ignore调用后就会变成[]类型。
-        const data = catalogs(suppliedPath, options.ignore, options.regText);
+        const data = catalogs(suppliedPath, options.regText, options.ignore);
         if (data != false) {
             const content = JSON.stringify(data);
             // Send the file
