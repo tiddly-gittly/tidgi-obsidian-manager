@@ -1,81 +1,46 @@
 import { convert } from "../syntax/index";
 import { tm_notify } from "./notify";
 
-async function addVault(obvaultdata: { obVaultName: string, mdFiles: { [x: string]: any; }, imgFiles: { [x: string]: any; }, bp_peer: {} }) {
+async function addVault(obvault: { vaultname: string; mds: any; ims: { [x: string]: any; }; }) {
     // 使用obvault字段记录写入历史和仓库名。
     // Set(basename:[{path,data}])
     // λ:/vault/path/name
-    console.log("vaultName: " + obvaultdata.obVaultName);
+    console.log("vaultName: " + obvault.vaultname);
     let user_name = $tw.wiki.getTiddlerText("$:/status/UserName");
-    console.log(obvaultdata);
-    for (const mdfile_K in obvaultdata.mdFiles) {
-        let md_file_arry = obvaultdata.mdFiles[mdfile_K];
-        if (md_file_arry.length != 0 && md_file_arry.length == 1) {
-            let mdfile = md_file_arry[0]
-            let text = await convert(mdfile.data, obvaultdata.bp_peer, obvaultdata.obVaultName);
-            let title = `λ:/${obvaultdata.obVaultName}/${mdfile.path}`;
-            $tw.wiki.addTiddler(
-                new $tw.Tiddler({
-                    title: title,
-                    type: "text/markdown",
-                    caption: mdfile.basename,
-                    created: mdfile.created,
-                    modified: mdfile.modified,
-                    modifier: user_name,
-                    text: text,
-                    obvault: obvaultdata.obVaultName
-                }));
-            // console.log("创建条目：" + title);
-        } else if (md_file_arry.length > 1) {
-            // 同文件名不同路径，title需要相对路径
-            for (const pf in md_file_arry) {
-                let mdfile = md_file_arry[pf];
-                let text = await convert(mdfile.data, obvaultdata.bp_peer, obvaultdata.obVaultName);
-                let title = `λ:/${obvaultdata.obVaultName}/${mdfile.path}`;
-                $tw.wiki.addTiddler(
-                    new $tw.Tiddler({
-                        title: title,
-                        type: "text/markdown",
-                        caption: mdfile.basename,
-                        created: mdfile.created,
-                        modified: mdfile.modified,
-                        modifier: user_name,
-                        text: text,
-                        obvault: obvaultdata.obVaultName
-                    }));
-                // console.log("创建同名异径条目：" + title);
-            }
-        }
+    console.log(obvault);
+    for (const i in obvault.mds) {
+        let curr_mdfile = obvault.mds[i]
+        let { relpath, data: curr_fdata, created, modified, basename, extension } = curr_mdfile
+        let text = await convert(obvault, curr_fdata);
+        let title = `λ:/${obvault.vaultname}/${relpath}`;
+        $tw.wiki.addTiddler(
+            new $tw.Tiddler({
+                title: title,
+                type: "text/markdown",
+                caption: basename,
+                created: created,
+                modified: modified,
+                modifier: user_name,
+                text: text,
+                obvault: obvault.vaultname
+            }));
+        // console.log("创建MD条目：" + title);
+
     }
-    for (const imgfile_K in obvaultdata.imgFiles) {
-        let img_file_arry = obvaultdata.imgFiles[imgfile_K];
-        if (img_file_arry.length != 0 && img_file_arry.length == 1) {
-            let imgfile = img_file_arry[0];
-            let title = `${imgfile.basename}.${imgfile.extension}`;
-            let type = `image/${imgfile.extension}`;
-            $tw.wiki.addTiddler(
-                new $tw.Tiddler({
-                    title: title,
-                    type: type,
-                    text: img_file_arry[0].data,
-                    obvault: obvaultdata.obVaultName
-                }));
-            // console.log("创建图片条目：" + title);
-        } else if (img_file_arry.length > 1) {
-            for (const pf in img_file_arry) {
-                let imgfile = img_file_arry[pf];
-                let title = imgfile.path;
-                let type = `image/${imgfile.extension}`;
-                $tw.wiki.addTiddler(
-                    new $tw.Tiddler({
-                        title: title,
-                        type: type,
-                        text: imgfile.data,
-                        obvault: obvaultdata.obVaultName
-                    }));
-                // console.log("创建图片条目：" + title);
-            }
-        }
+    for (const i in obvault.ims) {
+        let curr_image = obvault.ims[i]
+        let { relpath, data, created, modified, basename, extension } = curr_image
+        let title = `${basename}.${extension}`;
+        let type = `image/${extension}`;
+        $tw.wiki.addTiddler(
+            new $tw.Tiddler({
+                title: title,
+                type: type,
+                text: data,
+                obvault: obvault.vaultname
+            }));
+        // console.log("创建IM条目：" + title);
+
     }
     console.log("addVault: 所有添加工作已完成。");
     tm_notify("addVault", "所有添加工作已完成，请等待【文件系统同步服务】完成任务。");

@@ -31,11 +31,11 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
             options = state.queryParameters;
 
         /**
-        * 获取路径下的所有文件数据，返回obvaultdata。
+        * 获取路径下的所有文件数据，返回obvault。
         * @param suppliedPath 路径文件夹
         * @param regText 正则表达式
         * @param ignore 忽略的文件夹
-        * @return obvaultdata or false
+        * @return obvault or null
         * @author 明玥 2024-1-30
         */
         var catalogs = function (suppliedPath, regText, ignore) {
@@ -43,7 +43,7 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                 basename,
                 extension,
                 folderName = suppliedPath.split('/').pop() || "-", // C:/Users/Documents/vault
-                obvaultdata = { obVaultName: folderName, mdFiles: {}, imgFiles: {}, bp_peer: {} },
+                obvault = { vaultname: folderName, mds: [], ims: [] },
                 regMdFileText = regText || '';
             if (fs.statSync(suppliedPath).isDirectory()) {
                 // 必须是一个文件夹库
@@ -51,66 +51,42 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                 while (stack.length !== 0) {
                     let curr_path = stack.pop()
                     for (const item_path of fs.readdirSync(curr_path)) {
-                        const absPath = path.join(curr_path, item_path)
+                        let absPath = path.join(curr_path, item_path)
                         if (fs.statSync(absPath).isFile()) {
                             // 是文件
                             // result.push(filePath);
                             let separate = item_path.lastIndexOf('.')
                             basename = item_path.substring(0, separate);
                             extension = item_path.substring(separate + 1);
-                            // Set(basename:[{path,data}])
+                            let fstat = fs.statSync(absPath);
                             const ext_def = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
                             if (ext_def.indexOf(extension) !== -1) {
-                                if (obvaultdata.imgFiles[basename]) {
-                                    obvaultdata.imgFiles[basename].push({
-                                        path: getRelativePath(suppliedPath, absPath),
-                                        data: fs.readFileSync(absPath).toString('base64'),
-                                        basename: basename,
-                                        extension: extension
-                                    })
-                                } else {
-                                    // 将二进制数据转换成base64编码
-                                    obvaultdata.imgFiles[basename] = [
-                                        {
-                                            path: getRelativePath(suppliedPath, absPath),
-                                            data: fs.readFileSync(absPath).toString('base64'),
-                                            basename: basename,
-                                            extension: extension
-                                        }
-                                    ];
-                                }
-                            } else if (extension === 'md') {
-                                // console.log(`file:: ${basename}, ${extension}`);
+                                let separate = absPath.lastIndexOf('.')
+                                let fullpath_basename = absPath.substring(0, separate);
+                                obvault.ims.push({
+                                    relpath: getRelativePath(suppliedPath, fullpath_basename),
+                                    data: fs.readFileSync(absPath).toString('base64'),
+                                    created: $tw.utils.stringifyDate(fstat.birthtime),
+                                    modified: $tw.utils.stringifyDate(fstat.mtime),
+                                    basename: basename,
+                                    extension: extension
+                                })
+                            }
+                            if (extension === 'md') {
                                 let separate = absPath.lastIndexOf('.')
                                 let fullpath_basename = absPath.substring(0, separate);
                                 let textData = fs.readFileSync(absPath, 'utf8');
                                 let fstat = fs.statSync(absPath);
                                 let reg = RegExp(regMdFileText);
-                                if (obvaultdata.bp_peer[basename]) {
-                                    obvaultdata.bp_peer[basename].push(getRelativePath(suppliedPath, fullpath_basename));
-                                } else {
-                                    obvaultdata.bp_peer[basename] = [getRelativePath(suppliedPath, fullpath_basename)];
-                                }
                                 if (reg.test(textData)) {
-                                    if (obvaultdata.mdFiles[basename]) {
-                                        obvaultdata.mdFiles[basename].push({
-                                            path: getRelativePath(suppliedPath, fullpath_basename),
-                                            data: textData,
-                                            created: $tw.utils.stringifyDate(fstat.birthtime),
-                                            modified: $tw.utils.stringifyDate(fstat.mtime),
-                                            basename: basename,
-                                            extension: extension
-                                        });
-                                    } else {
-                                        obvaultdata.mdFiles[basename] = [{
-                                            path: getRelativePath(suppliedPath, fullpath_basename),
-                                            data: textData,
-                                            created: $tw.utils.stringifyDate(fstat.birthtime),
-                                            modified: $tw.utils.stringifyDate(fstat.mtime),
-                                            basename: basename,
-                                            extension: extension
-                                        }];
-                                    }
+                                    obvault.mds.push({
+                                        relpath: getRelativePath(suppliedPath, fullpath_basename),
+                                        data: textData,
+                                        created: $tw.utils.stringifyDate(fstat.birthtime),
+                                        modified: $tw.utils.stringifyDate(fstat.mtime),
+                                        basename: basename,
+                                        extension: extension
+                                    });
                                 }
                             }
                         } else if (!ignore.includes(item_path)) {
@@ -122,12 +98,17 @@ state.queryParameters: { key1: 'value1', key2: 'value2' }
                 }
             } else {
                 state.sendResponse(400, { "Content-Type": "text/plain" }, "Not folder: " + suppliedPath);
-                return false;
+                return null;
             }
-            return obvaultdata;
+            return obvault;
         }
 
-
+        /**
+         * 
+         * @param {string} sourcePath vault path
+         * @param {string} targetPath full path
+         * @returns 以vault作为根的相对路径。
+         */
         var getRelativePath = function (sourcePath, targetPath) {
             sourcePath = sourcePath.replace(/\\/g, '/'); //C:/Users/Snowy/Desktop/vault
             targetPath = targetPath.replace(/\\/g, '/'); //C:\Users\Snowy\Desktop\vault\⭐健康.md
