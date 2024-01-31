@@ -4,7 +4,7 @@ caption: VaultTrees
 
 
 <div class="tc-tree-obv">
-<span><center><p>Obsidian Vault<sup><$link to="$:/plugins/whitefall/obsidian-vault/ui/Panel">p</$link></sup>&nbsp;文件列表</p></center></span>
+<span><center><p>Vault<sup><$link to="$:/plugins/whitefall/obsidian-vault/ui/Panel">p</$link></sup>&nbsp;文件列表</p></center></span>
 <<tree prefix:"λ:/">>
 </div>
 

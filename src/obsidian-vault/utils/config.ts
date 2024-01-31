@@ -1,4 +1,4 @@
-const CONFIG_FILE = "$:/status/obsidian-vault/vault-rw-config";
+const CONFIG_FILE = "$:/plugins/whitefall/obsidian-vault/status/vault-rw-config";
 
 /**
  * 获得CONFIG_FILE，并对意外情况下的修改进行处理;

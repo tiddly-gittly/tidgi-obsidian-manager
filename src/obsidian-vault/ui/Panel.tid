@@ -48,5 +48,5 @@ caption: obvault-Panel
       </div>
     </$list>
   </div>
-  <$link to="$:/status/obsidian-vault/vault-rw-config">vault-rw-config</$link>
+  <$link to="$:/plugins/whitefall/obsidian-vault/status/vault-rw-config">vault-rw-config</$link>
 </details>

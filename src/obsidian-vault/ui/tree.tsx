@@ -1,7 +1,5 @@
 import { StrictMode, useCallback, useEffect, useState, Component } from 'react';
 import { type IDefaultWidgetProps, ParentWidgetContext } from '$:/plugins/linonetwo/tw-react/index.js';
-import SortableTree from 'react-sortable-tree';
-import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 
 /** every ms to save */
 const debounceSaveTime = 500;
@@ -62,11 +60,7 @@ export default class Tree extends Component {
   render() {
     return (
       <div style={{ height: 400 }}>
-        <SortableTree
-          treeData={this.state.treeData}
-          onChange={treeData => this.setState({ treeData })}
-          theme={FileExplorerTheme}
-        />
+
       </div>
     );
   }
