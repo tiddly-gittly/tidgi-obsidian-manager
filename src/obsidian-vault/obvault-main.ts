@@ -11,7 +11,7 @@ class ObVaultWidget extends Widget {
     return false;
   }
 
-  async render(parent: Node, _nextSibling: Node) {
+  async render(parent:any, _nextSibling:any) {
     this.parentDomNode = parent;
     this.execute();
     // 如何在这里使用CSS呢？
