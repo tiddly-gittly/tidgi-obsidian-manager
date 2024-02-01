@@ -6,6 +6,7 @@
 
 - [x] 提供清除写入（导入）文件的清空操作。
 - [x] 提供对md和ob链接和附件语法的适配。
+- [x] 支持obsidian callout语法。
 - [x] 支持ob存储库的['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg']文件。
 - [x] 提供写入文件的记录功能。
 - [x] 提供筛选文件和忽略文件夹功能。
@@ -55,3 +56,7 @@
 
 都可以达到同样的硬换行效果。
 ```
+
+### 依赖插件：kookma/shiraz-callout
+
+shiraz-callout提供callout核心支持。
