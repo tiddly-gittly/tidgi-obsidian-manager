@@ -5,6 +5,12 @@ import React from 'react';
 import { createRoot } from "react-dom/client";
 import App from "./App";
 
+// tree-widget.tsx.meta
+// title: $:/plugins/whitefall/obsidian-vault/react-tree/tree-widget.tsx
+// type: application/javascript
+// module-type: widget
+
+
 // https://tree-react-component.vercel.app/demo/animation-draggable
 class TreeWidget extends Widget {
   /**
