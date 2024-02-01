@@ -2,24 +2,29 @@ As of v0.14.0, Obsidian supports callout blocks, sometimes called "admonitions".
 
 Callouts are also be supported natively on Obsidian Publish.
 
-<<callout type:"note" title:"" src:" For compatibility reasons, if you're also using the Admonitions plugin, you should update it to at least v8.0.0 to avoid problems with the new callout system.
-">>
+> [!NOTE] Tiel
+> For compatibility reasons, if you're also using the Admonitions plugin, you should update it to at least v8.0.0 to avoid problems with the new callout system.
+> Here's a callout block.
+> It supports **markdown** and [[Internal link|wikilinks]].
+
 Use the following syntax to denote a callout block: `> [!INFO]`.
 
 ```markdown
-<<callout type:"info" title:"" src:" Here's a callout block.
- It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].">>
+> [!INFO]
+> Here's a callout block.
+> It supports **markdown** and [[Internal link|wikilinks]].
 ```
 
 It will show up like this:
-<<callout type:"info" title:"" src:" Here's a callout block.
- It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].
-">>
+> [!INFO]
+> Here's a callout block.
+> It supports **markdown** and [[Internal link|wikilinks]].
+
 ### Types
 
 By default, there are 12 distinct callout types, each with several aliases. Each type comes with a different background color and icon.
 
-To use these default styles, replace `INFO` in the examples with any of these types. Any unrecognized type will default to the "note" type, unless they are [[customized|λ:/Obsidian Sandbox/#Customizations]]. The type identifier is case insensitive.
+To use these default styles, replace `INFO` in the examples with any of these types. Any unrecognized type will default to the "note" type, unless they are [[#Customizations|customized]]. The type identifier is case insensitive.
 
 - note
 - abstract, summary, tldr
@@ -39,7 +44,7 @@ To use these default styles, replace `INFO` in the examples with any of these ty
 You can define the title of the callout block, and you can also have a callout without body content.
 
 ```markdown
-<<callout type:"tip" title:"Callouts can have custom titles, which also supports **markdown** !" src:"">>
+> [!TIP] Callouts can have custom titles, which also supports **markdown**!
 ```
 
 ### Folding
@@ -47,13 +52,15 @@ You can define the title of the callout block, and you can also have a callout w
 Additionally, you can create a folding callout by adding `+` (default expanded) or `-` (default collapsed) after the block.
 
 ```markdown
-<<callout type:"faq" title:"Are callouts foldable?" src:" Yes! In a foldable callout, the contents are hidden until it is expanded.">>
+> [!FAQ]- Are callouts foldable?
+> Yes! In a foldable callout, the contents are hidden until it is expanded.
 ```
 
 Will show up as:
 
-<<callout type:"faq" title:"Are callouts foldable?" src:" Yes! In a foldable callout, the contents are hidden until it is expanded.
-">>
+> [!FAQ]- Are callouts foldable?
+> Yes! In a foldable callout, the contents are hidden until it is expanded.
+
 ### Customizations
 
 Snippets and plugins can define custom callouts, too, or overwrite the default options. Callout types and icons are defined in CSS, where the color is an `r, g, b` tuple and the icon is the icon ID from any internally supported icon (like `lucide-info`). Alternatively, you can specify an SVG icon as a string.
