@@ -10,6 +10,6 @@ Do you have any of the following concerns below?
 
 → [[I have special needs that most note-taking apps might not meet|λ:/Obsidian Sandbox/Plugins make Obsidian special for you]]
 
-→ [[Just let me get started already|λ:/Obsidian Sandbox/Guides/Get started with Obsidian]]
+→ [[Just let me get started already|λ:/Obsidian Sandbox/Get started with Obsidian]]
 
 

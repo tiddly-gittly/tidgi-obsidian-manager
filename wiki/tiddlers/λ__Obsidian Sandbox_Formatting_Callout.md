@@ -10,19 +10,19 @@ Use the following syntax to denote a callout block: `> [!INFO]`.
 ```markdown
 > [!INFO]
 > Here's a callout block.
-> It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Formatting/Internal link]].
+> It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].
 ```
 
 It will show up like this:
 > [!INFO]
 > Here's a callout block.
-> It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Formatting/Internal link]].
+> It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].
 
 ### Types
 
 By default, there are 12 distinct callout types, each with several aliases. Each type comes with a different background color and icon.
 
-To use these default styles, replace `INFO` in the examples with any of these types. Any unrecognized type will default to the "note" type, unless they are [[#Customizations|customized]]. The type identifier is case insensitive.
+To use these default styles, replace `INFO` in the examples with any of these types. Any unrecognized type will default to the "note" type, unless they are [[customized|λ:/Obsidian Sandbox/#Customizations]]. The type identifier is case insensitive.
 
 - note
 - abstract, summary, tldr

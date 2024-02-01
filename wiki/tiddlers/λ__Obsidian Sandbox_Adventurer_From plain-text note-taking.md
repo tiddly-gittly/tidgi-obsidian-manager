@@ -4,4 +4,4 @@ Having already taken the unconventional route of plain-text note-taking, chances
 
 → [[Tell me more about that secret sauce!|λ:/Obsidian Sandbox/Plugins make Obsidian special for you]]
 
-→ [[Say no more. How do I get started?|λ:/Obsidian Sandbox/Guides/Get started with Obsidian]]
+→ [[Say no more. How do I get started?|λ:/Obsidian Sandbox/Get started with Obsidian]]

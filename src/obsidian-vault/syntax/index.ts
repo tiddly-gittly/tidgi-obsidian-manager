@@ -102,9 +102,9 @@ function links_wiki_syntax(obvault: any, page_content: string) {
                 // [[filename|alias_name]] to [[alias_name|filename]]
                 if (!main_param.includes('/')) {
                     if (is_simple_link(obvault, link_content)) {
-                        var page_content = page_content.replace(link_strfull, `"[[${alias_param}|λ:/${obvault.vaultname}/${find_simple_link(obvault, main_param)}]]`);
+                        var page_content = page_content.replace(link_strfull, `[[${alias_param}|λ:/${obvault.vaultname}/${find_simple_link(obvault, main_param)}]]`);
                     } else {
-                        var page_content = page_content.replace(link_strfull, `"[[${alias_param}|λ:/${obvault.vaultname}/${main_param}]]`);
+                        var page_content = page_content.replace(link_strfull, `[[${alias_param}|λ:/${obvault.vaultname}/${main_param}]]`);
                     }
                 }
                 // [[相对链接|alias_name]] to [[alias_name| 相对链接]]

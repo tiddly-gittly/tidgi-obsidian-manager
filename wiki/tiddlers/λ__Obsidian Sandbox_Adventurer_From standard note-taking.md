@@ -10,4 +10,4 @@ Do you have any of the following concerns below?
 
 → [[I feel like the previous note-taking apps I used didn’t suit me well|λ:/Obsidian Sandbox/Plugins make Obsidian special for you]]
 
-→ [[Just let me get started already|λ:/Obsidian Sandbox/Guides/Get started with Obsidian]]
+→ [[Just let me get started already|λ:/Obsidian Sandbox/Get started with Obsidian]]

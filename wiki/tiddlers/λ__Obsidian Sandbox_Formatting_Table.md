@@ -29,9 +29,9 @@ If you put links in tables, they will work, but if you use Piped Links, the pipe
 ```md
 First Header | Second Header
 ------------ | ------------
-[[Format your notes\|Formatting]]	|  [[Callouts\|Callouts]]
+[[Formatting|λ:/Obsidian Sandbox/Format your notes\]]	|  [[Callouts|λ:/Obsidian Sandbox/Callouts\]]
 ```
 
 First Header | Second Header
 ------------ | ------------
-[[Format your notes\|Formatting]]	|  [[Callout\|Callouts]]
+[[Formatting|λ:/Obsidian Sandbox/Format your notes\]]	|  [[Callouts|λ:/Obsidian Sandbox/Callout\]]

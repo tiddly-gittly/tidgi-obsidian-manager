@@ -41,5 +41,5 @@ This way, all the note names (at least until `Z[note name]`) are all automatical
 
 If you use special characters in your note names, you need to put the note name in double quotes.
 `"⨳ special character"`
-It looks like this if you follow the [[Format your notes#^376b9d|second option]]:
+It looks like this if you follow the [[second option|λ:/Obsidian Sandbox/Format your notes#^376b9d]]:
 `A["⨳ special character"]`

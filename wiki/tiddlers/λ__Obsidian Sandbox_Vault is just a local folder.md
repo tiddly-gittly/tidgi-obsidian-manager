@@ -5,7 +5,7 @@ In Obsidian, a vault is a plain folder on your computer. By plain, I mean it's j
 > [!SUMMARY] The Point™
 > The point is that you own this folder just like the other folder of camping photos that you created yourself.
 > 
-> It’s supposed to be a good thing because you get both **data ownership and privacy** this way. Just keep in mind [[#^0f681f|with great power comes great responsibility]].
+> It’s supposed to be a good thing because you get both **data ownership and privacy** this way. Just keep in mind [[with great power comes great responsibility|λ:/Obsidian Sandbox/#^0f681f]].
 
 No need to worry about loading your content from our servers. You know, servers can get hacked or be offline or be slow when you need it most.
 
