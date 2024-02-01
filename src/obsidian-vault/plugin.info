@@ -4,7 +4,7 @@
   "author": "whitefall",
   "description": "从 Obsidian 笔记库导入 Markdown 文件到 TiddlyWiki",
   "plugin-type": "plugin",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "dependents": ["$:/plugins/tiddlywiki/markdown"],
   "core-version": ">=5.2.0",
   "list": "readme ui/Panel ui/settings"
