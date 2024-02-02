@@ -217,6 +217,8 @@ function shiraz_callout_syntax(page_content: string) {
         }
         let type = head_arr[0].substring(2, head_arr[0].length - 1).toLowerCase()
         let title = head_arr.length == 2 ? head_arr[1] : ""
+        // 同样的语法md格式空一行解析失败，而tw格式解析成功。
+        // 要删掉空行，并使用tw无序列表*作为前缀解决多行解析问题。
         var page_content = page_content.replace(quotes_str_full, `<<callout type:"${type}" title:"${title}" src:"${body}">>\n`);
     }
     return page_content
