@@ -8,7 +8,7 @@ To create a new note:
 2. Type "Obsidian" as the name of your note and press Enter.
 3. Copy and paste the following text into your note:
 
-<<callout type:"sidia" title:"is a powerful knowledge base on top of a local folder of plain text Markdown files." src:"">>
+> Obsidian is a powerful knowledge base on top of a local folder of plain text Markdown files.
 
 ## Format your note
 

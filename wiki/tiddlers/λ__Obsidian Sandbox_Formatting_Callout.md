@@ -4,17 +4,20 @@ Callouts are also be supported natively on Obsidian Publish.
 
 <<callout type:"note" title:"" src:" For compatibility reasons, if you're also using the Admonitions plugin, you should update it to at least v8.0.0 to avoid problems with the new callout system.
 ">>
+
 Use the following syntax to denote a callout block: `> [!INFO]`.
 
 ```markdown
 <<callout type:"info" title:"" src:" Here's a callout block.
- It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].">>
+ It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].
+">>
 ```
 
 It will show up like this:
 <<callout type:"info" title:"" src:" Here's a callout block.
  It supports **markdown** and [[wikilinks|λ:/Obsidian Sandbox/Internal link]].
 ">>
+
 ### Types
 
 By default, there are 12 distinct callout types, each with several aliases. Each type comes with a different background color and icon.
@@ -47,13 +50,15 @@ You can define the title of the callout block, and you can also have a callout w
 Additionally, you can create a folding callout by adding `+` (default expanded) or `-` (default collapsed) after the block.
 
 ```markdown
-<<callout type:"faq" title:"Are callouts foldable?" src:" Yes! In a foldable callout, the contents are hidden until it is expanded.">>
+<<callout type:"faq" title:"Are callouts foldable?" src:" Yes! In a foldable callout, the contents are hidden until it is expanded.
+">>
 ```
 
 Will show up as:
 
 <<callout type:"faq" title:"Are callouts foldable?" src:" Yes! In a foldable callout, the contents are hidden until it is expanded.
 ">>
+
 ### Customizations
 
 Snippets and plugins can define custom callouts, too, or overwrite the default options. Callout types and icons are defined in CSS, where the color is an `r, g, b` tuple and the icon is the icon ID from any internally supported icon (like `lucide-info`). Alternatively, you can specify an SVG icon as a string.
