@@ -187,14 +187,14 @@ function bold_wiki_syntax(page_content: string) {
 }
 
 function shiraz_callout_syntax(page_content: string) {
-    const ob_pattern = /^(> .+\n?)+$/gm;
+    const quotes_pattern = /^(>\s.+\n?)+$/gm;
     // 当前md文件中存在的链接列表。
-    const callout_array = [...page_content.matchAll(ob_pattern)];
-    for (const item in callout_array) {
-        var callout_str_full = callout_array[item][0];
-        var callout_line = callout_str_full.split(">")
-        var head = callout_line.splice(0, 2).join("")
-        var body = callout_line.join("")
+    const quotes_array = [...page_content.matchAll(quotes_pattern)];
+    for (const item in quotes_array) {
+        var quotes_str_full = quotes_array[item][0];
+        var callout_line = quotes_str_full.split(">")
+        var head = callout_line.slice(0, 2).join("")
+        var body = callout_line.slice(2).join("")
         var head_arr: any[] = []
         if (head.includes(']\n')) {
             head = head.trim()
@@ -212,7 +212,7 @@ function shiraz_callout_syntax(page_content: string) {
         // let title = head_arr.length == 2 ? head_arr[1].substring(0, head_arr[1].length - 1) : ""
         let type = head_arr[0].substring(2, head_arr[0].length - 1).toLowerCase()
         let title = head_arr.length == 2 ? head_arr[1] : ""
-        var page_content = page_content.replace(callout_str_full, `<<callout type:"${type}" title:"${title}" src:"${body}">>`);
+        var page_content = page_content.replace(quotes_str_full, `<<callout type:"${type}" title:"${title}" src:"${body}">>`);
     }
     return page_content
 }
