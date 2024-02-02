@@ -1,6 +1,17 @@
+
+> [!Note] Beta vault - contributions are welcome!
+> This sandbox vault is in beta!
+> 
+> If you spot a typo or a mistake, feel free to submit a pull request [here](https://github.com/obsidianmd/obsidian-docs/tree/master/Sandbox).
+
+
+
+
 As of v0.14.0, Obsidian supports callout blocks, sometimes called "admonitions". Callout blocks are written as a blockquote, inspired by the "alert" syntax from Microsoft Docs.
 
 Callouts are also be supported natively on Obsidian Publish.
+> 11Here's a callout block.
+> It supports **markdown** and [[Internal link|wikilinks]].
 
 > [!NOTE] Tiel
 > For compatibility reasons, if you're also using the Admonitions plugin, you should update it to at least v8.0.0 to avoid problems with the new callout system.

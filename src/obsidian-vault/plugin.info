@@ -2,9 +2,9 @@
   "title": "$:/plugins/whitefall/obsidian-vault",
   "name": "Obsidian Vault",
   "author": "whitefall",
-  "description": "从 Obsidian 笔记库导入 Markdown 文件到 TiddlyWiki",
+  "description": "拷贝 Obsidian 笔记库并导入到 TiddlyWiki",
   "plugin-type": "plugin",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "dependents": ["$:/plugins/tiddlywiki/markdown","$:/plugins/kookma/shiraz-callout"],
   "core-version": ">=5.2.0",
   "list": "readme ui/Panel ui/settings"
