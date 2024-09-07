@@ -45,7 +45,7 @@
     "tw-react": "^0.6.2",
     "tw5-typed": "^0.4.4",
     "typescript": "^5.3.3",
-    "tiddlywiki-plugin-dev": "^0.0.41"
+    "tiddlywiki-plugin-dev": "^0.3.0"
   },
   "dependencies": {
     "md-to-tid": "^0.0.4",
