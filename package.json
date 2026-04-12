@@ -57,7 +57,7 @@
   },
   "pnpm": {
     "overrides": {
-      "esbuild-plugin-browserslist": "1.0.2"
+      "esbuild-plugin-browserslist": "2.0.0"
     }
   }
 }
