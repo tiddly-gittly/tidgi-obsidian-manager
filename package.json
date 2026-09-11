@@ -56,7 +56,7 @@
     "typescript": "^6.0.2",
     "@playwright/test": "^1.59.1",
     "@types/jasmine": "^6.0.0",
-    "dprint": "^0.54.0",
+    "dprint": "^0.57.0",
     "eslint-config-tidgi": "^2.2.0"
   },
   "dependencies": {
