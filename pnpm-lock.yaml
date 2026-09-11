@@ -35,7 +35,7 @@ importers:
         version: 2.59.0(eslint-import-resolver-typescript@4.3.1)(supports-color@7.2.0)(typescript@6.0.2)
       '@modern-js/tsconfig':
         specifier: ^3.1.3
-        version: 3.1.3
+        version: 3.9.1
       '@playwright/test':
         specifier: ^1.59.1
         version: 1.59.1
@@ -1225,8 +1225,8 @@ packages:
   '@modern-js/eslint-config@2.59.0':
     resolution: {integrity: sha512-11a3XS0BYBYwQ7ejszQC78MgoitsqraRdFytYpFDe0HlYewoQQyjA6ZoPWjsW8SpKyhoOTQKZYJbyTsQA4sYDg==}
 
-  '@modern-js/tsconfig@3.1.3':
-    resolution: {integrity: sha512-sf5ef68BTXhcGPh4/zCM1SCEyWEYhcp3GaSKX5q5VsAMZs89iYJC0mu/u8hY56wWI5M7RjcGMW/bQeb1VdLkmg==}
+  '@modern-js/tsconfig@3.9.1':
+    resolution: {integrity: sha512-nYU8SK5i4m55GtL6juNv+aDDVYsVhWGyPIgbXZKapBZzYqwH2eQXQnmbRCE6jGMrlgZSDmL20CNywRPXlFF2Yg==}
 
   '@module-federation/runtime-tools@0.5.1':
     resolution: {integrity: sha512-nfBedkoZ3/SWyO0hnmaxuz0R0iGPSikHZOAZ0N/dVSQaIzlffUo35B5nlC2wgWIc0JdMZfkwkjZRrnuuDIJbzg==}
@@ -5981,7 +5981,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@modern-js/tsconfig@3.1.3': {}
+  '@modern-js/tsconfig@3.9.1': {}
 
   '@module-federation/runtime-tools@0.5.1':
     dependencies:
