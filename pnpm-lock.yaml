@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       md-to-tid:
-        specifier: ^0.1.0
-        version: 0.1.1(supports-color@7.2.0)
+        specifier: ^1.0.0
+        version: 1.0.0(supports-color@7.2.0)
       npm-check-updates:
         specifier: ^20.0.1
         version: 20.0.1
@@ -1740,9 +1740,6 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-
-  '@types/unist@2.0.11':
-    resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -3583,8 +3580,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  md-to-tid@0.1.1:
-    resolution: {integrity: sha512-5O/lkSR7frt5g7G7BXjLNy+8DVgOJXrXdzZ+BQsYJLEKRe9RHTQO5W5hqrp8o8i3vaEc1ta8QdaTCGyGZ3KDxg==}
+  md-to-tid@1.0.0:
+    resolution: {integrity: sha512-wlYEN4/G+x4RFeEvzZlE0aobMbJF8rC6SMgz3spSG9kucLXUNJ43pVuWTtVTKZAwV54JE9R1Twd1oWhynXLiTA==}
 
   mdast-util-from-markdown@2.0.3:
     resolution: {integrity: sha512-W4mAWTvSlKvf8L6J+VN9yLSqQ9AOAAvHuoDAmPkz4dHf553m5gVj2ejadHJhoJmcmxEnOv6Pa8XJhpxE93kb8Q==}
@@ -6370,7 +6367,7 @@ snapshots:
 
   '@types/mdast@4.0.4':
     dependencies:
-      '@types/unist': 2.0.11
+      '@types/unist': 3.0.3
 
   '@types/ms@2.1.0': {}
 
@@ -6410,8 +6407,6 @@ snapshots:
       '@types/estree': 1.0.8
 
   '@types/trusted-types@2.0.7': {}
-
-  '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
 
@@ -8648,7 +8643,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  md-to-tid@0.1.1(supports-color@7.2.0):
+  md-to-tid@1.0.0(supports-color@7.2.0):
     dependencies:
       '@types/mdast': 4.0.4
       '@types/unist': 3.0.3
@@ -8664,6 +8659,7 @@ snapshots:
       micromark-extension-gfm-footnote: 2.1.0
       micromark-extension-gfm-table: 2.1.1
       micromark-util-decode-string: 2.0.1
+      unist-util-visit: 5.1.0
       zwitch: 2.0.4
     transitivePeerDependencies:
       - supports-color
