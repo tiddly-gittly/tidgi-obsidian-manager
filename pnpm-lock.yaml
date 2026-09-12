@@ -25,10 +25,10 @@ importers:
         version: 18.3.1(react@18.3.1)
       tiddlywiki:
         specifier: ^5.3.8
-        version: 5.3.8
+        version: 5.4.1
       tiddlywiki-plugin-dev:
         specifier: ^0.5.7
-        version: 0.5.7(@babel/core@7.29.0(supports-color@7.2.0))(@types/node@25.6.0)(postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.28)(yaml@2.8.3))(postcss@8.5.28)(supports-color@7.2.0)(svelte@5.55.3(@typescript-eslint/types@8.58.2))(tiddlywiki@5.3.8)(typescript@6.0.2)
+        version: 0.5.7(@babel/core@7.29.0(supports-color@7.2.0))(@types/node@25.6.0)(postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.28)(yaml@2.8.3))(postcss@8.5.28)(supports-color@7.2.0)(svelte@5.55.3(@typescript-eslint/types@8.58.2))(tiddlywiki@5.4.1)(typescript@6.0.2)
     devDependencies:
       '@modern-js/eslint-config':
         specifier: ^2.46.1
@@ -4455,9 +4455,9 @@ packages:
     peerDependencies:
       tiddlywiki: '>=5.2.0'
 
-  tiddlywiki@5.3.8:
-    resolution: {integrity: sha512-T25acZfdhAX/lUVPY/9SXo7bMJKgSaMs5PDOb83S2WKbTCD7DnOUQ4aC3qDy0j5XqlCn4ih3mzMWct3xnQx+Mw==}
-    engines: {node: '>=0.8.2'}
+  tiddlywiki@5.4.1:
+    resolution: {integrity: sha512-5Pnk7j8cUMoQHD0CarOWd4ixITURsN4DJxLfg8AGYSMiQoOHH6bp8JDCAgSdvZHRCQmvXtbm5FRxBFBT6WG24A==}
+    engines: {node: '>=20.0.0'}
     hasBin: true
 
   tinyexec@1.1.1:
@@ -9719,7 +9719,7 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  tiddlywiki-plugin-dev@0.5.7(@babel/core@7.29.0(supports-color@7.2.0))(@types/node@25.6.0)(postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.28)(yaml@2.8.3))(postcss@8.5.28)(supports-color@7.2.0)(svelte@5.55.3(@typescript-eslint/types@8.58.2))(tiddlywiki@5.3.8)(typescript@6.0.2):
+  tiddlywiki-plugin-dev@0.5.7(@babel/core@7.29.0(supports-color@7.2.0))(@types/node@25.6.0)(postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.28)(yaml@2.8.3))(postcss@8.5.28)(supports-color@7.2.0)(svelte@5.55.3(@typescript-eslint/types@8.58.2))(tiddlywiki@5.4.1)(typescript@6.0.2):
     dependencies:
       '@tailwindcss/postcss': 4.2.2
       autoprefixer: 10.4.27(postcss@8.5.28)
@@ -9745,7 +9745,7 @@ snapshots:
       simple-git: 3.36.0(supports-color@7.2.0)
       stylus: 0.64.0(supports-color@7.2.0)
       tailwindcss: 4.2.2
-      tiddlywiki: 5.3.8
+      tiddlywiki: 5.4.1
       uglify-js: 3.19.3
       ws: 8.20.0
     optionalDependencies:
@@ -9764,7 +9764,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  tiddlywiki@5.3.8: {}
+  tiddlywiki@5.4.1: {}
 
   tinyexec@1.1.1: {}
 
