@@ -57,7 +57,7 @@
     "@playwright/test": "^1.59.1",
     "@types/jasmine": "^6.0.0",
     "dprint": "^0.54.0",
-    "eslint-config-tidgi": "^2.2.0"
+    "eslint-config-tidgi": "^3.0.0"
   },
   "dependencies": {
     "md-to-tid": "^1.0.0",
